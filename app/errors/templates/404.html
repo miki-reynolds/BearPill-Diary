@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<!--Background-->
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div>
+            <img src="{{url_for('errors_bp.static', filename = 'images/404.png')}}"
+                 class="img-fluid" alt="background">
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,66 @@
+{% from 'macro_meds.html' import med_image, med_info, med_edit, med_delete with context %}
+{% from 'macro_meds.html' import med_insights_warnings, med_insights_boxed_warnings, med_insights_reactions, med_insights_events with context %}
+{% extends 'base.html' %}
+
+{% block content %}
+<div id="back2top"></div>
+
+<div class="container-fluid">
+  <a href="#back2top" class="btn" style="position: fixed; bottom: 0; right: 0">
+    <i class="bi bi-arrow-up-circle"></i>
+  </a>
+
+  <div class="my-4 d-grid gap-2 d-md-flex justify-content-md-end">
+    <a class="btn btn-small btn-dark" href="{{ url_for('meds_bp.meds_page')}}">
+      <i class="bi bi-arrow-left-circle"></i> <b>Return to Previous</b>
+    </a>
+  </div>
+
+  <div class="row pb-2 justify-content-center text-center" style="font-size: 0.75rem">
+    <div class="col"><a href="#warnings" class="text-muted">Warnings</a></div>
+    <div class="col"><a href="#boxed_warnings" class="text-muted">Boxed Warnings</a></div>
+    <div class="col"><a href="#reactions" class="text-muted">Reactions</a></div>
+    <div class="col"><a href="#events" class="text-muted">Events</a></div>
+  </div>
+
+  <p class="text-muted" style="font-size: 0.7rem;">
+    Disclaimer:
+    The information is collected form openFDA, which is an Elastic search-based API that serves public FDA data about nouns like drugs, devices, and foods.
+    While we make every effort to ensure that data is accurate, you should assume all results are unvalidated.
+    Do not rely on openFDA to make decisions regarding medical care. Always speak to your health care provider about the risks and benefits of FDA-regulated products.
+  </p>
+
+  {% if data_label %}
+  <p style="font-size: 0.7rem;">
+    <em>Last updated on {{ data_label['last_updated_label'] }}.</em>
+  </p>
+    {% with warnings = data_label['warnings'] %}
+    {% with boxed_warnings = data_label['boxed_warnings'] %}
+      {% if warnings | length < boxed_warnings | length %}
+        {{ med_insights_warnings(warnings) }}
+      {% else %}
+        {{ med_insights_boxed_warnings(boxed_warnings) }}
+      {% endif %}
+    {% endwith %}
+    {% endwith %}
+
+    {% with reactions = data_label['reactions'] %}
+      {{ med_insights_reactions(reactions) }}
+    {% endwith %}
+  {% endif %}
+
+  {% if data_event %}
+  <p class="pt-4" style="font-size: 0.7rem;">
+    <em>Last updated on {{ data_label['last_updated_label'] }}.</em>
+  </p>
+    {% with events = data_event['events'] %}
+      {{ med_insights_events(events) }}
+    {% endwith %}
+  {% endif %}
+
+  <h6 class="text-muted text-center">Hmm...can't find information under this medication name... :(</h6>
+
+</div>
+{% endblock %}
+
+

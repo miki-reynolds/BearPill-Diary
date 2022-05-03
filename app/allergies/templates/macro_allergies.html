@@ -1,0 +1,48 @@
+
+{% macro allergy(form) %}
+    <div class="row justify-content-center mt-3">
+        <div class="col-lg-6">
+            <form action="" method="post">
+                {{ form.hidden_tag() }}
+
+                {{ form.allergy.label(class="text-muted") }}
+                <div class="mb-3 input-group">
+                    <span class="input-group-text">
+                        <i class="bi bi-bandaid-fill"></i>
+                    </span>
+                    {{ form.allergy(class="form-control") }}
+                    {% for error in form.allergy.errors %}
+                    <div class="container-fluid text-red">[{{ error }}]</div>
+                    {% endfor %}
+                </div>
+
+                {{ form.reactions.label(class="text-muted") }}
+                <div class="mb-3 input-group">
+                    <span class="input-group-text">
+                        <i class="bi bi-patch-exclamation-fill"></i>
+                    </span>
+                    {{ form.reactions(class="form-control") }}
+                    {% for error in form.reactions.errors %}
+                    <div class="container-fluid text-red">[{{ error }}]</div>
+                    {% endfor %}
+                </div>
+
+                {{ form.category.label(class="text-muted") }}
+                <div class="mb-3 input-group">
+                    <span class="input-group-text">
+                        <i class="bi bi-bookmark-heart"></i>
+                    </span>
+                    {{ form.category(class="form-select") }}
+                    {% for error in form.category.errors %}
+                    <div class="container-fluid text-red">[{{ error }}]</div>
+                    {% endfor %}
+                </div>
+
+                <div class="my-4 text-center">
+                    {{ form.submit(class="btn btn-dark text-light") }}
+                </div>
+            </form>
+        </div>
+    </div>
+{% endmacro %}
+

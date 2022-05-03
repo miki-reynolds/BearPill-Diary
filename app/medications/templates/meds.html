@@ -1,0 +1,74 @@
+{% from "macro_meds.html" import med_info, med_view, med_edit, med_delete with context %}
+
+
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container-fluid">
+  <!--Functionalities for MEDS page-->
+  <div class="my-4 d-grid gap-2 d-md-flex justify-content-md-end">
+    <a class="btn btn-small btn-dark" href="{{ url_for('meds_bp.med_add_page')}}">
+      <i class="bi bi-plus-circle-fill"></i> <b>Add Medication</b>
+    </a>
+    <!-- Button trigger modal for DEL function -->
+    <button class="btn btn-small btn-danger" data-bs-toggle="modal" data-bs-target="#delete-all">
+      <i class="bi bi-trash3-fill"></i> <b>Erase All</b>
+    </button>
+    <!-- Modal -->
+    <div class="modal fade" id="delete-all" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="delete-all-label" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="delete-all-label">Erase All?</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    Are you sure you want to delete all? Data deleted won't be recovered anymore...
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <a class="btn btn-small btn-danger" href="{{ url_for('meds_bp.meds_delete_page') }}">
+                      <i class="bi bi-trash3-fill"></i> Erase
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+  </div>
+
+  <h6 class="text-muted text-center pb-4">There are currently {{ total_meds }} medications in your diary.</h6>
+
+  <!--Individual MED-->
+  {% if meds %}
+  <div class="row">
+    {% for med in meds %}
+    <div class="col-md-6 mb-4">
+      <div class="card" style="width: 100%;">
+        {{ med_info(med) }}
+        <!--Functionalities for individual MED on MEDS page-->
+        <div class="d-flex p-2 justify-content-between bg-muted">
+            {{ med_view(med) }}
+            {{ med_edit(med) }}
+            {{ med_delete(med) }}
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+
+    <div class="container-fluid px-4 mb-4 d-flex gap-2 justify-content-center">
+        {% if prev_url %}
+        <a class="text-muted" href="{{ prev_url }}"><b>Previous</b></a>
+        {% endif %}
+        {% if next_url %}
+        <a class="text-muted" href="{{ next_url }}"><b>Next</b></a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <!--Message when there are no med-->
+  {% else %}
+  <h6 class="text-muted text-center pb-4">Yay, the less, the merrier, right? ;)</h6>
+  {% endif %}
+</div>
+{% endblock %}

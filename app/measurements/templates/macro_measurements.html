@@ -1,0 +1,146 @@
+<!--------------------------------------MEASUREMENTS-------------------------------------->
+
+{% macro measurement_single(form) %}
+    <div class="row justify-content-center mt-3">
+        <div class="col-lg-6">
+            <form action="" method="post">
+                {{ form.hidden_tag() }}
+
+                {{ form.number.label(class="text-muted") }}
+                <div class="mb-3 input-group">
+                    <span class="input-group-text">
+                        <i class="bi bi-123"></i>
+                    </span>
+                    {{ form.number(class="form-control") }}
+                    {% for error in form.number.errors %}
+                    <div class="container-fluid text-danger">[{{ error }}]</div>
+                    {% endfor %}
+                </div>
+
+                {{ form.timestamp.label(class="text-muted") }}
+                <div class="mb-3 input-group">
+                    <span class="input-group-text">
+                        <i class="bi bi-calendar3"></i>
+                    </span>
+                    {{ form.timestamp(class="form-control") }}
+                    {% for error in form.timestamp.errors %}
+                    <div class="container-fluid text-danger">[{{ error }}]</div>
+                    {% endfor %}
+                </div>
+
+                <div class="my-4 text-center">
+                    {{ form.submit(class="btn btn-dark text-light") }}
+                </div>
+            </form>
+        </div>
+    </div>
+{% endmacro %}
+
+
+{% macro measurement_double(form) %}
+    <div class="row justify-content-center mt-3">
+        <div class="col-lg-6">
+            <form action="" method="post">
+                {{ form.hidden_tag() }}
+
+                {{ form.upper_number.label(class="text-muted") }}
+                <div class="mb-3 input-group">
+                    <span class="input-group-text">
+                        <i class="bi bi-123"></i>
+                    </span>
+                    {{ form.upper_number(class="form-control") }}
+                    {% for error in form.upper_number.errors %}
+                    <div class="container-fluid text-danger">[{{ error }}]</div>
+                    {% endfor %}
+                </div>
+
+                {{ form.lower_number.label(class="text-muted") }}
+                <div class="mb-3 input-group">
+                    <span class="input-group-text">
+                        <i class="bi bi-123"></i>
+                    </span>
+                    {{ form.lower_number(class="form-control") }}
+                    {% for error in form.lower_number.errors %}
+                    <div class="container-fluid text-danger">[{{ error }}]</div>
+                    {% endfor %}
+                </div>
+
+                {{ form.timestamp.label(class="text-muted") }}
+                <div class="mb-3 input-group">
+                    <span class="input-group-text">
+                        <i class="bi bi-calendar3"></i>
+                    </span>
+                    {{ form.timestamp(class="form-control") }}
+                    {% for error in form.timestamp.errors %}
+                    <div class="container-fluid text-danger">[{{ error }}]</div>
+                    {% endfor %}
+                </div>
+
+
+                <div class="my-4 text-center">
+                    {{ form.submit(class="btn btn-dark text-light") }}
+                </div>
+            </form>
+        </div>
+    </div>
+{% endmacro %}
+
+
+{% macro measurement_triple(form) %}
+    <div class="row justify-content-center mt-3">
+        <div class="col-lg-6">
+            <form action="" method="post">
+                {{ form.hidden_tag() }}
+
+                {{ form.first_number.label(class="text-muted") }}
+                <div class="mb-3 input-group">
+                    <span class="input-group-text">
+                        <i class="bi bi-123"></i>
+                    </span>
+                    {{ form.first_number(class="form-control") }}
+                    {% for error in form.first_number.errors %}
+                    <div class="container-fluid text-danger">[{{ error }}]</div>
+                    {% endfor %}
+                </div>
+
+                {{ form.second_number.label(class="text-muted") }}
+                <div class="mb-3 input-group">
+                    <span class="input-group-text">
+                        <i class="bi bi-123"></i>
+                    </span>
+                    {{ form.second_number(class="form-control") }}
+                    {% for error in form.second_number.errors %}
+                    <div class="container-fluid text-danger">[{{ error }}]</div>
+                    {% endfor %}
+                </div>
+
+                {{ form.third_number.label(class="text-muted") }}
+                <div class="mb-3 input-group">
+                    <span class="input-group-text">
+                        <i class="bi bi-123"></i>
+                    </span>
+                    {{ form.third_number(class="form-control") }}
+                    {% for error in form.third_number.errors %}
+                    <div class="container-fluid text-danger">[{{ error }}]</div>
+                    {% endfor %}
+                </div>
+
+                {{ form.timestamp.label(class="text-muted") }}
+                <div class="mb-3 input-group">
+                    <span class="input-group-text">
+                        <i class="bi bi-calendar3"></i>
+                    </span>
+                    {{ form.timestamp(class="form-control") }}
+                    {% for error in form.timestamp.errors %}
+                    <div class="container-fluid text-danger">[{{ error }}]</div>
+                    {% endfor %}
+                </div>
+
+
+                <div class="my-4 text-center">
+                    {{ form.submit(class="btn btn-dark text-light") }}
+                </div>
+            </form>
+        </div>
+    </div>
+{% endmacro %}

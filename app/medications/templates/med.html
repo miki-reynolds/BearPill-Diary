@@ -1,0 +1,28 @@
+{% from 'macro_meds.html' import med_image, med_info, med_insights, med_edit, med_delete with context %}
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container-fluid">
+  <div class=" my-4 d-grid gap-2 d-md-flex justify-content-md-end">
+    <a class="btn btn-small btn-dark" href="{{ url_for('meds_bp.meds_page')}}">
+      <i class="bi bi-arrow-left-circle"></i> <b>Return to Previous</b>
+    </a>
+  </div>
+
+  <h6 class="pb-4 text-center text-muted">This medication was added on {{ med.timestamp | timestring }}</h6>
+
+  <div class="row justify-content-center">
+    <div class="col-md-10 col-xs-12 pb-4">
+      {{ med_image(med) }}
+      {{ med_info(med) }}
+      <!--Functionalities for individual MED on MEDS page-->
+      <div class="d-flex p-2 justify-content-between" style="background-color: #F5F5F5">
+        {{ med_insights(med) }}
+        {{ med_edit(med) }}
+        {{ med_delete(med) }}
+      </div>
+
+    </div>
+  </div>
+</div>
+{% endblock %}

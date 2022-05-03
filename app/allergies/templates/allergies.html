@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container-fluid">
+
+  <div class=" my-4 d-grid gap-2 d-md-flex justify-content-md-end">
+    <a class="btn btn-small btn-dark text-success" href="{{ url_for('allergies_bp.allergy_add_page') }}">
+      <i class="bi bi-plus-circle-fill"></i> <b>Add Allergy</b>
+    </a>
+
+    <!-- Button trigger modal for ERASE function -->
+    <button class="btn btn-small btn-dark text-danger" data-bs-toggle="modal" data-bs-target="#delete-allergies">
+      <i class="bi bi-trash3-fill"></i> <b>Erase All</b>
+    </button>
+    <!-- Modal -->
+    <div class="modal fade" id="delete-allergies" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="delete-allergies-label" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="delete-allergies-label">Erase All Allergies?</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            Are you sure you want to delete all? Data deleted won't be recovered anymore...
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <a class="btn btn-small btn-danger" href="{{ url_for('allergies_bp.allergies_delete_page') }}">
+              <i class="bi bi-trash3-fill"></i> Erase
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+
+  <h6 class="pb-4 text-center text-muted">Here is a list of your allergies</h6>
+
+  <table class="table table-hover table-striped table-dark">
+    <thead>
+      <tr class="text-center text-info">
+        <th scope="col" >#</th>
+        <th scope="col">Allergies</th>
+        <th scope="col">Reactions</th>
+        <th scope="col" colspan="2">Options</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% if allergies %}
+    {% for allergy in allergies %}
+      <tr class="text-center">
+        <th scope="row">{{ loop.index }}</th>
+          <td>{{ allergy.allergy }}({{ allergy.category}})</td>
+          <td>{{ allergy.reactions }}</td>
+          <td><a class="text-light" href="{{ url_for('allergies_bp.allergy_update_page', id=allergy.id) }}">Edit</a>
+              <a class="text-light" href="{{ url_for('allergies_bp.allergy_delete_page', id=allergy.id) }}">Delete</a>
+          </td>
+    {% endfor %}
+    </tbody>
+  </table>
+
+  <div class="container-fluid px-4 mb-4 d-flex gap-2 justify-content-center">
+        {% if prev_url %}
+        <a class="text-muted" href="{{ prev_url }}"><b>Previous</b></a>
+        {% endif %}
+        {% if next_url %}
+        <a class="text-muted" href="{{ next_url }}"><b>Next</b></a>
+        {% endif %}
+      </div>
+
+  {% else %}
+  <h6 class="text-muted text-center pb-4">Just kidding! :) Nothing to be seen here...</h6>
+  {% endif %}
+</div>
+{% endblock %}
+
+
+
+

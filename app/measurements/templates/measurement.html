@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container-fluid">
+
+  <div class=" my-4 d-grid gap-2 d-md-flex justify-content-md-end">
+    {% if measurement.category == '1' %}
+    <a class="btn btn-small btn-dark text-success" href="{{ url_for('measurements_bp.measurement_add_single_page', id=measurement.id) }}">
+      <i class="bi bi-plus-circle-fill"></i> <b>Add Number</b>
+    </a>
+    {% elif measurement.category == '2' %}
+    <a class="btn btn-small btn-dark text-success" href="{{ url_for('measurements_bp.measurement_add_double_page', id=measurement.id) }}">
+      <i class="bi bi-plus-circle-fill"></i> <b>Add Number</b>
+    </a>
+    {% elif measurement.category == '3' %}
+    <a class="btn btn-small btn-dark text-success" href="{{ url_for('measurements_bp.measurement_add_triple_page', id=measurement.id) }}">
+      <i class="bi bi-plus-circle-fill"></i> <b>Add Number</b>
+    </a>
+    {% endif %}
+
+    <a class="btn btn-small btn-dark text-warning" href="{{ url_for('measurements_bp.measurement_update_page', id=measurement.id)}}">
+      <i class="bi bi-pencil-fill"></i> <b>Edit</b>
+    </a>
+
+    <!-- Button trigger modal for ERASE function -->
+    <button class="btn btn-small btn-dark text-danger" data-bs-toggle="modal" data-bs-target="#delete-one-measure">
+      <i class="bi bi-trash3-fill"></i> <b>Erase All</b>
+    </button>
+    <!-- Modal -->
+    <div class="modal fade" id="delete-one-measure" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="delete-one-measure-label" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="delete-one-measure-label">Erase All Numbers?</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            Are you sure you want to delete all? Data deleted won't be recovered anymore...
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <a class="btn btn-small btn-danger" href="{{ url_for('measurements_bp.measurement_delete_page', id=measurement.id) }}">
+              <i class="bi bi-trash3-fill"></i> Erase
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+
+  <h6 class="pb-4 text-center text-muted">Measurement Number(s) for your {{ measurement.measurement_name }}</h6>
+
+  <table class="table table-hover table-striped table-dark">
+    <thead>
+      <tr class="text-center text-info">
+        <th scope="col" >#</th>
+        <th scope="col">Number</th>
+        <th scope="col">Time</th>
+        <th scope="col" colspan="2">Options</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% if numbers %}
+    {% for number in numbers %}
+      <tr class="text-center">
+        <th scope="row">{{ loop.index }}</th>
+        {% if measurement.category == '1' %}
+          <td>{{ number.number }}</td>
+          <td>{{ number.timestamp | timestring }}</td>
+          <td><a class="text-light" href="{{ url_for('measurements_bp.measurement_update_single_page', id=number.id) }}">Edit</a>
+              <a class="text-light" href="{{ url_for('measurements_bp.measurement_delete_number_page', name=measurement.measurement_name, id=number.id) }}">Delete</a>
+          </td>
+
+        {% elif measurement.category == '2' %}
+          <td>{{ number.upper_number }}/{{ number.lower_number }}</td>
+          <td>{{ number.timestamp | timestring}}</td>
+          <td><a class="text-light" href="{{ url_for('measurements_bp.measurement_update_double_page', id=number.id) }}">Edit</a>
+              <a class="text-light" href="{{ url_for('measurements_bp.measurement_delete_number_page', name=measurement.measurement_name, id=number.id) }}">Delete</a>
+          </td>
+        {% elif measurement.category == '3' %}
+          <td>{{ number.first_number }}/{{ number.second_number }}/{{ number.third_number }}</td>
+          <td>{{ number.timestamp | timestring}}</td>
+          <td><a class="text-light" href="{{ url_for('measurements_bp.measurement_update_triple_page', id=number.id) }}">Edit</a>
+              <a class="text-light" href="{{ url_for('measurements_bp.measurement_delete_number_page', name=measurement.measurement_name, id=number.id) }}">Delete</a>
+          </td>
+      </tr>
+    {% endif %}
+    {% endfor %}
+    </tbody>
+  </table>
+
+  {% else %}
+  <h6 class="text-muted text-center pb-4">Just kidding! :) Nothing to be seen here...</h6>
+  {% endif %}
+</div>
+{% endblock %}
+
+
+
+

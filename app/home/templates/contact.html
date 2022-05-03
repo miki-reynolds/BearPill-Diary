@@ -1,0 +1,12 @@
+{% from 'macro_home.html' import contact with context %}
+{% extends 'base.html' %}
+
+<title>{{ title }}</title>
+
+{% block content %}
+
+{{ contact() }}
+
+{% endblock %}
+
+

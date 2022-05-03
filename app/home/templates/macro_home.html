@@ -1,0 +1,52 @@
+{% macro contact() %}
+
+<div class="container-fluid my-5" id="contact">
+    <div class="row">
+        <div class="col-lg-6">
+            <img src="{{url_for('home_bp.static',filename = 'images/contact.png')}}" alt="contact" class="img-fluid">
+        </div>
+        <div class="col-lg-6">
+            <h3 class="text-center pt-3 fw-bolder text-muted">Let's Chat!</h3>
+            <p class="text-center pb-2 text-muted">We'd love to hear from you for any feedback, inquiries and more!
+            </p>
+            <form>
+                <label for="email" class="form-label text-muted">Email Address:</label>
+                <div class="mb-2 input-group">
+                    <span class="input-group-text">
+                        <i class="bi bi-envelope-fill"></i>
+                    </span>
+                    <input type="email" class="form-control" id="email" placeholder="bearpill@gmail.com">
+                </div>
+                <label for="name" class="form-label text-muted">Name:</label>
+                <div class="mb-2 input-group">
+                    <span class="input-group-text">
+                        <i class="bi bi-person-plus-fill"></i>
+                    </span>
+                    <input type="name" class="form-control" id="name" placeholder="Bear Pill">
+                </div>
+                <label for="subject" class="form-label text-muted">Subject:</label>
+                <div class="mb-2 input-group">
+                    <span class="input-group-text">
+                        <i class="bi bi-patch-question-fill"></i>
+                    </span>
+                    <select id="subject" class="form-select">
+                        <option value="support" selected>Support</option>
+                        <option value="feedback">Feedback</option>
+                        <option value="marketing">Marketing opportunities</option>
+                        <option value="others">Others</option>
+                    </select>
+                </div>
+                <div class="form-floating my-4">
+                    <textarea id="text" class="form-control" style="height: 200px"></textarea>
+                    <label for="text">More details</label>
+                </div>
+
+                <div class="text-center">
+                    <button class="btn btn-dark text-light fw-bolder">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endmacro %}

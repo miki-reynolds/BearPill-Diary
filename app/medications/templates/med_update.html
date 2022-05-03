@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{{ title }}
+{% block content %}
+<!--the action attribute of the form tells the browser the URL that should be used when submitting the info the user enter in the form-->
+<!--action has an empty string so that the form is submitted to the URL that is shown in the address bar-->
+<!--setting nonvalidate is optional, but putting it here so we can use flask app to test our validators-->
+<!--hidden_tag generating a hidden field that includes a token used to protect the form against CSRF-->
+
+<div class="container-fluid">
+    <div class="text-center text-muted mt-5">
+        <h3>Edit Medication</h3>
+    </div>
+
+    <div class="row justify-content-center mt-3">
+        <div class="col-lg-6">
+            <form action="" method="post">
+                {{ form.hidden_tag() }}
+
+                {{ form.medname.label(class="text-muted") }}
+                <div class="mb-3 input-group">
+                    <span class="input-group-text">
+                        <i class="bi bi-bandaid-fill"></i>
+                    </span>
+                    {{ form.medname(class="form-control") }}
+                    {% for error in form.medname.errors %}
+                    <div class="container-fluid text-red">[{{ error }}]</div>
+                    {% endfor %}
+                </div>
+
+                {{ form.dose.label(class="text-muted") }}
+                <div class="mb-3 input-group">
+                    <span class="input-group-text">
+                        <i class="bi bi-patch-exclamation-fill"></i>
+                    </span>
+                    {{ form.dose(class="form-control") }}
+                    {% for error in form.dose.errors %}
+                    <div class="container-fluid text-red">[{{ error }}]</div>
+                    {% endfor %}
+                </div>
+
+                {{ form.directions.label(class="text-muted") }}
+                <div class="mb-3 input-group">
+                    <span class="input-group-text">
+                        <i class="bi bi-alarm-fill"></i>
+                    </span>
+                    {{ form.directions(class="form-control") }}
+                    {% for error in form.directions.errors %}
+                    <div class="container-fluid text-red">[{{ error }}]</div>
+                    {% endfor %}
+                </div>
+
+                {{ form.purpose.label(class="text-muted") }}
+                <div class="mb-3 input-group">
+                    <span class="input-group-text">
+                        <i class="bi bi-patch-question-fill"></i>
+                    </span>
+                    {{ form.purpose(class="form-control") }}
+                    {% for error in form.purpose.errors %}
+                    <div class="container-fluid text-red">[{{ error }}]</div>
+                    {% endfor %}
+                </div>
+
+                {{ form.timestamp.label(class="text-muted") }}
+                <div class="mb-3 input-group">
+                    <span class="input-group-text">
+                        <i class="bi bi-calendar3"></i>
+                    </span>
+                    {{ form.timestamp(class="form-control") }}
+                    {% for error in form.timestamp.errors %}
+                    <div class="container-fluid text-red">[{{ error }}]</div>
+                    {% endfor %}
+                </div>
+
+                {{ form.notes.label(class="text-muted") }}
+                <div class="mb-3 input-group">
+                    <span class="input-group-text">
+                        <i class="bi bi-stickies-fill"></i>
+                    </span>
+                    {{ form.notes(class="form-control") }}
+                    {% for error in form.notes.errors %}
+                    <div class="container-fluid text-red;">[{{ error }}]</div>
+                    {% endfor %}
+                </div>
+
+                {{ form.category.label(class="text-muted") }}
+                <div class="mb-3 input-group">
+                    <span class="input-group-text">
+                        <i class="bi bi-bookmark-heart"></i>
+                    </span>
+                    {{ form.category(class="form-select") }}
+                    {% for error in form.category.errors %}
+                    <div class="container-fluid text-red">[{{ error }}]</div>
+                    {% endfor %}
+                </div>
+
+                <div class="my-4 text-center">
+                    {{ form.submit(class="btn btn-dark text-light") }}
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

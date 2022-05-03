@@ -1,0 +1,18 @@
+{% from 'macro_allergies.html' import allergy with context %}
+
+{% extends 'base.html' %}
+{{ title }}
+{% block content %}
+<!--the action attribute of the form tells the browser the URL that should be used when submitting the info the user enter in the form-->
+<!--action has an empty string so that the form is submitted to the URL that is shown in the address bar-->
+<!--setting nonvalidate is optional, but putting it here so we can use flask app to test our validators-->
+<!--hidden_tag generating a hidden field that includes a token used to protect the form against CSRF-->
+
+<div class="container-fluid">
+    <div class="text-center text-muted mt-5">
+        <h3>Update Allergy</h3>
+    </div>
+    {{ allergy(form) }}
+
+</div>
+{% endblock %}

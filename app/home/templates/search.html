@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container-fluid">
+  <h5 class="py-3 text-center text-muted">Search Results for {{ q }}</h5>
+
+  {% if meds_by_name %}
+    <div class="container-fluid mb-2">
+      {% for med in meds_by_name %}
+      <h6><a href="{{ url_for('meds_bp.med_page', id=med.id)}}">Medication: {{ med.medname | capitalize }}</a></h6>
+      <p>Dosage: {{ med.dose }} | Directions {{ med.directions }}</p>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  {% if meds_by_dose %}
+    <div class="container-fluid mb-2">
+      {% for med in meds_by_dose %}
+      <h6><a href="{{ url_for('meds_bp.med_page', id=med.id)}}">Medication: {{ med.medname | capitalize }}</a></h6>
+      <p>Dosage: {{ med.dose }} | Directions {{ med.directions }}</p>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  {% if meds_by_directions %}
+    <div class="container-fluid mb-2">
+      {% for med in meds_by_directions %}
+      <h6><a href="{{ url_for('meds_bp.med_page', id=med.id)}}">Medication: {{ med.medname | capitalize }}</a></h6>
+      <p>Dosage: {{ med.dose }} | Directions {{ med.directions }}</p>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  {% if meds_by_purpose %}
+    <div class="container-fluid mb-2">
+      {% for med in meds_by_purpose %}
+      <h6><a href="{{ url_for('meds_bp.med_page', id=med.id)}}">Medication: {{ med.medname | capitalize }}</a></h6>
+      <p>Dosage: {{ med.dose }} | Directions {{ med.directions }}</p>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  {% if measurements %}
+    <div class="container-fluid mb-2">
+      {% for measurement in measurements %}
+      <h6><a href="{{ url_for('measurements_bp.measurement_page', id=measurement.id)}}">
+        Measurement: {{ measurement.measurement_name | capitalize }}</a>
+      </h6>
+      <p>Click on the measurement name to see all the numbers and more analysis.</p>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  {% if allergies %}
+    <div class="container-fluid mb-2">
+      {% for allergy in allergies %}
+      <h6><a href="{{ url_for('allergies_bp.allergies_page')}}">Allergy: {{ allergy.allergy | capitalize }}</a></h6>
+      <p>Reactions: {{ allergy.reactions }}</p>
+      {% endfor %}
+    </div>
+  {% endif %}
+</div>
+
+<div class="container-fluid">
+  <div class="container-fluid px-4 mb-4 d-flex gap-2 justify-content-center">
+        {% if prev_url %}
+        <a class="text-muted" href="{{ prev_url }}"><b>Previous</b></a>
+        {% endif %}
+        {% if next_url %}
+        <a class="text-muted" href="{{ next_url }}"><b>Next</b></a>
+        {% endif %}
+      </div>
+</div>
+{% endblock %}

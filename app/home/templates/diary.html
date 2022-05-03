@@ -1,0 +1,165 @@
+{% extends 'base.html' %}
+<title>{{ title }}</title>
+
+{% block content %}
+
+<div class="container-fluid pb-4">
+  <h3 class="py-4 text-center text-muted">Your BearPill Diary At A Glance</h3>
+
+  <div class="accordion" id="chapters">
+    <div class="accordion-item" style="background-color: #F5F5F5">
+      <h2 class="accordion-header" id="chap1">
+        <button class="accordion-button text-muted" type="button" data-bs-toggle="collapse" data-bs-target="#chap1-flush" aria-expanded="true" aria-controls="chap1-flush">
+          <b>Chapter I: Medications</b>
+        </button>
+      </h2>
+      <div id="chap1-flush" class="accordion-collapse collapse show" aria-labelledby="chap1">
+        <div class="accordion-body">
+          <h6>There are currently {{ meds | length }} medications in your diary.</h6>
+          <p>
+            {% if meds %}
+              {% for med in meds %}
+                {{ med.medname | capitalize }}.
+              {% endfor %}
+            {% endif %}
+          </p>
+          <br>
+          <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+              <a class="btn btn-small btn-outline-info fw-bold" href="{{ url_for('meds_bp.meds_page') }}">
+                <i class="bi bi-three-dots-vertical"></i> View All
+              </a>
+              <a class="btn btn-small btn-outline-success fw-bold" href="{{ url_for('meds_bp.med_add_page') }}" class="card-link btn btn-warning btn">
+                <i class="bi bi-plus-circle-fill"></i> Add Med
+              </a>
+            <!-- Button trigger modal for DEL function -->
+              <button class="btn btn-small btn-outline-danger" data-bs-toggle="modal" data-bs-target="#delete-all-meds">
+                <i class="bi bi-trash3-fill"></i> <b>Erase All</b>
+              </button>
+              <!-- Modal -->
+              <div class="modal fade" id="delete-all-meds" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="delete-all-meds-label" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="delete-all-meds-label">Erase All?</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      Are you sure you want to delete all? Data deleted won't be recovered anymore...
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      <a class="btn btn-small btn-outline-danger" href="{{ url_for('meds_bp.meds_delete_page') }}">
+                        <i class="bi bi-trash3-fill"></i> Erase
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+          </div>
+          <br>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item" style="background-color: #F5F5F5">
+      <h2 class="accordion-header" id="chap3">
+        <button class="accordion-button collapsed text-muted" type="button" data-bs-toggle="collapse" data-bs-target="#chap3-stayopen-collapse" aria-expanded="false" aria-controls="chap3-stayopen-collapse">
+          <b>Chapter II: Measurements</b>
+        </button>
+      </h2>
+      <div id="chap3-stayopen-collapse" class="accordion-collapse collapse" aria-labelledby="chap3">
+        <div class="accordion-body">
+          <h6>There are currently {{ measurements | length }} measurements in your diary.</h6>
+          <p>
+            {% if measurements %}
+              {% for measurement in measurements %}
+                {{ measurement.measurement_name | capitalize }}.
+              {% endfor %}
+            {% endif %}
+          </p>
+          <br>
+          <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+              <a class="btn btn-small btn-outline-info fw-bold" href="{{ url_for('measurements_bp.measurements_page') }}">
+                <i class="bi bi-three-dots-vertical"></i> View All
+              </a>
+              <a class="btn btn-small btn-outline-success fw-bold" href="{{ url_for('measurements_bp.measurement_add_page') }}" class="card-link btn btn-success btn">
+                <i class="bi bi-plus-circle-fill"></i> Add Measurement
+              </a>
+              <!-- Button trigger modal for DEL function -->
+              <button class="btn btn-small btn-outline-danger" data-bs-toggle="modal" data-bs-target="#delete-all-measure">
+                <i class="bi bi-trash3-fill"></i> <b>Erase All</b>
+              </button>
+              <!-- Modal -->
+              <div class="modal fade" id="delete-all-measure" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="delete-all-measure-label" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="delete-all-measure-label">Erase All?</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      Are you sure you want to delete all? Data deleted won't be recovered anymore...
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      <a class="btn btn-small btn-outline-danger" href="{{ url_for('measurements_bp.measurements_delete_page') }}">
+                        <i class="bi bi-trash3-fill"></i> Erase
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+          </div>
+          <br>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item" style="background-color: #F5F5F5">
+      <h2 class="accordion-header" id="chap2">
+        <button class="accordion-button collapsed text-muted" type="button" data-bs-toggle="collapse" data-bs-target="#chap2-stayopen-collapse" aria-expanded="false" aria-controls="chap2-stayopen-collapse">
+          <b>Chapter III: Allergies</b>
+        </button>
+      </h2>
+      <div id="chap2-stayopen-collapse" class="accordion-collapse collapse" aria-labelledby="chap2">
+        <div class="accordion-body">
+          <h6>There are currently {{ allergies | length }} allergies in your diary.</h6>
+          <p>
+            {% if allergies %}
+              {% for allergy in allergies %}
+                {{ allergy.allergy | capitalize }}.
+              {% endfor %}
+            {% endif %}
+          </p>
+          <br>
+          <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+              <a class="btn btn-small btn-outline-info fw-bold" href="{{ url_for('allergies_bp.allergies_page') }}">
+                <i class="bi bi-three-dots-vertical"></i> View All
+              </a>
+              <a class="btn btn-small btn-outline-success fw-bold" href="{{ url_for('allergies_bp.allergy_add_page') }}" class="card-link btn btn-success btn">
+                <i class="bi bi-plus-circle-fill"></i> Add Allergy
+              </a>
+              <a href="{{ url_for('allergies_bp.allergies_delete_page') }}" class="card-link btn btn-outline-danger fw-bold">
+                <i class="bi bi-trash3-fill"></i> Erase All
+              </a>
+          </div>
+          <br>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item mb-2" style="background-color: #F5F5F5">
+      <h2 class="accordion-header" id="chap4">
+        <button class="accordion-button collapsed text-muted" type="button" data-bs-toggle="collapse" data-bs-target="#chap4-stayopen-collapse" aria-expanded="false" aria-controls="chap3-stayopen-collapse">
+          <b>Chapter IV: Habit Trends</b>
+        </button>
+      </h2>
+      <div id="chap4-stayopen-collapse" class="accordion-collapse collapse" aria-labelledby="chap4">
+        <div class="accordion-body">
+          <h6>Trends on taking meds (missed days). Maybe some other trends like you can log in your exercises stuff like that</h6>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

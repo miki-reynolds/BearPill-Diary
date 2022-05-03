@@ -1,0 +1,175 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container-fluid">
+  <!--Functionalities for MEASUREMENTS page-->
+  <div class="my-4 mx-3 d-grid gap-2 d-md-flex justify-content-md-end">
+    <a class="btn btn-small btn-dark" href="{{ url_for('measurements_bp.measurement_add_page') }}">
+      <i class="bi bi-plus-circle-fill"></i> <b>Add Measurement</b>
+    </a>
+    <!-- Button trigger modal for DEL function -->
+    <button class="btn btn-small btn-danger" data-bs-toggle="modal" data-bs-target="#delete-all-measure">
+      <i class="bi bi-trash3-fill"></i> <b>Erase All</b>
+    </button>
+    <!-- Modal -->
+    <div class="modal fade" id="delete-all-measure" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="delete-all-measure-label" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="delete-all-measure-label">Erase All?</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            Are you sure you want to delete all? Data deleted won't be recovered anymore...
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <a class="btn btn-small btn-danger" href="{{ url_for('measurements_bp.measurements_delete_page') }}">
+              <i class="bi bi-trash3-fill"></i> Erase
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h6 class="text-muted text-center pb-4">There are currently {{ measurements | length }} measurement names in your diary.</h6>
+
+  <!--Individual MEASUREMENT-->
+  {% if measurements %}
+  {% for measurement in measurements %}
+  <div class="row justify-content-center gy-3">
+    <!--Info for each MEASUREMENT-->
+    <div class="col-12 mb-4">
+      <div class="card">
+        <h5 class="card-header text-center bg-muted py-3">{{ measurement.measurement_name | upper }}</h5>
+          <!--Info for each MED-->
+          {% if measurement.category == '1' %}
+          {% with numbers = measurement.measurement_nums1.all() %}
+          <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    The average was {{ (numbers | category1)['mean'] }}.
+                </li>
+                <li class="list-group-item">
+                    The highest {{ (numbers | category1)['max'] }} taken on {{ (numbers | category1)['max_time'] }}.
+                </li>
+                <li class="list-group-item">
+                    The lowest {{ (numbers | category1)['min'] }} taken on {{ (numbers | category1)['min_time'] }}.
+                </li>
+            </ul>
+          {% endwith %}
+          {% endif %}
+
+            {% if measurement.category == '2' %}
+            {% with numbers = measurement.measurement_nums2.all() %}
+          <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    The average was {{ (numbers | category2)['mean'] }}.
+                </li>
+                <li class="list-group-item">
+                    The highest upper number was {{ (numbers | category2)['max_upper'] }} taken on {{ (numbers | category2)['max_upper_time'] }}
+                </li>
+                <li class="list-group-item">
+                    The highest lower number was {{ (numbers | category2)['max_lower'] }} taken on {{ (numbers | category2)['max_lower_time'] }}
+                </li>
+                <li class="list-group-item">
+                    The lowest upper number was {{ (numbers | category2)['min_upper'] }} taken on {{ (numbers | category2)['min_upper_time'] }}
+                </li>
+                <li class="list-group-item">
+                    The lowest lower number was {{ (numbers | category2)['min_lower'] }} taken on {{ (numbers | category2)['min_lower_time'] }}
+                </li>
+            </ul>
+          {% endwith %}
+          {% endif %}
+
+          {% if measurement.category == '3' %}
+          {% with numbers = measurement.measurement_nums3.all() %}
+          <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    The average was {{ (numbers | category3)['mean'] }}.
+                </li>
+                <li class="list-group-item">
+                    The highest first number was {{ (numbers | category3)['max_first'] }} taken on {{ (numbers | category3)['max_first_time'] }}
+                </li>
+                <li class="list-group-item">
+                    The highest second number was {{ (numbers | category3)['max_second'] }} taken on {{ (numbers | category3)['max_second_time'] }}
+                </li>
+                <li class="list-group-item">
+                    The highest third number was {{ (numbers | category3)['max_third'] }} taken on {{ (numbers | category3)['max_third_time'] }}
+                </li>
+                <li class="list-group-item">
+                    The lowest first number was {{ (numbers | category3)['min_first'] }} taken on {{ (numbers | category3)['min_first_time'] }}
+                </li>
+                <li class="list-group-item">
+                    The lowest second number was {{ (numbers | category3)['min_second'] }} taken on {{ (numbers | category3)['min_second_time'] }}
+                </li>
+                <li class="list-group-item">
+                    The lowest third number was {{ (numbers | category3)['min_third'] }} taken on {{ (numbers | category3)['min_third_time'] }}
+                </li>
+            </ul>
+          {% endwith %}
+          {% endif %}
+
+          <!--Functionalities for individual MEASUREMENT-->
+        <div class="d-flex p-2 justify-content-around" style="background-color: #F5F5F5">
+            {% if measurement.category == '1' %}
+            <a class="text-success" href="{{ url_for('measurements_bp.measurement_add_single_page', id=measurement.id) }}">
+                <i class="bi bi-plus-circle-fill"></i> <b>Add</b>
+            </a>
+            {% elif measurement.category == '2' %}
+            <a class="text-success" href="{{ url_for('measurements_bp.measurement_add_double_page', id=measurement.id) }}">
+                <i class="bi bi-plus-circle-fill"></i> <b>Add</b>
+            </a>
+            {% elif measurement.category == '3' %}
+            <a class="text-success" href="{{ url_for('measurements_bp.measurement_add_triple_page', id=measurement.id) }}">
+                <i class="bi bi-plus-circle-fill"></i> <b>Add</b>
+            </a>
+            {% endif %}
+            <a class="text-info" href="{{ url_for('measurements_bp.measurement_page', id=measurement.id) }}">
+                <i class="bi bi-three-dots-vertical"></i> <b>View</b>
+            </a>
+            <a class="text-warning" href="{{ url_for('measurements_bp.measurement_update_page', id=measurement.id) }}">
+                <i class="bi bi-pencil-fill"></i> <b>Edit</b>
+            </a>
+            <!-- Button trigger modal for DEL function -->
+            <a class="text-danger" data-bs-toggle="modal" data-bs-target="#delete-one-sm" href="{{ url_for('measurements_bp.measurement_delete_page', id=measurement.id) }}">
+                <i class="bi bi-trash3-fill"></i> <b>Delete</b>
+            </a>
+            <!-- Modal -->
+            <div class="modal fade" id="delete-one-sm" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="delete-one-sm-label" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered"><div class="modal-content">
+                    <div class="modal-header"><h5 class="modal-title" id="delete-one-sm-label">Delete {{ measurement.measurement_name | capitalize }}?</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">Are you sure you want to delete this? Data deleted won't be recovered anymore...
+                    </div>
+                    <div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <a class="btn btn-small btn-danger" href="{{ url_for('measurements_bp.measurement_delete_page', id=measurement.id) }}">
+                            <i class="bi bi-trash3-fill"></i> <b>Delete</b>
+                        </a>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+  <div class="container-fluid px-4 mb-4 d-flex gap-2 justify-content-center">
+        {% if prev_url %}
+        <a class="text-muted" href="{{ prev_url }}"><b>Previous</b></a>
+        {% endif %}
+        {% if next_url %}
+        <a class="text-muted" href="{{ next_url }}"><b>Next</b></a>
+        {% endif %}
+      </div>
+
+  <!--Message when there are no MEASUREMENT-->
+  {% else %}
+  <h6 class="text-muted text-center pb-4">Interested in adding some here because there is nothing to be show right now... :)</h6>
+</div>
+
+  {% endif %}
+{% endblock %}

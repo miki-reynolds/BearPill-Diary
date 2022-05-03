@@ -1,0 +1,108 @@
+{% from 'macro_home.html' import contact with context %}
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!--Intro to the App-->
+<div class="container-fluid py-5 justify-content-center bg-dark text-light">
+    <h1 class="text-center pb-2 fw-bolder">An Innovative HealthCare Diary</h1>
+
+    <div class="row justify-content-center">
+        <div class="col-md-10 text-center">
+            <p>Ever forgotten your medication names & measurement numbers at home when heading to the Doc?
+                Or where you put them in the house? What about forgetting when to take what?
+                <b>BearPill</b> ʕ•́ᴥ•̀ʔ the pain of memorizing what and remembering when with you among other features!
+            </p>
+        </div>
+    </div>
+
+    <div class="row pt-2 justify-content-center">
+        <div class="col-6 text-center">
+            <a class="btn btn-light text-dark fw-bold" href="{{ url_for('auth_bp.register_page') }}">Get Started</a>
+        </div>
+    </div>
+</div>
+
+<!--Background-->
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-lg-7 col-sm-12">
+            <img src="{{url_for('home_bp.static', filename = 'images/bears_bg.png')}}"
+                 class="img-fluid" alt="background">
+        </div>
+    </div>
+</div>
+
+<!--FEATURE SUMMARY-->
+<div class="container-fluid py-5 justify-content-center bg-dark text-light">
+    <h4 class="text-center fw-bolder text-light">Bear it together, Better together</h4>
+    <div class="row justify-content-center">
+        <div class="col-md-10 text-center text-light">
+            <p class="py-2">
+                A quick look at our main features:
+                Record, Get Reminded, View Medication Insights and Analyze Data
+            </p>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-8 text-center">
+            <a class="btn btn-light text-dark text-light fw-bold" href="{{ url_for('auth_bp.register_page') }}">Ready to explore?</a>
+        </div>
+    </div>
+</div>
+
+<!--FEATURES-->
+<div class="container-fluid pt-3">
+    <div class="row justify-content-center gy-3">
+        <div class="col-sm-6 col-lg-3">
+            <div class="card h-100">
+                <div class="card-header fw-bolder text-center">Records</div>
+                <div class="card-body">
+                  <p class="card-text  text-muted">
+                      Record your medications, measurements, allergies and feelings/symptoms in your diary.
+                      You can always to add, edit, delete your journals and categorize your medication to past or current without deleting.
+                  </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-lg-3">
+            <div class="card h-100">
+                <div class="card-header fw-bolder text-center">Reminders</div>
+                <div class="card-body">
+                  <p class="card-text  text-muted">
+                      Never forget when to take what again!
+                      Our reminder feature allows you to set reminders for both medications and measurements.
+                      What's more, you can also record the reminder's sound to anything you wish!
+                  </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-lg-3">
+            <div class="card h-100">
+                <div class="card-header fw-bolder text-center">Medication Insights</div>
+                <div class="card-body">
+                  <p class="card-text  text-muted">
+                      Read medical warnings and observational adverse effects other people experience while taking certain medications.
+                    Data is collected from the American Food and Drink Administration (FDA).
+                  </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-lg-3">
+            <div class="card h-100">
+                <div class="card-header fw-bolder text-center">Data Analysis</div>
+                <div class="card-body">
+                  <p class="card-text  text-muted text-muted">
+                      Observe trends if you (tend to) miss any dosages at a certain time/date(s).
+                      View illustrations of your medications and/or measurements (e.g. highest, lowest and average measurements).
+                  </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Contact Form-->
+{{ contact() }}
+
+{% endblock %}
