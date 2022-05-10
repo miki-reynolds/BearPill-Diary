@@ -6,7 +6,7 @@ from flask import render_template, redirect, url_for, flash
 from flask_login import login_user, current_user, logout_user
 
 
-@blueprint.route('/register', methods=['GET', 'POST'])
+@blueprint.route('/register', methods=['POST', 'GET'])
 def register_page():
     form = UserForm()
     if form.validate_on_submit():
@@ -29,7 +29,7 @@ def register_page():
     return render_template('register.html', form=form)
 
 
-@blueprint.route('/login', methods=['GET', 'POST'])
+@blueprint.route('/login', methods=['POST', 'GET'])
 def login_page():
     # in the case user already logged in but accidentally goes to the login page -> they dont need to login again
     if current_user.is_authenticated:
@@ -69,7 +69,7 @@ def reset_password_request_page():
     if current_user.is_authenticated:
         return redirect(url_for('home_bp.member_diary'))
 
-    return render_template('reset_password_request.html', title='Reset Password Requesr', form=form)
+    return render_template('reset_password_request.html', title='Reset Password Request', form=form)
 
 
 @blueprint.route('/reset_password/<token>', methods=['GET', 'POST'])
@@ -84,7 +84,7 @@ def reset_password_page(token):
         user.password = form.password1.data
         db.session.commit()
         flash('Password reset successfully!', category='success')
-        return redirect(url_for('auth.login'))
+        return redirect(url_for('auth_bp.login_page'))
 
     # if user somehow get to this page by accident
     if current_user.is_authenticated:

@@ -118,7 +118,6 @@ def meds_delete_page():
         return redirect(url_for('meds_bp.meds_page'))
 
 
-# todo try to incoporate ways to search for alternate names
 # to get med insights from openAPI
 @blueprint.route('/member/medications/<int:id>/insights')
 def med_insights_page(id):
@@ -150,3 +149,5 @@ def med_insights_page(id):
                            data_label=med_label(data_label), data_event=med_event(data_event))
     else:
         return redirect(url_for('meds_bp.med_page', id=med.id))
+
+

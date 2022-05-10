@@ -14,7 +14,7 @@ migrate = Migrate()
 login_manager = LoginManager()
 # this is to handle pages viewed only by logged-in users
 # the 'login' is a function/endpoint without (), similar to how you'd put a function in url_for('')
-login_manager.login_view = 'login_page'
+login_manager.login_view = 'auth_bp.login_page'
 login_manager.login_message_category = "info"
 bcrypt = Bcrypt()
 mail = Mail()
@@ -33,7 +33,7 @@ def create_app(config_class=Config):
     login_manager.init_app(app)
     bcrypt.init_app(app)
     mail.init_app(app)
-    app.app_context().push()
+
 
     # create blueprints
     from app.home import blueprint as home_blueprint
