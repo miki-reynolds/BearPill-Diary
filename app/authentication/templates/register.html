@@ -20,7 +20,7 @@
                     <span class="input-group-text">
                         <i class="bi bi-person-plus-fill"></i>
                     </span>
-                    {{ form.username(class="form-control", placeholder="e.g. thebearpillproject", size=32) }}
+                    {{ form.username(class="form-control", size=32) }}
                     {% for error in form.username.errors %}
                     <div class="container-fluid text-danger">[{{ error }}]</div>
                     {% endfor %}
@@ -31,7 +31,7 @@
                     <span class="input-group-text">
                         <i class="bi bi-envelope-fill"></i>
                     </span>
-                    {{ form.email_address(class="form-control", placeholder="e.g. thebearpillproject@gmail.com", size=32) }}
+                    {{ form.email_address(class="form-control", size=32) }}
                     {% for error in form.email_address.errors %}
                     <div class="container-fluid text-danger">[{{ error }}]</div>
                     {% endfor %}
@@ -42,7 +42,7 @@
                     <span class="input-group-text">
                         <i class="bi bi-key-fill"></i>
                     </span>
-                    {{ form.password1(class="form-control", placeholder="e.g. YourBearPill", size=32) }}
+                    {{ form.password1(class="form-control", size=32) }}
                     {% for error in form.password1.errors %}
                     <div class="container-fluid text-danger">[{{ error }}]</div>
                     {% endfor %}
@@ -53,7 +53,7 @@
                     <span class="input-group-text">
                         <i class="bi bi-key-fill"></i>
                     </span>
-                    {{ form.password2(class="form-control", placeholder="e.g.YourBearPill", size=32) }}
+                    {{ form.password2(class="form-control", size=32) }}
                     {% for error in form.password2.errors %}
                     <div class="container-fluid text-danger">[{{ error }}]</div>
                     {% endfor %}

@@ -29,6 +29,7 @@ def med_label(data: dict):
     else:
         return False
 
+
 # helper to fetch info from patients' experience
 def med_event(data: dict):
     if data:
@@ -37,3 +38,4 @@ def med_event(data: dict):
         return {'last_updated_events': last_updated, 'events': events}
     else:
         return False
+

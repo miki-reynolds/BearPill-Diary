@@ -7,7 +7,7 @@ import logging
 from logging.handlers import SMTPHandler
 from flask_migrate import Migrate
 from flask_mail import Mail
-from elasticsearch import Elasticsearch
+
 
 db = SQLAlchemy()
 migrate = Migrate()
@@ -33,7 +33,6 @@ def create_app(config_class=Config):
     login_manager.init_app(app)
     bcrypt.init_app(app)
     mail.init_app(app)
-
 
     # create blueprints
     from app.home import blueprint as home_blueprint

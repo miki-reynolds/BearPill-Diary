@@ -13,11 +13,11 @@ class Config(object):
     # pagination
     ITEMS_PER_PAGE = 10
     # search functionality
-    ELASTICSEARCH_URI = environ.get('ELASTICSEARCH_URI') or 'http://localhost:9200'
+    # ELASTICSEARCH_URI = environ.get('ELASTICSEARCH_URI') or 'http://localhost:9200'
 
     # for error-handling
     MAIL_SERVER = 'smtp.gmail.com'
-    MAIL_PORT = 465 or 587
+    MAIL_PORT = 587 or 465
     MAIL_USE_TLS = False
     MAIL_USE_SSL = True
     MAIL_USERNAME = environ.get('MAIL_USERNAME')

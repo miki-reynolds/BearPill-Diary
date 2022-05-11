@@ -19,7 +19,7 @@
                     <span class="input-group-text">
                         <i class="bi bi-envelope-fill"></i>
                     </span>
-                    {{ form.username(class="form-control", placeholder="e.g. thebearpillproject", size=32) }}
+                    {{ form.username(class="form-control", size=32) }}
                     {% for error in form.username.errors %}
                     <div class="container-fluid text-danger">[{{ error }}]</div>
                     {% endfor %}
@@ -30,7 +30,7 @@
                     <span class="input-group-text">
                         <i class="bi bi-key-fill"></i>
                     </span>
-                    {{ form.password(class="form-control", placeholder="e.g. YourBearPill", size=32) }}
+                    {{ form.password(class="form-control", size=32) }}
                     {% for error in form.password.errors %}
                     <div class="container-fluid text-danger">[{{ error }}]</div>
                     {% endfor %}
