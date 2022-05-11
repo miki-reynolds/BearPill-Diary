@@ -1,0 +1,9 @@
+Hi {{ user.username }}
+
+It's time to take your {{ item_name }}!
+
+Please disregard the email if you have not requested to receive this message.
+
+Best regards,
+The BearPill Diary Team :)
+

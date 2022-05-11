@@ -22,9 +22,11 @@ class User(db.Model, UserMixin):
     user_meds = db.relationship('Meds', backref='user_meds', lazy='dynamic')
     user_measurements = db.relationship('Measurements', backref='user_measurements', lazy='dynamic')
 
-    user_measurements1 = db.relationship('MeasurementSingleNums', backref='user_measurements3', lazy='dynamic')
+    user_measurements1 = db.relationship('MeasurementSingleNums', backref='user_measurements1', lazy='dynamic')
     user_measurements2 = db.relationship('MeasurementDoubleNums', backref='user_measurements2', lazy='dynamic')
     user_measurements3 = db.relationship('MeasurementTripleNums', backref='user_measurements3', lazy='dynamic')
+
+    user_reminders = db.relationship('Reminders', backref='user_reminders', lazy='dynamic')
 
     @property
     def password(self):
@@ -68,6 +70,8 @@ class Meds(db.Model):
     category = db.Column(db.String(), nullable=False)
     user_meds_id = db.Column(db.Integer(), db.ForeignKey('user.id'))
 
+    meds_reminders_id = db.Column(db.Integer(), db.ForeignKey('reminders.id'))
+
     def __repr__(self):
         return f'''
 {self.medname.upper()}
@@ -76,6 +80,23 @@ Directions: {self.directions}
 Purpose: {self.purpose}
 Notes: {self.notes}
 '''
+
+
+# Create a Model for Reminders
+class Reminders(db.Model):
+    id = db.Column(db.Integer(), primary_key=True)
+    name = db.Column(db.Text(length=100), nullable=False)
+    months = db.Column(db.Integer(), default=1)
+    weeks = db.Column(db.Integer(), default=1)
+    day_of_the_week = db.Column(db.Integer(), default=0)
+    days_freq = db.Column(db.Integer(), default=1)
+    hours = db.Column(db.Integer(), nullable=False)
+    minutes = db.Column(db.Integer(), nullable=False)
+
+    # mapping
+    user_reminders_id = db.Column(db.Integer(), db.ForeignKey('user.id'))
+    meds_reminders = db.relationship('Meds', backref='meds_reminders', lazy='dynamic')
+    measurements_reminders = db.relationship('Measurements', backref='measurements_reminders', lazy='dynamic')
 
 
 # Create a Model for Measurements
@@ -89,6 +110,8 @@ class Measurements(db.Model):
     measurement_nums1 = db.relationship('MeasurementSingleNums', backref='measurement_nums1', lazy='dynamic')
     measurement_nums2 = db.relationship('MeasurementDoubleNums', backref='measurement_nums2', lazy='dynamic')
     measurement_nums3 = db.relationship('MeasurementTripleNums', backref='measurement_nums3', lazy='dynamic')
+
+    measurements_reminders_id = db.Column(db.Integer(), db.ForeignKey('reminders.id'))
 
 
 # Create a Model for Measurements that contain only 1 number

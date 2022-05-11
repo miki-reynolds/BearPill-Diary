@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{{ title }}
+{% block content %}
+<!--the action attribute of the form tells the browser the URL that should be used when submitting the info the user enter in the form-->
+<!--action has an empty string so that the form is submitted to the URL that is shown in the address bar-->
+<!--setting nonvalidate is optional, but putting it here so we can use flask app to test our validators-->
+<!--hidden_tag generating a hidden field that includes a token used to protect the form against CSRF-->
+
+<div class="container-fluid">
+    <div class="text-center text-muted mt-5">
+        <h3>Set Reminder</h3>
+    </div>
+
+    <div class="row justify-content-center mt-3">
+        <div class="col-lg-6">
+            <form action="" method="post">
+                {{ form.hidden_tag() }}
+
+                {{ form.months.label(class="text-muted") }}
+                <div class="mb-3 input-group">
+                    <span class="input-group-text">
+                        <i class="bi bi-calendar2-month-fill"></i>
+                    </span>
+                    {{ form.months(class="form-control") }}
+                    {% for error in form.months.errors %}
+                    <div class="container-fluid text-red">[{{ error }}]</div>
+                    {% endfor %}
+                </div>
+
+                {{ form.weeks.label(class="text-muted") }}
+                <div class="mb-3 input-group">
+                    <span class="input-group-text">
+                        <i class="bi bi-calendar3"></i>
+                    </span>
+                    {{ form.weeks(class="form-control") }}
+                    {% for error in form.weeks.errors %}
+                    <div class="container-fluid text-red">[{{ error }}]</div>
+                    {% endfor %}
+                </div>
+
+                {{ form.day_of_the_week.label(class="text-muted") }}
+                <div class="mb-3 input-group">
+                    <span class="input-group-text">
+                        <i class="bi bi-calendar2-day-fill"></i>
+                    </span>
+                    {{ form.day_of_the_week(class="form-select") }}
+                    {% for error in form.day_of_the_week.errors %}
+                    <div class="container-fluid text-red">[{{ error }}]</div>
+                    {% endfor %}
+                </div>
+
+                {{ form.days_freq.label(class="text-muted") }}
+                <div class="mb-3 input-group">
+                    <span class="input-group-text">
+                        <i class="bi bi-calendar-date"></i>
+                    </span>
+                    {{ form.days_freq(class="form-control") }}
+                    {% for error in form.days_freq.errors %}
+                    <div class="container-fluid text-red">[{{ error }}]</div>
+                    {% endfor %}
+                </div>
+
+                {{ form.hours.label(class="text-muted") }}
+                <div class="mb-3 input-group">
+                    <span class="input-group-text">
+                        <i class="bi bi-alarm-fill"></i>
+                    </span>
+                    {{ form.hours(class="form-control", placeholder="hours") }}
+                    {% for error in form.hours.errors %}
+                    <div class="container-fluid text-red">[{{ error }}]</div>
+                    {% endfor %}
+
+                    <span class="input-group-text">:</span>
+                    {{ form.minutes(class="form-control", placeholder="minutes") }}
+                    {% for error in form.minutes.errors %}
+                    <div class="container-fluid text-red">[{{ error }}]</div>
+                    {% endfor %}
+                </div>
+
+                <div class="my-4 text-center">
+                    {{ form.submit(class="btn btn-dark text-light") }}
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

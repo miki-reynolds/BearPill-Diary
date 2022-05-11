@@ -1,11 +1,16 @@
 from app import db
 from app.medications import blueprint
 from app.medications.forms import MedForm
-from app.models import Meds
+from app.models import Meds, Reminders
 from app.utils.helper_functions import*
+from app.utils.forms import ReminderForm
+from app.utils.schedule_handlers import send_reminder, scheduler
+
 from flask import render_template, redirect, url_for, flash, current_app, request
 from flask_login import current_user, login_required
+
 from datetime import datetime
+from apscheduler.schedulers.background import BackgroundScheduler
 
 
 @blueprint.route('/member/medications')
@@ -150,4 +155,52 @@ def med_insights_page(id):
     else:
         return redirect(url_for('meds_bp.med_page', id=med.id))
 
+
+# to set reminders
+@blueprint.route('/member/medications/<int:id>/reminder', methods=['POST', 'GET'])
+def med_add_reminder_page(id):
+    med_to_remind = Meds.query.get_or_404(id)
+    form = ReminderForm()
+    if form.validate_on_submit():
+        reminder_to_add = Reminders(name=med_to_remind.medname,
+                                    months=form.months.data,
+                                    weeks=form.weeks.data,
+                                    day_of_the_week=form.day_of_the_week.data,
+                                    days_freq=form.days_freq.data,
+                                    hours=form.hours.data, minutes=form.minutes.data,
+                                    user_reminders_id=int(current_user.id))
+
+        # add reminder to database
+        db.session.add(reminder_to_add)
+        db.session.commit()
+
+        # mapping the relationship between the new reminder and the med
+        med_to_remind.meds_reminders_id = reminder_to_add.id
+
+        # readability
+        month = reminder_to_add.months
+        week = reminder_to_add.weeks
+        day = reminder_to_add.days_freq
+        day_of_week = reminder_to_add.day_of_the_week
+        hour = reminder_to_add.hours
+        minute = reminder_to_add.minutes
+
+        # schedule the execution of the reminder
+        scheduler.add_job(send_reminder, 'cron', args=[current_user, med_to_remind.medname],
+                         month=month, week=week, day=day, day_of_week=day_of_week,
+                         hour=hour, minute=minute, id=str(reminder_to_add.id))
+        scheduler.start()
+
+        flash(f"Successfully set up reminder for {med_to_remind.medname }!", category="success")
+        return redirect(url_for('meds_bp.med_page', id=med_to_remind.id))
+
+    return render_template('reminder_form.html', title='Set Reminder', form=form)
+
+
+# to delete reminders
+@blueprint.route('/member/medications/reminder/<int:id>/delete', methods=['POST', 'GET'])
+def med_delete_reminder_page(id):
+    scheduler.remove_job(str(id))
+    flash(f"Reminder successfully deleted!", category="success")
+    return redirect(url_for('meds_bp.meds_page'))
 
