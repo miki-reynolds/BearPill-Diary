@@ -14,6 +14,8 @@ class Config(object):
     # search functionality (more complex)
     # ELASTICSEARCH_URI = environ.get('ELASTICSEARCH_URI')
 
+    # for heroku
+    LOG_TO_STDOUT = environ.get('LOG_TO_STDOUT')
 
     # for error-handling and sending reminder email
     MAIL_SERVER = 'smtp.gmail.com'
