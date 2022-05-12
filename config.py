@@ -1,6 +1,7 @@
-from os import path, environ
 from dotenv import load_dotenv
 
+
+from os import path, environ
 
 basedir = path.abspath(path.dirname(__file__))
 load_dotenv(path.join(basedir, '.env'))
@@ -18,9 +19,9 @@ class Config(object):
     # for error-handling
     MAIL_SERVER = 'smtp.gmail.com'
     MAIL_PORT = 587 or 465
-    MAIL_USE_TLS = False
-    MAIL_USE_SSL = True
-    MAIL_USERNAME = environ.get('MAIL_USERNAME')
+    MAIL_USE_TLS = True
+    MAIL_USE_SSL = False
+    MAIL_USERNAME = 'thebearpillproject@gmail.com'
     MAIL_PASSWORD = environ.get('MAIL_PASSWORD')
     ADMINS = ['thebearpillproject@gmail.com']
 
