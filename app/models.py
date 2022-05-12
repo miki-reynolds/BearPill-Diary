@@ -85,7 +85,7 @@ Notes: {self.notes}
 # Create a Model for Reminders
 class Reminders(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
-    name = db.Column(db.Text(length=100), nullable=False)
+    item_name = db.Column(db.Text(length=100), nullable=False)
     months = db.Column(db.Integer(), default=1)
     weeks = db.Column(db.Integer(), default=1)
     day_of_the_week = db.Column(db.Integer(), default=0)

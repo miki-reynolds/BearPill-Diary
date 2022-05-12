@@ -1,6 +1,4 @@
 from dotenv import load_dotenv
-
-
 from os import path, environ
 
 basedir = path.abspath(path.dirname(__file__))
@@ -13,10 +11,11 @@ class Config(object):
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     # pagination
     ITEMS_PER_PAGE = 10
-    # search functionality
-    # ELASTICSEARCH_URI = environ.get('ELASTICSEARCH_URI') or 'http://localhost:9200'
+    # search functionality (more complex)
+    # ELASTICSEARCH_URI = environ.get('ELASTICSEARCH_URI')
 
-    # for error-handling
+
+    # for error-handling and sending reminder email
     MAIL_SERVER = 'smtp.gmail.com'
     MAIL_PORT = 587 or 465
     MAIL_USE_TLS = True
@@ -24,6 +23,7 @@ class Config(object):
     MAIL_USERNAME = 'thebearpillproject@gmail.com'
     MAIL_PASSWORD = environ.get('MAIL_PASSWORD')
     ADMINS = ['thebearpillproject@gmail.com']
+
 
 
 class ProdConfig(Config):

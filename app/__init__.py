@@ -3,8 +3,9 @@ from config import Config
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
+import os
 import logging
-from logging.handlers import SMTPHandler
+from logging.handlers import SMTPHandler, RotatingFileHandler
 from flask_migrate import Migrate
 from flask_mail import Mail
 
@@ -51,8 +52,8 @@ def create_app(config_class=Config):
     app.register_blueprint(errors_blueprint)
     app.register_blueprint(utils_blueprint)
 
-    # emails sent to admins in case of errors
     if not app.debug and not app.testing:
+        # emails sent to admins in case of errors
         if app.config['MAIL_SERVER']:
             auth = None
             if app.config['MAIL_USERNAME'] or app.config['MAIL_PASSWORD']:
@@ -64,7 +65,7 @@ def create_app(config_class=Config):
             mail_handler = SMTPHandler(
                 mailhost=(app.config['MAIL_SERVER'], app.config['MAIL_PORT']),
                 fromaddr='no-reply@' + app.config['MAIL_SERVER'],
-                toaddrs=app.config['ADMINS'], subject='Microblog Failure',
+                toaddrs=app.config['ADMINS'], subject='BearPills Project Failure',
                 credentials=auth, secure=secure)
             mail_handler.setLevel(logging.ERROR)
             app.logger.addHandler(mail_handler)
