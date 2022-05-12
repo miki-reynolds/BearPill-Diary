@@ -6,7 +6,7 @@ load_dotenv(path.join(basedir, '.env'))
 
 
 class Config(object):
-    SECRET_KEY = environ.get('SECRET_KEY') or '1f7d46f72fff29293ec462cc'
+    SECRET_KEY = environ.get('SECRET_KEY')
     SQLALCHEMY_DATABASE_URI = environ.get('DATABASE_URL') or 'sqlite:///database.db'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     # pagination
@@ -22,10 +22,9 @@ class Config(object):
     MAIL_PORT = 587 or 465
     MAIL_USE_TLS = True
     MAIL_USE_SSL = False
-    MAIL_USERNAME = 'thebearpillproject@gmail.com'
+    MAIL_USERNAME = environ.get('MAIL_USERNAME')
     MAIL_PASSWORD = environ.get('MAIL_PASSWORD')
-    ADMINS = ['thebearpillproject@gmail.com']
-
+    ADMINS = [environ.get('ADMINS')]
 
 
 class ProdConfig(Config):
