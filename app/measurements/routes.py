@@ -165,7 +165,7 @@ def measurement_update_page(id):
     form = MeasurementForm()
     # to update the existing form
     if form.validate_on_submit():
-        measurement_to_update.measurement_name = form.measurement_name.data
+        measurement_to_update.measurement_name = form.measurement_name.data.upper()
         measurement_to_update.category = form.category.data
         db.session.add(measurement_to_update)
         db.session.commit()

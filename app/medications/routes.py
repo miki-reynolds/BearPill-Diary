@@ -43,7 +43,7 @@ def med_add_page():
     form = MedForm()
     if form.validate_on_submit():
         timestamp = datetime.now()
-        medname = form.medname.data
+        medname = form.medname.data.upper()
         new_med = Meds(medname=medname, dose=form.dose.data, directions=form.directions.data,
                        purpose=form.purpose.data, timestamp=timestamp, notes=form.notes.data,
                        category=form.category.data,

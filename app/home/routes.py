@@ -22,12 +22,12 @@ def search():
     q = g.search_form.q.data
 
     # query the db
-    meds_by_name = Meds.query.filter(Meds.medname.like('%' + q + '%')).order_by(Meds.medname)
+    meds_by_name = Meds.query.filter(Meds.medname.like('%' + q.upper() + '%')).order_by(Meds.medname)
     meds_by_dose = Meds.query.filter(Meds.dose.like('%' + q + '%')).order_by(Meds.medname)
     meds_by_directions = Meds.query.filter(Meds.directions.like('%' + q + '%')).order_by(Meds.medname)
     meds_by_purpose = Meds.query.filter(Meds.purpose.like('%' + q + '%')).order_by(Meds.medname)
-    measurements = Measurements.query.filter(Measurements.measurement_name.like('%' + q + '%')).order_by(Measurements.measurement_name)
-    allergies = Allergies.query.filter(Allergies.allergy.like('%' + q + '%')).order_by(Allergies.allergy)
+    measurements = Measurements.query.filter(Measurements.measurement_name.like('%' + q.upper() + '%')).order_by(Measurements.measurement_name)
+    allergies = Allergies.query.filter(Allergies.allergy.like('%' + q.upper() + '%')).order_by(Allergies.allergy)
 
     total_results = len(meds_by_name.all()) + len(meds_by_dose.all()) + len(meds_by_directions.all()) \
                     + len(meds_by_purpose.all()) + len(measurements.all()) + len(allergies.all())
