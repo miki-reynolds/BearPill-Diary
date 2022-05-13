@@ -7,7 +7,10 @@ load_dotenv(path.join(basedir, '.env'))
 
 class Config(object):
     SECRET_KEY = environ.get('SECRET_KEY')
-    SQLALCHEMY_DATABASE_URI = environ.get('DATABASE_URL') or 'sqlite:///database.db'
+    # the replacement happens because Heroku hasn't updated the postgres, which SQLAlchemy stopped supporting
+    SQLALCHEMY_DATABASE_URI = environ.get('DATABASE_URL', '').replace(
+        'postgres://', 'postgresql://') or \
+        'sqlite:///' + path.join(basedir, 'app.db')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     # pagination
     ITEMS_PER_PAGE = 10
