@@ -61,12 +61,12 @@ class User(db.Model, UserMixin):
 # Create a Model for Medications
 class Meds(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
-    medname = db.Column(db.Text(), nullable=False,unique=True)
-    dose = db.Column(db.Text(), nullable=False)
-    directions = db.Column(db.Text(), nullable=False)
-    purpose = db.Column(db.Text())
+    medname = db.Column(db.String(), nullable=False,unique=True)
+    dose = db.Column(db.String(), nullable=False)
+    directions = db.Column(db.String(), nullable=False)
+    purpose = db.Column(db.String())
     timestamp = db.Column(db.DateTime, index=True, nullable=False)
-    notes = db.Column(db.Text())
+    notes = db.Column(db.String())
     category = db.Column(db.String(), nullable=False)
     user_meds_id = db.Column(db.Integer(), db.ForeignKey('user.id'))
 
@@ -85,7 +85,7 @@ Notes: {self.notes}
 # Create a Model for Reminders
 class Reminders(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
-    item_name = db.Column(db.Text(length=100), nullable=False)
+    item_name = db.Column(db.String(length=100), nullable=False)
     months = db.Column(db.Integer(), default=1)
     weeks = db.Column(db.Integer(), default=1)
     day_of_the_week = db.Column(db.Integer(), default=0)
@@ -102,7 +102,7 @@ class Reminders(db.Model):
 # Create a Model for Measurements
 class Measurements(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
-    measurement_name = db.Column(db.Text(length=100), unique=True, nullable=False)
+    measurement_name = db.Column(db.String(length=100), unique=True, nullable=False)
     category = db.Column(db.String(), nullable=False)
     # mapping the measurement names to users
     user_measurements_id = db.Column(db.Integer(), db.ForeignKey('user.id'))
@@ -162,8 +162,8 @@ class MeasurementTripleNums(db.Model):
 # Create a Model for Allergies
 class Allergies(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
-    allergy = db.Column(db.Text(length=200), nullable=False)
-    reactions = db.Column(db.Text(length=200))
+    allergy = db.Column(db.String(length=200), nullable=False)
+    reactions = db.Column(db.String(length=200))
     category = db.Column(db.String(), nullable=False)
     user_allergies_id = db.Column(db.Integer(), db.ForeignKey('user.id'))
 
