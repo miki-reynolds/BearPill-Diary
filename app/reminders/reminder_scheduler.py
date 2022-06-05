@@ -1,7 +1,7 @@
 from app.reminders.google_api import Create_Service, convert_to_RFC_datetime
 
 
-CLIENT_SECRET_FILE = 'app/reminders/client_secret_reminders.json'
+CLIENT_SECRET_FILE = 'app/reminders/google-credentials.json'
 API_NAME = 'calendar'
 API_VERSION = 'v3'
 SCOPES = ['https://www.googleapis.com/auth/calendar']
