@@ -1,5 +1,97 @@
 <!--------------------------------------MEDICATIONS-------------------------------------->
 
+{% macro med_form(form) %}
+<div class="row justify-content-center text-muted mt-3">
+        <div class="col-lg-6">
+            <form action="" method="post">
+                {{ form.hidden_tag() }}
+
+                {{ form.medname.label(class="text-muted") }}
+                <div class="mb-3 input-group">
+                    <span class="input-group-text">
+                        <i class="bi bi-bandaid-fill"></i>
+                    </span>
+                    {{ form.medname(class="form-control") }}
+                    {% for error in form.medname.errors %}
+                    <div class="container-fluid text-red">[{{ error }}]</div>
+                    {% endfor %}
+                </div>
+
+                {{ form.dose.label(class="text-muted") }}
+                <div class="mb-3 input-group">
+                    <span class="input-group-text">
+                        <i class="bi bi-patch-exclamation-fill"></i>
+                    </span>
+                    {{ form.dose(class="form-control") }}
+                    {% for error in form.dose.errors %}
+                    <div class="container-fluid text-red">[{{ error }}]</div>
+                    {% endfor %}
+                </div>
+
+                {{ form.directions.label(class="text-muted") }}
+                <div class="mb-3 input-group">
+                    <span class="input-group-text">
+                        <i class="bi bi-alarm-fill"></i>
+                    </span>
+                    {{ form.directions(class="form-control") }}
+                    {% for error in form.directions.errors %}
+                    <div class="container-fluid text-red">[{{ error }}]</div>
+                    {% endfor %}
+                </div>
+
+                {{ form.purpose.label(class="text-muted") }}
+                <div class="mb-3 input-group">
+                    <span class="input-group-text">
+                        <i class="bi bi-patch-question-fill"></i>
+                    </span>
+                    {{ form.purpose(class="form-control") }}
+                    {% for error in form.purpose.errors %}
+                    <div class="container-fluid text-red">[{{ error }}]</div>
+                    {% endfor %}
+                </div>
+
+                {{ form.timestamp.label(class="text-muted") }}
+                <div class="mb-3 input-group">
+                    <span class="input-group-text">
+                        <i class="bi bi-calendar3"></i>
+                    </span>
+                    {{ form.timestamp(class="form-control") }}
+                    {% for error in form.timestamp.errors %}
+                    <div class="container-fluid text-red">[{{ error }}]</div>
+                    {% endfor %}
+                </div>
+
+                {{ form.notes.label(class="text-muted") }}
+                <div class="mb-3 input-group">
+                    <span class="input-group-text">
+                        <i class="bi bi-stickies-fill"></i>
+                    </span>
+                    {{ form.notes(class="form-control") }}
+                    {% for error in form.notes.errors %}
+                    <div class="container-fluid text-red;">[{{ error }}]</div>
+                    {% endfor %}
+                </div>
+
+                {{ form.category.label(class="text-muted") }}
+                <div class="mb-3 input-group">
+                    <span class="input-group-text">
+                        <i class="bi bi-bookmark-heart"></i>
+                    </span>
+                    {{ form.category(class="form-select") }}
+                    {% for error in form.category.errors %}
+                    <div class="container-fluid text-red">[{{ error }}]</div>
+                    {% endfor %}
+                </div>
+
+                <div class="my-4 text-center">
+                    {{ form.submit(class="btn btn-dark text-light") }}
+                </div>
+            </form>
+        </div>
+    </div>
+{% endmacro %}
+
+
 {% macro med_image(med) %}
     <!--User can set image for each med, if none, a placeholder-->
     {% if "vitamin" in med.medname or "supplement" in med.medname %}
@@ -15,14 +107,88 @@
 
 {% macro med_info(med) %}
     <!--Info for each MED-->
-    <h5 class="card-header text-center py-3 bg-muted">{{ med.medname | upper }}</h5>
+    <h5 class="card-header text-center py-3 text-muted bg-muted"><b>{{ med.medname | upper }}</b> ({{ med.category }})</h5>
 
     <ul class="list-group list-group-flush">
-        <li class="list-group-item">Dosage: {{ med.dose }} | Directions: {{ med.directions | capitalize }}</li>
-        <li class="list-group-item">Category: {{ med.category }}</li>
-        <li class="list-group-item">Purpose: {{ med.purpose }}</li>
-        <li class="list-group-item">Notes: {{ med.notes }}</li>
+        <li class="list-group-item text-muted">
+            <b>Dosage:</b> {{ med.dose }} | <b>Directions:</b> {{ med.directions | capitalize }}</li>
+        <li class="list-group-item text-muted">
+            <b>Purpose:</b> {{ med.purpose }}
+        </li>
+        <li class="list-group-item text-muted"><b>Reminder(s):</b> <i class="bi bi-alarm"></i>
+            <a class="text-secondary" href="{{url_for('meds_bp.med_add_reminder_page', id=med.id) }}">Create</a>
+
+            {% with reminders = med.meds_reminders.all() %}
+            {% if reminders %}
+                {{ erase_reminders(med.id) }}
+                {{ view_reminders(reminders) }}
+            {% endif %}
+            {% endwith %}
+        </li>
+        <li class="list-group-item text-muted">
+            <b>Notes:</b> {{ med.notes }}
+        </li>
     </ul>
+{% endmacro %}
+
+
+<!--function to view all reminders-->
+{% macro view_reminders(reminders) %}
+<!-- Button trigger modal -->
+<a data-bs-toggle="modal" data-bs-target="#reminders" href="#">See More</a>
+
+<!-- Modal -->
+<div class="modal fade" id="reminders" tabindex="-1" aria-labelledby="reminders_all" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="reminders_all">All Reminders</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+          <p class="text-muted">
+              You have {{ reminders | length }} reminder(s).<br>
+              {% for reminder in reminders %}
+                    <a class="text-secondary" href="{{url_for('meds_bp.med_update_reminder_page', id=reminder.id) }}">Update</a>
+                    <a class="text-secondary" href="{{url_for('meds_bp.med_delete_reminder_page', id=reminder.id) }}">Delete</a>
+                    - {{ reminder.freq_interval }} {{ reminder.freq }} ending on {{ reminder.end_date | timestring }}
+                    ({{ reminder.freq_byday }}) <br>
+              {% endfor %}
+            </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endmacro %}
+
+
+<!--function to erase all reminders-->
+{% macro erase_reminders(med_id) %}
+<!--    Button trigger modal for DEL ALL;-->
+<a class="text-danger" data-bs-toggle="modal" data-bs-target="#delete-all" href="#">Erase All</a>
+<!-- Modal -->
+<div class="modal fade" id="delete-all" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="delete-all-label" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="delete-all-label">Erase All?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete all? Data deleted won't be recovered anymore...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <a class="btn btn-small btn-danger" href="{{ url_for('meds_bp.med_delete_reminders_page', id=med_id) }}">
+                    <i class="bi bi-trash3-fill"></i> Erase
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
 {% endmacro %}
 
 
@@ -59,7 +225,7 @@
     <div class="modal fade" id="delete-one-sm" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="delete-one-sm-label" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-            <div class="modal-header"><h5 class="modal-title" id="delete-one-sm-label">Delete {{ med.med_name | capitalize }}?</h5>
+            <div class="modal-header"><h5 class="modal-title" id="delete-one-sm-label">Delete {{ med.medname | capitalize }}?</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">Are you sure you want to delete this? Data deleted won't be recovered anymore...
@@ -77,15 +243,15 @@
 
 {% macro med_insights_warnings(warnings) %}
     {% if warnings %}
-    <table id="warnings" class="table table-hover table-striped table-success text-dark">
+    <table id="warnings" class="table table-hover table-striped table-success">
       <thead>
-        <tr class="text-center">
-          <th scope="col" >WARNINGS</th>
+        <tr class="text-center text-muted">
+          <th scope="col">WARNINGS</th>
         </tr>
       </thead>
       <tbody>
         {% for info in warnings %}
-        <tr>
+        <tr class="text-muted">
           <td scope="row">{{ info }}</td>
         </tr>
         {% endfor %}
@@ -97,15 +263,15 @@
 
 {% macro med_insights_boxed_warnings(boxed_warnings) %}
     {% if boxed_warnings %}
-    <table id="boxed_warnings" class="table table-hover table-striped table-success text-dark">
+    <table id="boxed_warnings" class="table table-hover table-striped table-success text-muted">
       <thead>
-        <tr class="text-center">
+        <tr class="text-center text-muted">
           <th scope="col" >BOXED WARNINGS</th>
         </tr>
       </thead>
       <tbody>
         {% for info in boxed_warnings %}
-        <tr>
+        <tr class="text-muted">
           <td scope="row">{{ info }}</td>
         </tr>
         {% endfor %}
@@ -117,15 +283,15 @@
 
 {% macro med_insights_reactions(reactions) %}
     {% if reactions %}
-    <table id="reactions" class="table table-hover table-striped table-success text-dark">
+    <table id="reactions" class="table table-hover table-striped table-success text-muted">
       <thead>
-        <tr class="text-center">
+        <tr class="text-center text-muted">
           <th scope="col" >ADVERSE REACTIONS</th>
         </tr>
       </thead>
       <tbody>
         {% for info in reactions %}
-        <tr>
+        <tr class="text-muted">
           <td scope="row">{{ info }}</td>
         </tr>
         {% endfor %}
@@ -137,9 +303,9 @@
 
 {% macro med_insights_events(events) %}
     {% if events %}
-    <table id="events" class="table table-hover table-striped table-success text-dark">
+    <table id="events" class="table table-hover table-striped table-success text-muted">
         <thead>
-          <tr class="text-center">
+          <tr class="text-center text-muted">
             <th scope="col" >
               Reactions below were reported while patients were taking the drug. Please note that these reports are per
               incident and often reference multiple drugs, meaning the drug you're looking for may not be causally
@@ -149,7 +315,7 @@
         </thead>
         <tbody>
           {% for event in events %}
-          <tr>
+          <tr class="text-muted">
             <td scope="row">{{ event["term"] }} has been reported {{ event["count"] }} times.</td>
           </tr>
           {% endfor %}

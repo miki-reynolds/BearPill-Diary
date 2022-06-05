@@ -68,9 +68,10 @@ class Meds(db.Model):
     timestamp = db.Column(db.DateTime, index=True, nullable=False)
     notes = db.Column(db.String())
     category = db.Column(db.String(), nullable=False)
-    user_meds_id = db.Column(db.Integer(), db.ForeignKey('user.id'))
 
-    meds_reminders_id = db.Column(db.Integer(), db.ForeignKey('reminders.id'))
+    user_meds_id = db.Column(db.Integer(), db.ForeignKey('user.id'))
+    meds_reminders = db.relationship('Reminders', backref='meds_reminders', lazy='dynamic')
+
 
     def __repr__(self):
         return f'''
@@ -85,18 +86,29 @@ Notes: {self.notes}
 # Create a Model for Reminders
 class Reminders(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
-    item_name = db.Column(db.String(length=100), nullable=False)
-    months = db.Column(db.Integer(), default=1)
-    weeks = db.Column(db.Integer(), default=1)
-    day_of_the_week = db.Column(db.Integer(), default=0)
-    days_freq = db.Column(db.Integer(), default=1)
-    hours = db.Column(db.Integer(), nullable=False)
-    minutes = db.Column(db.Integer(), nullable=False)
+
+    event_id = db.Column(db.String(), nullable=False)
+    summary = db.Column(db.String(length=100), nullable=False)
+    description = db.Column(db.String(length=100))
+    # add a person to share the event/reminder with
+    attendee_name = db.Column(db.String(length=50))
+    attendee_email = db.Column(db.String(length=50))
+    '''
+    The recurrence field contains an array of strings representing one or several RRULE, RDATE or EXDATE
+    '''
+    # RDATE property: specifies additional dates or date-times when the event occurrences should happen
+    start_date = db.Column(db.DateTime, index=True, nullable=False)
+    end_date = db.Column(db.DateTime, index=True, nullable=False)
+
+    # RRULE property: rule for repeating the event
+    freq = db.Column(db.String())
+    freq_interval = db.Column(db.Integer())
+    freq_byday = db.Column(db.String(length=100))
 
     # mapping
     user_reminders_id = db.Column(db.Integer(), db.ForeignKey('user.id'))
-    meds_reminders = db.relationship('Meds', backref='meds_reminders', lazy='dynamic')
-    measurements_reminders = db.relationship('Measurements', backref='measurements_reminders', lazy='dynamic')
+    meds_reminders_id = db.Column(db.Integer(), db.ForeignKey('meds.id'))
+    measurements_reminders_id = db.Column(db.Integer(), db.ForeignKey('measurements.id'))
 
 
 # Create a Model for Measurements
@@ -110,8 +122,7 @@ class Measurements(db.Model):
     measurement_nums1 = db.relationship('MeasurementSingleNums', backref='measurement_nums1', lazy='dynamic')
     measurement_nums2 = db.relationship('MeasurementDoubleNums', backref='measurement_nums2', lazy='dynamic')
     measurement_nums3 = db.relationship('MeasurementTripleNums', backref='measurement_nums3', lazy='dynamic')
-
-    measurements_reminders_id = db.Column(db.Integer(), db.ForeignKey('reminders.id'))
+    measurements_reminders = db.relationship('Reminders', backref='measurements_reminders', lazy='dynamic')
 
 
 # Create a Model for Measurements that contain only 1 number
@@ -120,7 +131,7 @@ class MeasurementSingleNums(db.Model):
     category = db.Column(db.String(), nullable=False)
     number = db.Column(db.Integer(), index=True, nullable=False)
     timestamp = db.Column(db.DateTime, index=True, nullable=False)
-
+    # mapping
     user_measurements1_id = db.Column(db.Integer(), db.ForeignKey('user.id'))
     measurement_nums1_id = db.Column(db.Integer(), db.ForeignKey('measurements.id'))
 
@@ -135,7 +146,7 @@ class MeasurementDoubleNums(db.Model):
     upper_number = db.Column(db.Integer(), index=True, nullable=False)
     lower_number = db.Column(db.Integer(), index=True, nullable=False)
     timestamp = db.Column(db.DateTime, index=True, nullable=False)
-
+    # mapping
     user_measurements2_id = db.Column(db.Integer(), db.ForeignKey('user.id'))
     measurement_nums2_id = db.Column(db.Integer(), db.ForeignKey('measurements.id'))
 
@@ -151,7 +162,7 @@ class MeasurementTripleNums(db.Model):
     second_number = db.Column(db.Integer(), index=True, nullable=False)
     third_number = db.Column(db.Integer(), index=True, nullable=False)
     timestamp = db.Column(db.DateTime, index=True, nullable=False)
-
+    # mapping
     user_measurements3_id = db.Column(db.Integer(), db.ForeignKey('user.id'))
     measurement_nums3_id = db.Column(db.Integer(), db.ForeignKey('measurements.id'))
 
@@ -165,6 +176,7 @@ class Allergies(db.Model):
     allergy = db.Column(db.String(length=200), nullable=False)
     reactions = db.Column(db.String(length=200))
     category = db.Column(db.String(), nullable=False)
+    # mapping
     user_allergies_id = db.Column(db.Integer(), db.ForeignKey('user.id'))
 
     def __repr__(self):

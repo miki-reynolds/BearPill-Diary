@@ -6,5 +6,5 @@ from wtforms.validators import Length
 class AllergyForm(FlaskForm):
     allergy = StringField(label='Allergies:', validators=[Length(max=255)])
     reactions = StringField(label='Reactions:', validators=[Length(max=255)])
-    category = SelectField(label='Category (current or past):', choices=[(1, 'Current'), (2, 'Past')])
+    category = SelectField(label='Category (current or past):', choices=[('Current', 'Current'), ('Past', 'Past')])
     submit = SubmitField(label="Ready to submit?")

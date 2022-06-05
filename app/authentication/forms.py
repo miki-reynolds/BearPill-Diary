@@ -7,7 +7,6 @@ from wtforms.validators import DataRequired, Length, EqualTo, Email, ValidationE
 class UserForm(FlaskForm):
     def validate_username(self, username_to_check):
         user = User.query.filter_by(username=username_to_check.data).first()
-# first() because it either has 0-F or 1-T.
         if user:
             raise ValidationError('This username already exists :( Please try another one.')
 
@@ -20,7 +19,7 @@ class UserForm(FlaskForm):
     email_address = StringField(label="Email Address:", validators=[Email(), DataRequired()])
     password1 = PasswordField(label="Password:", validators=[Length(min=6), DataRequired()])
     password2 = PasswordField(label="Confirm Password:", validators=[EqualTo('password1'), DataRequired()])
-    submit = SubmitField(label="Create Diary")
+    submit = SubmitField()
 
 
 class LoginForm(FlaskForm):
@@ -28,6 +27,11 @@ class LoginForm(FlaskForm):
     password = PasswordField(label="Password:", validators=[DataRequired()])
     remember_me = BooleanField(label="Remember me")
     submit = SubmitField(label="Sign In")
+
+
+class ChangePasswordRequestForm(FlaskForm):
+    password = PasswordField(label="Confirm Your Current Password:", validators=[Length(min=6), DataRequired()])
+    submit = SubmitField()
 
 
 class ResetPasswordRequestForm(FlaskForm):

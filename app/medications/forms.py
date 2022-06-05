@@ -18,7 +18,7 @@ class MedForm(FlaskForm):
     purpose = StringField(label='Purpose:')
     timestamp = DateTimeField(label='Date Added:', default=datetime.now())
     notes = StringField(label='Notes:')
-    category = SelectField(label='Category (current or past):', choices=[(1, 'Current'), (2, 'Past')])
+    category = SelectField(label='Category (current or past):', choices=[('Current', 'Current'), ('Past', 'Past')])
     submit = SubmitField(label="Ready to submit?")
 
 

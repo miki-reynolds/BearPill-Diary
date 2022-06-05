@@ -1,14 +1,18 @@
-import app
 from app import db
+
 from app.measurements import blueprint
 from app.measurements.forms import MeasurementForm, MeasurementSingleForm, MeasurementDoubleForm, MeasurementTripleForm
-from app.models import Measurements, MeasurementSingleNums, MeasurementDoubleNums, MeasurementTripleNums
+from app.models import Measurements, MeasurementSingleNums, MeasurementDoubleNums, MeasurementTripleNums, Reminders
+
+from app.reminders.forms import ReminderForm
+from app.reminders.reminder_scheduler import *
+
 from flask import render_template, redirect, url_for, flash, request, current_app
 from flask_login import current_user, login_required
 from datetime import datetime
 
 
-# todo trend graph
+# Measurements Summary
 @blueprint.route('/member/measurements')
 @login_required
 def measurements_page():
@@ -27,21 +31,35 @@ def measurements_page():
                            measurements=measurements.items, prev_url=prev_url, next_url=next_url)
 
 
+# Measurement Page with Number Table and Chart
 @blueprint.route('/member/measurements/<int:id>')
 @login_required
 def measurement_page(id):
     measurement = Measurements.query.get(id)
     if measurement.category == '1':
         numbers = measurement.measurement_nums1.all()
-        return render_template('measurement.html', measurement=measurement, numbers=numbers)
+        timestamps = [measurement.timestamp.strftime("%m/%d") for measurement in numbers]
+        return render_template('measurement.html', measurement=measurement, numbers=numbers, timestamps=timestamps)
+
     elif measurement.category == '2':
         numbers = measurement.measurement_nums2.all()
-        return render_template('measurement.html', measurement=measurement, numbers=numbers)
+        uppernums = [measurement.upper_number for measurement in numbers]
+        lowernums = [measurement.lower_number for measurement in numbers]
+        timestamps = [measurement.timestamp.strftime("%m/%d") for measurement in numbers]
+        return render_template('measurement.html', measurement=measurement, timestamps=timestamps,
+                               numbers=numbers, uppernums=uppernums, lowernums=lowernums)
+
     elif measurement.category == '3':
         numbers = measurement.measurement_nums3.all()
-        return render_template('measurement.html', measurement=measurement, numbers=numbers)
+        firstnums = [number.first_number for number in numbers]
+        secondnums = [number.second_number for number in numbers]
+        thirdnums = [number.third_number for number in numbers]
+        timestamps = [measurement.timestamp.strftime("%m/%d") for measurement in numbers]
+        return render_template('measurement.html', measurement=measurement, timestamps=timestamps, numbers=numbers,
+                               firstnums=firstnums, secondnums=secondnums, thirdnums=thirdnums)
 
 
+# Add Measurement
 @blueprint.route('/member/measurements/add', methods=['POST', 'GET'])
 @login_required
 def measurement_add_page():
@@ -80,6 +98,7 @@ def measurement_add_page():
     return render_template('measurement_add.html', title='Add Measurements', form=form)
 
 
+# Add Single Measurement
 @blueprint.route('/member/measurements/add/<int:id>/single', methods=['POST', 'GET'])
 @login_required
 def measurement_add_single_page(id):
@@ -104,6 +123,7 @@ def measurement_add_single_page(id):
     return render_template('measurement_add_single.html', title='Add Single Numbers', form=form)
 
 
+# Add Double Measurement
 @blueprint.route('/member/measurements/add/<int:id>/double', methods=['POST', 'GET'])
 @login_required
 def measurement_add_double_page(id):
@@ -130,6 +150,7 @@ def measurement_add_double_page(id):
     return render_template('measurement_add_double.html', title='Add Double Numbers', form=form)
 
 
+# Add Triple Measurement
 @blueprint.route('/member/measurements/add/<int:id>/triple', methods=['POST', 'GET'])
 @login_required
 def measurement_add_triple_page(id):
@@ -158,6 +179,7 @@ def measurement_add_triple_page(id):
     return render_template('measurement_add_triple.html', title='Add Triple Numbers', form=form)
 
 
+# Update Measurement
 @blueprint.route('/member/measurements/<int:id>/update')
 @login_required
 def measurement_update_page(id):
@@ -181,6 +203,7 @@ def measurement_update_page(id):
     return redirect(url_for('measurements_bp.measurements_page'))
 
 
+# Update Single Measurement
 @blueprint.route('/member/measurements/update/single/<int:id>', methods=['POST', 'GET'])
 @login_required
 def measurement_update_single_page(id):
@@ -204,6 +227,7 @@ def measurement_update_single_page(id):
     return redirect(url_for('measurements_bp.measurements_page'))
 
 
+# Update Double Measurement
 @blueprint.route('/member/measurements/update/double/<int:id>', methods=['POST', 'GET'])
 @login_required
 def measurement_update_double_page(id):
@@ -230,6 +254,7 @@ def measurement_update_double_page(id):
     return redirect(url_for('measurements_bp.measurements_page'))
 
 
+# Update Triple Measurement
 @blueprint.route('/member/measurements/update/triple/<int:id>', methods=['POST', 'GET'])
 @login_required
 def measurement_update_triple_page(id):
@@ -259,6 +284,7 @@ def measurement_update_triple_page(id):
     return redirect(url_for('measurements_bp.measurements_page'))
 
 
+# Delete Specific Number on Specific Measurement
 @blueprint.route('/member/measurements/<name>/delete/<int:id>')
 @login_required
 def measurement_delete_number_page(name, id):
@@ -285,6 +311,7 @@ def measurement_delete_number_page(name, id):
         return redirect(url_for('measurements_bp.measurements_page'))
 
 
+# Delete Measurement
 @blueprint.route('/member/measurements/<int:id>/delete')
 @login_required
 def measurement_delete_page(id):
@@ -310,10 +337,10 @@ def measurement_delete_page(id):
         return redirect(url_for('measurements_bp.measurements_page'))
 
 
+# Delete Measurements
 @blueprint.route('/member/measurements/delete')
 @login_required
 def measurements_delete_page():
-
     try:
         db.session.query(Measurements).filter_by(user_measurements_id=current_user.id).delete()
         db.session.query(MeasurementSingleNums).filter_by(user_measurements1_id=current_user.id).delete()
@@ -328,3 +355,112 @@ def measurements_delete_page():
         return redirect(url_for('measurements_bp.measurements_page'))
 
 
+# Create reminder
+@blueprint.route('/member/measurements/<int:id>/reminders', methods=['POST', 'GET'])
+@login_required
+def measurement_add_reminder_page(id):
+    measurement_to_remind = Measurements.query.get_or_404(id)
+    form = ReminderForm()
+    if form.validate_on_submit():
+        form.summary.data = measurement_to_remind.measurement_name
+        summary = measurement_to_remind.measurement_name
+        description = form.description.data
+        start_date = form.start_date.data
+        end_date = form.end_date.data
+        freq = form.freq.data
+        freq_interval = form.freq_interval.data
+
+        # stringtify freq_byday (list)
+        freq_byday = ",".join([str(day) for day in form.freq_byday.data])
+
+        # create reminder
+        reminder_to_create = create_reminder(summary, description, start_date, end_date,
+                                            freq, freq_interval, freq_byday)
+
+        # adding reminder to database
+        reminder_to_add_to_db = Reminders(event_id=reminder_to_create['id'],
+                                    summary=summary, description=description,
+                                    start_date=start_date, end_date=end_date,
+                                    freq=freq, freq_interval=freq_interval, freq_byday=freq_byday,
+                                    user_reminders_id=current_user.id,
+                                    measurements_reminders_id=measurement_to_remind.id)
+        # add reminder to database
+        db.session.add(reminder_to_add_to_db)
+        db.session.commit()
+
+        flash(f"Successfully set up reminder for {measurement_to_remind.measurement_name}!", category="success")
+        return redirect(url_for('measurements_bp.measurements_page'))
+
+    form.summary.data = measurement_to_remind.measurement_name
+
+    return render_template('reminder_add.html', title='Create Reminder', form=form)
+
+
+# Update reminder
+@blueprint.route('/member/measurements/reminders/<int:id>', methods=['POST', 'GET'])
+@login_required
+def measurement_update_reminder_page(id):
+    reminder_to_update = Reminders.query.get_or_404(id)
+    form = ReminderForm()
+    if form.validate_on_submit():
+        summary = reminder_to_update.summary
+        description = form.description.data
+        start_date = form.start_date.data
+        end_date = form.end_date.data
+        freq = form.freq.data
+        freq_interval = form.freq_interval.data
+        # stringtify freq_byday (list)
+        freq_byday = ",".join([str(day) for day in form.freq_byday.data])
+
+        # update reminder
+        reminder_to_update = update_reminder(reminder_to_update.event_id, summary, description,
+                                             start_date, end_date, freq, freq_interval, freq_byday)
+
+        # add reminder to database
+        db.session.add(reminder_to_update)
+        db.session.commit()
+
+        flash(f"{reminder_to_update.summary} successfully updated :)", category="success")
+        return redirect(url_for('measurements_bp.measurement_page'))
+
+    if current_user.id == reminder_to_update.user_reminders_id:
+        form.summary.data = reminder_to_update.summary
+        form.description.data = reminder_to_update.description
+        form.start_date.data = reminder_to_update.start_date
+        form.end_date.data = reminder_to_update.end_date
+        form.freq.data = reminder_to_update.freq
+        form.freq_interval.data = reminder_to_update.freq_interval
+        form.freq_byday.data = reminder_to_update.freq_byday
+        return render_template('reminder_update.html', form=form, id=reminder_to_update.id)
+
+    return redirect(url_for('measurements_bp.measurements_page'))
+
+
+# Delete individual reminder
+@blueprint.route('/member/measurements/reminders/<int:id>/delete', methods=['POST', 'GET'])
+@login_required
+def measurement_delete_reminder_page(id):
+    reminder_to_delete = Reminders.query.get_or_404(id)
+    try:
+        db.session.delete(reminder_to_delete)
+        db.session.commit()
+        flash("Reminder successfully deleted!", category="success")
+        return redirect(url_for('measurements_bp.measurements_page'))
+    except:
+        flash("Whoops, some unexpected error has occurred... Please try again :(", category="danger")
+        return redirect(url_for('measurements_bp.measurements_page'))
+
+
+# Delete all reminders
+@blueprint.route('/member/measurements/<int:id>/reminders/delete', methods=['POST', 'GET'])
+@login_required
+def measurement_delete_reminders_page(id):
+    measurement_to_delete_reminders = Measurements.query.get_or_404(id)
+    try:
+        db.session.query(Reminders).filter_by(summary=measurement_to_delete_reminders.measurement_name).delete()
+        db.session.commit()
+        flash(f"All {measurement_to_delete_reminders.measurement_name}'s reminders successfully deleted!", category="success")
+        return redirect(url_for('measurements_bp.measurement_page', id=measurement_to_delete_reminders.id))
+    except:
+        flash("Whoops, some unexpected error has occurred... Please try again :(", category="danger")
+        return redirect(url_for('measurements_bp.measurements_page'))

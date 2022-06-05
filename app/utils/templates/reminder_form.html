@@ -38,24 +38,13 @@
                     {% endfor %}
                 </div>
 
-                {{ form.day_of_the_week.label(class="text-muted") }}
-                <div class="mb-3 input-group">
-                    <span class="input-group-text">
-                        <i class="bi bi-calendar2-day-fill"></i>
-                    </span>
-                    {{ form.day_of_the_week(class="form-select") }}
-                    {% for error in form.day_of_the_week.errors %}
-                    <div class="container-fluid text-red">[{{ error }}]</div>
-                    {% endfor %}
-                </div>
-
-                {{ form.days_freq.label(class="text-muted") }}
+                {{ form.days.label(class="text-muted") }}
                 <div class="mb-3 input-group">
                     <span class="input-group-text">
                         <i class="bi bi-calendar-date"></i>
                     </span>
-                    {{ form.days_freq(class="form-control") }}
-                    {% for error in form.days_freq.errors %}
+                    {{ form.days(class="form-control") }}
+                    {% for error in form.days.errors %}
                     <div class="container-fluid text-red">[{{ error }}]</div>
                     {% endfor %}
                 </div>

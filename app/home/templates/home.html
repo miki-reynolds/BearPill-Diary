@@ -4,7 +4,7 @@
 {% block content %}
 
 <!--Intro to the App-->
-<div class="container-fluid py-5 justify-content-center bg-dark text-light">
+<div class="container-fluid py-5 justify-content-center text-light bg-dark rounded-3 shadow">
     <h1 class="text-center pb-2 fw-bolder">An Innovative HealthCare Diary</h1>
 
     <div class="row justify-content-center">
@@ -18,29 +18,25 @@
 
     <div class="row pt-2 justify-content-center">
         <div class="col-6 text-center">
-            <a class="btn btn-light text-dark fw-bold" href="{{ url_for('auth_bp.register_page') }}">Get Started</a>
+            <a class="btn btn-light text-dark fw-bold" href="{{ url_for('auth_bp.register_page') }}">Get started</a>
         </div>
     </div>
 </div>
 
-<!--Background-->
+
+<!--BACKGROUND-->
 <div class="container-fluid">
-    <div class="row justify-content-center">
-        <div class="col-lg-7 col-sm-12">
-            <img src="{{url_for('home_bp.static', filename = 'images/bears_bg.png')}}"
-                 class="img-fluid" alt="background">
-        </div>
-    </div>
+    <img class="img-fluid"src="{{url_for('home_bp.static', filename = 'images/bears_bg.png')}}" alt="background">
 </div>
+
 
 <!--FEATURE SUMMARY-->
-<div class="container-fluid py-5 justify-content-center bg-dark text-light">
+<div class="container-fluid py-5 justify-content-center text-light bg-dark rounded-3 shadow">
     <h4 class="text-center fw-bolder text-light">Bear it together, Better together</h4>
     <div class="row justify-content-center">
         <div class="col-md-10 text-center text-light">
             <p class="py-2">
-                A quick look at our main features:
-                Record, Get Reminded, View Medication Insights and Analyze Data
+                A quick look at our main features.
             </p>
         </div>
     </div>
@@ -52,57 +48,72 @@
 </div>
 
 <!--FEATURES-->
-<div class="container-fluid pt-3">
+<div class="container-fluid mb-5 pt-3">
     <div class="row justify-content-center gy-3">
         <div class="col-sm-6 col-lg-3">
             <div class="card h-100">
-                <div class="card-header fw-bolder text-center">Records</div>
-                <div class="card-body">
-                  <p class="card-text  text-muted">
+                <div class="card-header fw-bolder text-center" style="white-space: nowrap;">Records</div>
+                <div class="card-body text-center">
+                    <p class="card-text text-start text-muted">
                       Record your medications, measurements, allergies and feelings/symptoms in your diary.
-                      You can always to add, edit, delete your journals and categorize your medication to past or current without deleting.
+                      You can always to add, edit, delete your journals and categorize your medication to current or past.
                   </p>
+                    <img class="img-fluid" src="{{url_for('home_bp.static', filename = 'images/writing.png')}}" alt="f1">
                 </div>
             </div>
         </div>
         <div class="col-sm-6 col-lg-3">
             <div class="card h-100">
-                <div class="card-header fw-bolder text-center">Reminders</div>
-                <div class="card-body">
-                  <p class="card-text  text-muted">
+                <div class="card-header fw-bolder text-center" style="white-space: nowrap;">Reminders</div>
+                <div class="card-body text-center">
+                    <p class="card-text text-start text-muted pb-4">
                       Never forget when to take what again!
                       Our reminder feature allows you to set reminders for both medications and measurements.
-                      What's more, you can also record the reminder's sound to anything you wish!
+                      What's more, your notifications can pop up on your phones and get sent to your email!
                   </p>
+                    <img class="img-fluid" src="{{url_for('home_bp.static', filename = 'images/clock.jpg')}}" alt="f2">
                 </div>
             </div>
         </div>
         <div class="col-sm-6 col-lg-3">
             <div class="card h-100">
-                <div class="card-header fw-bolder text-center">Medication Insights</div>
-                <div class="card-body">
-                  <p class="card-text  text-muted">
+                <div class="card-header fw-bolder text-center" style="white-space: nowrap;">Medication Insights</div>
+                <div class="card-body text-center">
+                    <p class="card-text text-start text-muted">
                       Read medical warnings and observational adverse effects other people experience while taking certain medications.
-                    Data is collected from the American Food and Drink Administration (FDA).
+                      Data is collected from the American Food and Drink Administration (FDA).
                   </p>
+                    <img class="img-fluid" src="{{url_for('home_bp.static', filename = 'images/3bears.png')}}" alt="f3">
                 </div>
             </div>
         </div>
         <div class="col-sm-6 col-lg-3">
             <div class="card h-100">
-                <div class="card-header fw-bolder text-center">Data Analysis</div>
-                <div class="card-body">
-                  <p class="card-text  text-muted text-muted">
+                <div class="card-header fw-bolder text-center" style="white-space: nowrap;">Data Analysis</div>
+                <div class="card-body text-center">
+                    <p class="card-text text-start text-muted pb-5">
                       Observe trends if you (tend to) miss any dosages at a certain time/date(s).
                       View illustrations of your medications and/or measurements (e.g. highest, lowest and average measurements).
                   </p>
+                    <img class="img-fluid rounded-circle" src="{{url_for('home_bp.static', filename = 'images/math.png')}}" alt="f4">
                 </div>
             </div>
         </div>
     </div>
 </div>
 
+<div class="container-fluid py-5 justify-content-center text-light bg-dark rounded-3 shadow">
+    <h4 class="text-center fw-bolder">For More Information</h4>
+    <div class="row justify-content-center">
+        <div class="col-md-10 text-center">
+            <p class="pt-2">
+                Get in touch with us today and talk to a real human! We're here to help and answer any questions you have!
+            </p>
+        </div>
+    </div>
+</div>
+
 <!--Contact Form-->
-{{ contact() }}
+{{ contact(form) }}
 
 {% endblock %}

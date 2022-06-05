@@ -43,7 +43,7 @@ def login_page():
             flash(f"Hi {attempted_username.username.capitalize()}, good to see you again :)", category="success")
             return redirect(url_for('home_bp.member_diary'))
         else:
-            flash(f"Oh no, the email address and password are not a match :( Please try again!", category="danger")
+            flash(f"Oh no, the username and password are not a match :( Please try again!", category="danger")
 
     return render_template('login.html', title='Log In', form=form)
 
@@ -65,10 +65,6 @@ def reset_password_request_page():
         flash('Instructions on how to reset the password have been sent to your email!', category='success')
         return redirect(url_for('auth_bp.login_page'))
 
-    # if user somehow get to this page by accident
-    if current_user.is_authenticated:
-        return redirect(url_for('home_bp.member_diary'))
-
     return render_template('reset_password_request.html', title='Reset Password Request', form=form)
 
 
@@ -85,10 +81,6 @@ def reset_password_page(token):
         db.session.commit()
         flash('Password reset successfully!', category='success')
         return redirect(url_for('auth_bp.login_page'))
-
-    # if user somehow get to this page by accident
-    if current_user.is_authenticated:
-        return redirect(url_for('home_bp.member_diary'))
 
     return render_template('reset_password.html', form=form)
 

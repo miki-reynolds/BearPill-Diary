@@ -36,11 +36,19 @@
   </p>
     {% with warnings = data_label['warnings'] %}
     {% with boxed_warnings = data_label['boxed_warnings'] %}
-      {% if warnings | length < boxed_warnings | length %}
+      {% if warnings and not boxed_warnings %}
         {{ med_insights_warnings(warnings) }}
-      {% else %}
-        {{ med_insights_boxed_warnings(boxed_warnings) }}
-      {% endif %}
+
+      {% elif boxed_warnings and not warnings %}
+        {{ med_insights_warnings(boxed_warnings) }}
+
+      {% elif warnings and boxed_warnings %}
+        {% if warnings | length < boxed_warnings | length %}
+          {{ med_insights_warnings(warnings) }}
+        {% else %}
+          {{ med_insights_boxed_warnings(boxed_warnings) }}
+        {% endif %}
+    {% endif %}
     {% endwith %}
     {% endwith %}
 
@@ -57,8 +65,6 @@
       {{ med_insights_events(events) }}
     {% endwith %}
   {% endif %}
-
-  <h6 class="text-muted text-center">Hmm...can't find information under this medication name... :(</h6>
 
 </div>
 {% endblock %}

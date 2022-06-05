@@ -1,4 +1,4 @@
-{% macro contact() %}
+{% macro contact(form) %}
 
 <div class="container-fluid my-5" id="contact">
     <div class="row">
@@ -7,46 +7,54 @@
         </div>
         <div class="col-lg-6">
             <h3 class="text-center pt-3 fw-bolder text-muted">Let's Chat!</h3>
-            <p class="text-center pb-2 text-muted">We'd love to hear from you for any feedback, inquiries and more!
+            <p class="text-center pb-2 text-muted">
+                We're open for any feedback, inquiries, cute pet memes and more!
             </p>
-            <form>
-                <label for="email" class="form-label text-muted">Email Address:</label>
+
+            <form action="" method="post">
+                {{ form.hidden_tag() }}
+
+                {{ form.email_address.label(class="text-muted") }}
                 <div class="mb-2 input-group">
                     <span class="input-group-text">
                         <i class="bi bi-envelope-fill"></i>
                     </span>
-                    <input type="email" class="form-control" id="email" placeholder="bearpill@gmail.com">
+                    {{ form.email_address(class="form-control") }}
+                    {% for error in form.email_address.errors %}
+                    <div class="container-fluid text-red">[{{ error }}]</div>
+                    {% endfor %}
                 </div>
-                <label for="name" class="form-label text-muted">Name:</label>
-                <div class="mb-2 input-group">
-                    <span class="input-group-text">
-                        <i class="bi bi-person-plus-fill"></i>
-                    </span>
-                    <input type="name" class="form-control" id="name" placeholder="Bear Pill">
-                </div>
-                <label for="subject" class="form-label text-muted">Subject:</label>
+
+                {{ form.subject.label(class="text-muted") }}
                 <div class="mb-2 input-group">
                     <span class="input-group-text">
                         <i class="bi bi-patch-question-fill"></i>
                     </span>
-                    <select id="subject" class="form-select">
-                        <option value="support" selected>Support</option>
-                        <option value="feedback">Feedback</option>
-                        <option value="marketing">Marketing opportunities</option>
-                        <option value="others">Others</option>
-                    </select>
+                    {{ form.subject(class="form-select") }}
+                    {% for error in form.subject.errors %}
+                    <div class="container-fluid text-red">[{{ error }}]</div>
+                    {% endfor %}
                 </div>
+
                 <div class="form-floating my-4">
-                    <textarea id="text" class="form-control" style="height: 200px"></textarea>
-                    <label for="text">More details</label>
+                    {{ form.message_body(class="form-control", style="height: 200px") }}
+                    {{ form.message_body.label(class="text-muted") }}
+                    {% for error in form.message_body.errors %}
+                    <div class="container-fluid text-red">[{{ error }}]</div>
+                    {% endfor %}
                 </div>
 
                 <div class="text-center">
-                    <button class="btn btn-dark text-light fw-bolder">Submit</button>
+                    {{ form.submit(class="btn btn-dark text-light fw-bolder") }}
                 </div>
             </form>
+
         </div>
     </div>
 </div>
 
 {% endmacro %}
+
+
+
+

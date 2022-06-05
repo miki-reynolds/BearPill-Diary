@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!--the action attribute of the form tells the browser the URL that should be used when submitting the info the user enter in the form-->
+<!--action has an empty string so that the form is submitted to the URL that is shown in the address bar-->
+<!--setting nonvalidate is optional, but putting it here so we can use flask app to test our validators-->
+<!--hidden_tag generating a hidden field that includes a token used to protect the form against CSRF-->
+
+<div class="container-fluid px-4">
+    <div class="my-4 text-center text-muted">
+        <h3>Your Information</h3>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <form action="" method="post">
+                {{ form.hidden_tag() }}
+
+                {{ form.username.label(class="text-muted") }}
+                <div class="mb-3 input-group">
+                    <span class="input-group-text">
+                        <i class="bi bi-person-plus-fill"></i>
+                    </span>
+                    {{ form.username(class="form-control", size=32) }}
+                    {% for error in form.username.errors %}
+                    <div class="container-fluid text-danger">[{{ error }}]</div>
+                    {% endfor %}
+                </div>
+
+                {{ form.email_address.label(class="text-muted") }}
+                <div class="mb-3 input-group">
+                    <span class="input-group-text">
+                        <i class="bi bi-envelope-fill"></i>
+                    </span>
+                    {{ form.email_address(class="form-control", size=32) }}
+                    {% for error in form.email_address.errors %}
+                    <div class="container-fluid text-danger">[{{ error }}]</div>
+                    {% endfor %}
+                </div>
+
+                <div class="row mb-3">
+                    <a href="{{ url_for('home_bp.change_password_request_page') }}" class="mb-1">Change Password</a>
+
+                    <a class="text-danger" data-bs-toggle="modal" data-bs-target="#delete-diary" href="{{ url_for('home_bp.delete_diary') }}">
+                        Delete Diary
+                    </a>
+                    <!-- Modal -->
+                    <div class="modal fade" id="delete-diary" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="delete-diary-label" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header"><h5 class="modal-title" id="delete-diary-label">Delete Your Diary Account?</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">Are you sure you want to delete this? Your diary account will be deleted permanently?
+                            </div>
+                            <div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <a class="btn btn-small btn-danger" href="{{ url_for('home_bp.delete_diary') }}">
+                                    <i class="bi bi-trash3-fill"></i> <b>Delete</b>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-3 text-center">
+                    {{ form.submit(class="btn btn-dark text-light") }}
+                </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

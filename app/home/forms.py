@@ -1,7 +1,17 @@
 from flask import request
 from flask_wtf import FlaskForm
-from wtforms import StringField
+from wtforms import StringField, EmailField, SelectField, TextAreaField, SubmitField
 from wtforms.validators import DataRequired
+
+
+class ContactForm(FlaskForm):
+    email_address = EmailField(label="Email Address", validators=[DataRequired()])
+    subject = SelectField(choices=[("[Contact] Support", "Support"),
+                                   ("[Contact] Feedback", "Feedback"),
+                                   ("[Contact] Collaboration Opportunities", "Collaboration Opportunities"),
+                                   ("[Contact] Others", "Others")])
+    message_body = TextAreaField(label="More Details", validators=[DataRequired()])
+    submit = SubmitField(label="Submit")
 
 
 class SearchForm(FlaskForm):

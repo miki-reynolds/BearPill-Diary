@@ -1,16 +1,17 @@
 from app import db
 from app.medications import blueprint
 from app.medications.forms import MedForm
+
+from app.reminders.forms import ReminderForm
+from app.reminders.reminder_scheduler import *
+
 from app.models import Meds, Reminders
+
 from app.utils.helper_functions import*
-from app.utils.forms import ReminderForm
-from app.utils.schedule_handlers import send_reminder, scheduler
 
 from flask import render_template, redirect, url_for, flash, current_app, request
 from flask_login import current_user, login_required
-
 from datetime import datetime
-from apscheduler.schedulers.background import BackgroundScheduler
 
 
 @blueprint.route('/member/medications')
@@ -99,11 +100,10 @@ def med_update_page(id):
 @blueprint.route('/member/medications/<int:id>/delete')
 @login_required
 def med_delete_page(id):
-    med_to_delete = Meds.query.get_or_404(id)
     try:
-        db.session.delete(med_to_delete)
+        db.session.query(Meds).filter_by(id=id).delete()
         db.session.commit()
-        flash("Medication successfully deleted!", category="success")
+        flash("All medications successfully deleted!", category="success")
         return redirect(url_for('meds_bp.meds_page'))
     except:
         flash("Whoops, some unexpected error has occurred... Please try again :(", category="danger")
@@ -123,8 +123,9 @@ def meds_delete_page():
         return redirect(url_for('meds_bp.meds_page'))
 
 
-# to get med insights from openAPI
+# Get med insights from openAPI
 @blueprint.route('/member/medications/<int:id>/insights')
+@login_required
 def med_insights_page(id):
     med = Meds.query.get_or_404(id)
 
@@ -156,51 +157,127 @@ def med_insights_page(id):
         return redirect(url_for('meds_bp.med_page', id=med.id))
 
 
-# to set reminders
-@blueprint.route('/member/medications/<int:id>/reminder', methods=['POST', 'GET'])
+# Create reminder
+@blueprint.route('/member/medications/<int:id>/reminders', methods=['POST', 'GET'])
+@login_required
 def med_add_reminder_page(id):
     med_to_remind = Meds.query.get_or_404(id)
     form = ReminderForm()
     if form.validate_on_submit():
-        reminder_to_add = Reminders(name=med_to_remind.medname,
-                                    months=form.months.data,
-                                    weeks=form.weeks.data,
-                                    day_of_the_week=form.day_of_the_week.data,
-                                    days_freq=form.days_freq.data,
-                                    hours=form.hours.data, minutes=form.minutes.data,
-                                    user_reminders_id=int(current_user.id))
+        form.summary.data = med_to_remind.medname
+        summary = med_to_remind.medname
+        description = form.description.data
+        attendee_name = current_user.username if form.attendee_name.data == "" else form.attendee_name.data
+        attendee_email = current_user.email_address if form.attendee_email.data == "" else form.attendee_email.data
+        start_date = form.start_date.data
+        end_date = form.end_date.data
+        freq = form.freq.data
+        freq_interval = form.freq_interval.data
 
+        # stringtify freq_byday (list)
+        freq_byday = ",".join([str(day) for day in form.freq_byday.data])
+
+        # create reminder
+        reminder_to_create = create_reminder(summary, description, attendee_name, attendee_email,
+                                             start_date, end_date, freq, freq_interval, freq_byday)
+
+        # adding reminder to database
+        reminder_to_add_to_db = Reminders(event_id=reminder_to_create['id'],
+                                    summary=summary, description=description,
+                                    attendee_name=attendee_name, attendee_email=attendee_email,
+                                    start_date=start_date, end_date=end_date,
+                                    freq=freq, freq_interval=freq_interval, freq_byday=freq_byday,
+                                    user_reminders_id=current_user.id, meds_reminders_id=med_to_remind.id)
         # add reminder to database
-        db.session.add(reminder_to_add)
+        db.session.add(reminder_to_add_to_db)
         db.session.commit()
-
-        # mapping the relationship between the new reminder and the med
-        med_to_remind.meds_reminders_id = reminder_to_add.id
-
-        # readability
-        month = reminder_to_add.months
-        week = reminder_to_add.weeks
-        day = reminder_to_add.days_freq
-        day_of_week = reminder_to_add.day_of_the_week
-        hour = reminder_to_add.hours
-        minute = reminder_to_add.minutes
-
-        # schedule the execution of the reminder
-        scheduler.add_job(send_reminder, 'cron', args=[current_user, med_to_remind.medname],
-                         month=month, week=week, day=day, day_of_week=day_of_week,
-                         hour=hour, minute=minute, id=str(reminder_to_add.id))
-        scheduler.start()
 
         flash(f"Successfully set up reminder for {med_to_remind.medname }!", category="success")
         return redirect(url_for('meds_bp.med_page', id=med_to_remind.id))
 
-    return render_template('reminder_form.html', title='Set Reminder', form=form)
+    form.summary.data = med_to_remind.medname
+
+    return render_template('reminder_add.html', title='Create Reminder', form=form)
 
 
-# to delete reminders
-@blueprint.route('/member/medications/reminder/<int:id>/delete', methods=['POST', 'GET'])
-def med_delete_reminder_page(id):
-    scheduler.remove_job(str(id))
-    flash(f"Reminder successfully deleted!", category="success")
+# Update reminder
+@blueprint.route('/member/medications/reminders/<int:id>', methods=['POST', 'GET'])
+@login_required
+def med_update_reminder_page(id):
+    reminder_to_update = Reminders.query.get_or_404(id)
+    form = ReminderForm()
+    if form.validate_on_submit():
+        summary = reminder_to_update.summary
+        description = form.description.data
+        attendee_name = form.attendee_name.data
+        attendee_email = form.attendee_email.data
+        start_date = form.start_date.data
+        end_date = form.end_date.data
+        freq = form.freq.data
+        freq_interval = form.freq_interval.data
+        # stringtify freq_byday (list)
+        freq_byday = ",".join([str(day) for day in form.freq_byday.data])
+
+        # update reminder
+        reminder_to_update = update_reminder(reminder_to_update.event_id, summary, description,
+                                             attendee_name, attendee_email,
+                                             start_date, end_date, freq, freq_interval, freq_byday)
+        # adding new reminder to database
+        reminder_to_add_to_db = Reminders(event_id=reminder_to_update['id'],
+                                    summary=summary, description=description,
+                                    attendee_name=attendee_name, attendee_email=attendee_email,
+                                    start_date=start_date, end_date=end_date,
+                                    freq=freq, freq_interval=freq_interval, freq_byday=freq_byday,
+                                    user_reminders_id=current_user.id,
+                                    meds_reminders_id=reminder_to_update.meds_reminders_id)
+
+        # update reminder in database
+        db.session.add(reminder_to_update)
+        db.session.commit()
+
+        flash(f"{reminder_to_update.summary} successfully updated :)", category="success")
+        return redirect(url_for('meds_bp.med_page', id=reminder_to_update.meds_reminders_id))
+
+    if current_user.id == reminder_to_update.user_reminders_id:
+        form.summary.data = reminder_to_update.summary
+        form.description.data = reminder_to_update.description
+        form.attendee_name.data = reminder_to_update.attendee_name
+        form.attendee_email.data = reminder_to_update.attendee_email
+        form.start_date.data = reminder_to_update.start_date
+        form.end_date.data = reminder_to_update.end_date
+        form.freq.data = reminder_to_update.freq
+        form.freq_interval.data = reminder_to_update.freq_interval
+        form.freq_byday.data = reminder_to_update.freq_byday
+        return render_template('reminder_update.html', form=form, id=reminder_to_update.id)
+
     return redirect(url_for('meds_bp.meds_page'))
 
+
+# Delete individual reminder
+@blueprint.route('/member/medications/reminders/<int:id>/delete', methods=['POST', 'GET'])
+@login_required
+def med_delete_reminder_page(id):
+    reminder_to_delete = Reminders.query.get_or_404(id)
+    try:
+        db.session.delete(reminder_to_delete)
+        db.session.commit()
+        flash("Reminder successfully deleted!", category="success")
+        return redirect(url_for('meds_bp.meds_page'))
+    except:
+        flash("Whoops, some unexpected error has occurred... Please try again :(", category="danger")
+        return redirect(url_for('meds_bp.meds_page'))
+
+
+# Delete all reminders
+@blueprint.route('/member/medications/<int:id>/reminders/delete', methods=['POST', 'GET'])
+@login_required
+def med_delete_reminders_page(id):
+    med_to_delete_reminders = Meds.query.get_or_404(id)
+    try:
+        db.session.query(Reminders).filter_by(summary=med_to_delete_reminders.medname).delete()
+        db.session.commit()
+        flash(f"All {med_to_delete_reminders.medname}'s reminders successfully deleted!", category="success")
+        return redirect(url_for('meds_bp.med_page', id=med_to_delete_reminders.id))
+    except:
+        flash("Whoops, some unexpected error has occurred... Please try again :(", category="danger")
+        return redirect(url_for('meds_bp.meds_page'))

@@ -1,0 +1,106 @@
+{% macro reminder_form(form) %}
+<div class="row justify-content-center text-muted mt-3">
+        <div class="col-lg-6">
+            <form action="" method="post">
+                {{ form.hidden_tag() }}
+
+                {{ form.summary.label(class="text-muted") }}
+                <div class="mb-3 input-group">
+                    <span class="input-group-text">
+                        <i class="bi bi-brush"></i>
+                    </span>
+                    {{ form.summary(class="form-control") }}
+                    {% for error in form.summary.errors %}
+                    <div class="container-fluid text-red">[{{ error }}]</div>
+                    {% endfor %}
+                </div>
+
+                {{ form.description.label(class="text-muted") }}
+                <div class="mb-3 input-group">
+                    <span class="input-group-text">
+                        <i class="bi bi-chat-square-text"></i>
+                    </span>
+                    {{ form.description(class="form-control") }}
+                    {% for error in form.description.errors %}
+                    <div class="container-fluid text-red">[{{ error }}]</div>
+                    {% endfor %}
+                </div>
+
+                {{ form.attendee_name.label(class="text-muted") }}
+                <div class="mb-3 input-group">
+                    <span class="input-group-text">
+                        <i class="bi bi-person-plus-fill"></i>
+                    </span>
+                    {{ form.attendee_name(class="form-control", placeholder="Person's name to share this with.") }}
+                    {% for error in form.attendee_name.errors %}
+                    <div class="container-fluid text-red">[{{ error }}]</div>
+                    {% endfor %}
+                </div>
+
+                {{ form.attendee_email.label(class="text-muted") }}
+                <div class="mb-3 input-group">
+                    <span class="input-group-text">
+                        <i class="bi bi-envelope-fill"></i>
+                    </span>
+                    {{ form.attendee_email(class="form-control", placeholder="Person's email to share this with.") }}
+                    {% for error in form.attendee_email.errors %}
+                    <div class="container-fluid text-red">[{{ error }}]</div>
+                    {% endfor %}
+                </div>
+
+                {{ form.start_date.label(class="text-muted") }}
+                <div class="mb-3 input-group">
+                    <span class="input-group-text">
+                        <i class="bi bi-calendar3"></i>
+                    </span>
+                    {{ form.start_date(class="form-control") }}
+                    {% for error in form.start_date.errors %}
+                    <div class="container-fluid text-red">[{{ error }}]</div>
+                    {% endfor %}
+                </div>
+
+                {{ form.end_date.label(class="text-muted") }}
+                <div class="mb-3 input-group">
+                    <span class="input-group-text">
+                        <i class="bi bi-calendar3"></i>
+                    </span>
+                    {{ form.end_date(class="form-control") }}
+                    {% for error in form.end_date.errors %}
+                    <div class="container-fluid text-red">[{{ error }}]</div>
+                    {% endfor %}
+                </div>
+
+                {{ form.freq.label(class="text-muted") }} and {{ form.freq_interval.label(class="text-muted") }}:
+                <div class="input-group mb-3">
+                    <span class="input-group-text">{{ form.freq.label(class="text-muted") }}</span>
+                    {{ form.freq(class="form-control") }}
+                    {% for error in form.freq.errors %}
+                    <div class="container-fluid text-red">[{{ error }}]</div>
+                    {% endfor %}
+
+                    <span class="input-group-text">{{ form.freq_interval.label(class="text-muted") }}</span>
+                    {{ form.freq_interval(class="form-control") }}
+
+                    {% for error in form.freq_interval.errors %}
+                    <div class="container-fluid text-red">[{{ error }}]</div>
+                    {% endfor %}
+                </div>
+
+                {{ form.freq_byday.label(class="text-muted") }}
+                <div class="mb-3 input-group">
+                    <span class="input-group-text">
+                        <i class="bi bi-calendar2-day-fill"></i>
+                    </span>
+                    {{ form.freq_byday(class="checkbox", style="margin: auto; list-style-type: none;") }}
+                    {% for error in form.freq_byday.errors %}
+                    <div class="container-fluid text-red">[{{ error }}]</div>
+                    {% endfor %}
+                </div>
+
+                <div class="my-4 text-center">
+                    {{ form.submit(class="btn btn-dark text-light") }}
+                </div>
+            </form>
+        </div>
+    </div>
+{% endmacro %}

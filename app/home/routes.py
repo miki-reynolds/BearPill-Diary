@@ -1,10 +1,12 @@
 from app.authentication.forms import *
 from app.models import *
 from app.home import blueprint
-from app.home.forms import*
+from app.home.forms import SearchForm, ContactForm
 from app.utils.helper_functions import pagination
+from app.email import send_email
 from flask import render_template, redirect, url_for, flash, request, g, current_app
 from flask_login import current_user, login_required
+import os
 
 
 # to pass the information to navbar
@@ -50,16 +52,38 @@ def search():
                            allergies=allergies.items, next_url=next_url, prev_url=prev_url)
 
 
-@blueprint.route('/')
-@blueprint.route('/home')
-@blueprint.route('/welcome')
+@blueprint.route('/', methods=['POST', 'GET'])
+@blueprint.route('/home', methods=['POST', 'GET'])
+@blueprint.route('/welcome', methods=['POST', 'GET'])
 def home_page():
-    return render_template('home.html', title='Home')
+    form = ContactForm()
+    if form.validate_on_submit():
+        send_email(subject=form.subject.data, sender=form.email_address.data,
+                   recipients=[os.environ.get('MAIL_USERNAME')],
+                   message_body=form.message_body.data, html_body=form.message_body.data)
+        flash("Successfully sent! :)", category="success")
+        return redirect(url_for('home_bp.home_page'))
+
+    return render_template('home.html', title='Home', form=form)
 
 
-@blueprint.route('/contact')
+@blueprint.route('/contact', methods=['POST', 'GET'])
 def contact_page():
-    return render_template('contact.html', title='Contact Form')
+    form = ContactForm()
+    if form.validate_on_submit():
+        send_email(subject=form.subject.data, sender=form.email_address.data,
+                   recipients=[os.environ.get('MAIL_USERNAME')],
+                   message_body=form.message_body.data, html_body=form.message_body.data)
+        flash("Thank you! We'll get back to you soon :)", category="success")
+        return redirect(url_for('home_bp.home_page'))
+
+    return render_template('contact.html', title='Contact Form', form=form)
+
+
+# About Us Page
+@blueprint.route('/about', methods=['GET'])
+def about_page():
+    return render_template('about.html', title='About Us Page')
 
 
 # Dashboard route where user can see their account info & see their MedDiary summary
@@ -72,21 +96,50 @@ def member_diary():
     return render_template('diary.html', title='Member Diary', allergies=allergies, meds=meds, measurements=measurements)
 
 
-@blueprint.route('/dashboard', methods=['POST', 'GET'])
+@blueprint.route('/member/dashboard', methods=['POST', 'GET'])
+@blueprint.route('/member/settings', methods=['POST', 'GET'])
 @login_required
 def update_account_page():
     form = UserForm()
-    id = current_user.id
-    user_to_update = User.query.get_or_404(id)
 
-    # update profile info
-    if request.method == "POST":
-        user_to_update.username = request.form["username"]
-        user_to_update.email_address = request.form["email_address"]
+    if form.validate_on_submit():
+        current_user.username = form.username.data
+        current_user.email_address = form.email_address.data
+        current_user.password1 = form.password1.data
+        current_user.password2 = form.password2.data
+        db.session.add(current_user)
         db.session.commit()
         flash("Your account information has been successfully updated! :)", category="success")
-        return render_template('dashboard.html', form=form, user_to_update=user_to_update, id=id, current_user=current_user)
+        return redirect(url_for('home_bp.home_page'))
 
-    # if the method is request, we just wanna pass the current info in the page
-    else:
-        return render_template('dashboard.html', form=form, user_to_update=user_to_update, id=id, current_user=current_user)
+    if current_user:
+        form.username.data = current_user.username
+        form.email_address.data = current_user.email_address
+
+    return render_template('dashboard.html', form=form)
+
+
+@blueprint.route('/member/dashboard/change_password_request', methods=['POST', 'GET'])
+@blueprint.route('/member/settings/change_password_request', methods=['POST', 'GET'])
+@login_required
+def change_password_request_page():
+    form = ChangePasswordRequestForm()
+
+    if form.validate_on_submit() and current_user.check_password_correction(attempted_password=form.password.data):
+        token = current_user.get_reset_password_token()
+        flash("Ok, let's change the password :)", category="success")
+        return redirect(url_for('auth_bp.reset_password_page', token=token))
+
+    return render_template('change_password_request.html', form=form)
+
+
+@blueprint.route('/member/dashboard/delete_diary', methods=['POST', 'GET'])
+@blueprint.route('/member/settings/delete_diary', methods=['POST', 'GET'])
+@login_required
+def delete_diary():
+    db.session.delete(current_user)
+    db.session.commit()
+    return redirect(url_for('home_bp.home_page'))
+
+
+
