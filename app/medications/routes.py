@@ -178,11 +178,17 @@ def med_add_reminder_page(id):
         freq_byday = ",".join([str(day) for day in form.freq_byday.data])
 
         # create reminder
-        reminder_to_create = create_reminder(summary, description, attendee_name, attendee_email,
-                                             start_date, end_date, freq, freq_interval, freq_byday)
+        # reminder_to_create = create_reminder(summary, description, attendee_name, attendee_email,
+        #                                      start_date, end_date, freq, freq_interval, freq_byday)
 
         # adding reminder to database
-        reminder_to_add_to_db = Reminders(event_id=reminder_to_create['id'],
+        # reminder_to_add_to_db = Reminders(event_id=reminder_to_create['id'],
+        #                             summary=summary, description=description,
+        #                             attendee_name=attendee_name, attendee_email=attendee_email,
+        #                             start_date=start_date, end_date=end_date,
+        #                             freq=freq, freq_interval=freq_interval, freq_byday=freq_byday,
+        #                             user_reminders_id=current_user.id, meds_reminders_id=med_to_remind.id)
+        reminder_to_add_to_db = Reminders(event_id='12nh',
                                     summary=summary, description=description,
                                     attendee_name=attendee_name, attendee_email=attendee_email,
                                     start_date=start_date, end_date=end_date,
@@ -219,11 +225,18 @@ def med_update_reminder_page(id):
         freq_byday = ",".join([str(day) for day in form.freq_byday.data])
 
         # update reminder
-        reminder_to_update = update_reminder(reminder_to_update.event_id, summary, description,
-                                             attendee_name, attendee_email,
-                                             start_date, end_date, freq, freq_interval, freq_byday)
+        # reminder_to_update = update_reminder(reminder_to_update.event_id, summary, description,
+        #                                      attendee_name, attendee_email,
+        #                                      start_date, end_date, freq, freq_interval, freq_byday)
         # adding new reminder to database
-        reminder_to_add_to_db = Reminders(event_id=reminder_to_update['id'],
+        # reminder_to_add_to_db = Reminders(event_id=reminder_to_update['id'],
+        #                             summary=summary, description=description,
+        #                             attendee_name=attendee_name, attendee_email=attendee_email,
+        #                             start_date=start_date, end_date=end_date,
+        #                             freq=freq, freq_interval=freq_interval, freq_byday=freq_byday,
+        #                             user_reminders_id=current_user.id,
+        #                             meds_reminders_id=reminder_to_update.meds_reminders_id)
+        reminder_to_add_to_db = Reminders(event_id='12an',
                                     summary=summary, description=description,
                                     attendee_name=attendee_name, attendee_email=attendee_email,
                                     start_date=start_date, end_date=end_date,
@@ -259,6 +272,7 @@ def med_update_reminder_page(id):
 def med_delete_reminder_page(id):
     reminder_to_delete = Reminders.query.get_or_404(id)
     try:
+        delete_reminder(reminder_to_delete.event_id)
         db.session.delete(reminder_to_delete)
         db.session.commit()
         flash("Reminder successfully deleted!", category="success")
@@ -273,7 +287,11 @@ def med_delete_reminder_page(id):
 @login_required
 def med_delete_reminders_page(id):
     med_to_delete_reminders = Meds.query.get_or_404(id)
+    reminders = med_to_delete_reminders.meds_reminders.all()
     try:
+        if reminders:
+            for reminder in reminders:
+                delete_reminder(reminder.event_id)
         db.session.query(Reminders).filter_by(summary=med_to_delete_reminders.medname).delete()
         db.session.commit()
         flash(f"All {med_to_delete_reminders.medname}'s reminders successfully deleted!", category="success")

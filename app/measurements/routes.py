@@ -374,16 +374,23 @@ def measurement_add_reminder_page(id):
         freq_byday = ",".join([str(day) for day in form.freq_byday.data])
 
         # create reminder
-        reminder_to_create = create_reminder(summary, description, start_date, end_date,
-                                            freq, freq_interval, freq_byday)
+        # reminder_to_create = create_reminder(summary, description, start_date, end_date,
+        #                                     freq, freq_interval, freq_byday)
 
         # adding reminder to database
-        reminder_to_add_to_db = Reminders(event_id=reminder_to_create['id'],
+        # reminder_to_add_to_db = Reminders(event_id=reminder_to_create['id'],
+        #                             summary=summary, description=description,
+        #                             start_date=start_date, end_date=end_date,
+        #                             freq=freq, freq_interval=freq_interval, freq_byday=freq_byday,
+        #                             user_reminders_id=current_user.id,
+        #                             measurements_reminders_id=measurement_to_remind.id)
+        reminder_to_add_to_db = Reminders(event_id='12an',
                                     summary=summary, description=description,
                                     start_date=start_date, end_date=end_date,
                                     freq=freq, freq_interval=freq_interval, freq_byday=freq_byday,
                                     user_reminders_id=current_user.id,
                                     measurements_reminders_id=measurement_to_remind.id)
+
         # add reminder to database
         db.session.add(reminder_to_add_to_db)
         db.session.commit()
@@ -412,11 +419,24 @@ def measurement_update_reminder_page(id):
         # stringtify freq_byday (list)
         freq_byday = ",".join([str(day) for day in form.freq_byday.data])
 
-        # update reminder
-        reminder_to_update = update_reminder(reminder_to_update.event_id, summary, description,
-                                             start_date, end_date, freq, freq_interval, freq_byday)
+        # update reminder GG
+        # reminder_to_update = update_reminder(reminder_to_update.event_id, summary, description,
+        #                                      start_date, end_date, freq, freq_interval, freq_byday)
 
-        # add reminder to database
+        # updating reminder in database
+        # reminder_to_add_to_db = Reminders(event_id=reminder_to_create['id'],
+        #                             summary=summary, description=description,
+        #                             start_date=start_date, end_date=end_date,
+        #                             freq=freq, freq_interval=freq_interval, freq_byday=freq_byday,
+        #                             user_reminders_id=current_user.id,
+        #                             measurements_reminders_id=reminder_to_update.id)
+        reminder_to_add_to_db = Reminders(event_id='12an',
+                                    summary=summary, description=description,
+                                    start_date=start_date, end_date=end_date,
+                                    freq=freq, freq_interval=freq_interval, freq_byday=freq_byday,
+                                    user_reminders_id=current_user.id,
+                                    measurements_reminders_id=reminder_to_update.id)
+
         db.session.add(reminder_to_update)
         db.session.commit()
 
@@ -442,6 +462,7 @@ def measurement_update_reminder_page(id):
 def measurement_delete_reminder_page(id):
     reminder_to_delete = Reminders.query.get_or_404(id)
     try:
+        # delete_reminder(reminder_to_delete.event_id)
         db.session.delete(reminder_to_delete)
         db.session.commit()
         flash("Reminder successfully deleted!", category="success")
@@ -456,7 +477,11 @@ def measurement_delete_reminder_page(id):
 @login_required
 def measurement_delete_reminders_page(id):
     measurement_to_delete_reminders = Measurements.query.get_or_404(id)
+    reminders = measurement_to_delete_reminders.measurements_reminders.all()
     try:
+        # if reminders:
+        #     for reminder in reminders:
+        #         delete_reminder(reminder.event_id)
         db.session.query(Reminders).filter_by(summary=measurement_to_delete_reminders.measurement_name).delete()
         db.session.commit()
         flash(f"All {measurement_to_delete_reminders.measurement_name}'s reminders successfully deleted!", category="success")

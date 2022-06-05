@@ -8,7 +8,7 @@ load_dotenv(path.join(basedir, '.env'))
 
 class Config(object):
     # CSRF purpose
-    SECRET_KEY = environ.get('SECRET_KEY') or '8f4d46f72fym85023eo953cw'
+    SECRET_KEY = environ.get('SECRET_KEY')
 
     # Heroku hasn't updated the postgres, which SQLAlchemy stopped supporting
     SQLALCHEMY_DATABASE_URI = environ.get('DATABASE_URL', '').replace(
