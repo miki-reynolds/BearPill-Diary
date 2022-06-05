@@ -19,9 +19,6 @@ class Config(object):
     # pagination
     ITEMS_PER_PAGE = 10
 
-    # # APScheduler
-    # SCHEDULER_API_ENABLED = True
-
     # Heroku
     LOG_TO_STDOUT = environ.get('LOG_TO_STDOUT')
 
