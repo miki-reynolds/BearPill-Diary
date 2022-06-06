@@ -3,13 +3,7 @@ import json
 import os
 
 
-CREDENTIALS_JSON = {"web":{
-  "client_id":"665751074662-5gieh3ii6km8p2pqli7m8e7tpimvl1e1.apps.googleusercontent.com",
-  "project_id":"bearpill-diary","auth_uri":"https://accounts.google.com/o/oauth2/auth",
-  "token_uri":"https://oauth2.googleapis.com/token",
-  "auth_provider_x509_cert_url":"https://www.googleapis.com/oauth2/v1/certs",
-  "client_secret":"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",
-  "redirect_uris":["http://localhost:8080/","https://adorable-semifreddo-f5be04.netlify.app/"]}}
+CREDENTIALS_JSON = {"web":{"client_id":"956122965008-d1u8d22cbk2s0v5a1ci2pogvmelp9iau.apps.googleusercontent.com","project_id":"test-panda-352504","auth_uri":"https://accounts.google.com/o/oauth2/auth","token_uri":"https://oauth2.googleapis.com/token","auth_provider_x509_cert_url":"https://www.googleapis.com/oauth2/v1/certs","client_secret":"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","redirect_uris":["http://localhost:8080/","https://adorable-semifreddo-f5be04.netlify.app/"]}}
 
 # CLIENT_STR_VAR = os.environ.get('CLIENT_STR_VAR')
 with open("google-credentials.json", "w") as ggc:
