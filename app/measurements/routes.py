@@ -18,8 +18,10 @@ from datetime import datetime
 def measurements_page():
     total_measurements = len(current_user.user_measurements.all())
     page = request.args.get('page', 1, type=int)
-    # paginate() returned-value, has_next, has_prev, prev_num, next_num are attributes
-    # from Pagination objections from Flask-SQLAlchemy
+    '''
+    paginate() returned-value, has_next, has_prev, prev_num, next_num are attributes
+    from Pagination objections from Flask-SQLAlchemy
+    '''
     measurements = current_user.user_measurements.paginate(
         page, current_app.config['ITEMS_PER_PAGE'], False)
     prev_url = url_for('measurements_bp.measurements_page', page=measurements.prev_num) \
@@ -379,26 +381,19 @@ def measurement_add_reminder_page(id):
         reminder_to_create = create_reminder(summary, description, start_date, end_date,
                                              attendee_name, attendee_email,
                                              freq, freq_interval, freq_byday)
-
         # adding reminder to database
-        try:
-            reminder_to_add_to_db = Reminders(event_id=reminder_to_create['id'],
-                                        summary=summary, description=description,
-                                        attendee_name=attendee_name, attendee_email=attendee_email,
-                                        start_date=start_date, end_date=end_date,
-                                        freq=freq, freq_interval=freq_interval, freq_byday=freq_byday,
-                                        user_reminders_id=current_user.id,
-                                        measurements_reminders_id=measurement_to_remind.id)
-            # add reminder to database
-            db.session.add(reminder_to_add_to_db)
-            db.session.commit()
-
-            flash(f"Successfully set up reminder for {measurement_to_remind.measurement_name}!", category="success")
-            return redirect(url_for('measurements_bp.measurements_page'))
-
-        except:
-            flash("Whoops, some unexpected error has occurred... Please try again :(", category="danger")
-            return redirect(url_for('measurements_bp.measurements_page'))
+        reminder_to_add_to_db = Reminders(event_id=reminder_to_create['id'],
+                                    summary=summary, description=description,
+                                    attendee_name=attendee_name, attendee_email=attendee_email,
+                                    start_date=start_date, end_date=end_date,
+                                    freq=freq, freq_interval=freq_interval, freq_byday=freq_byday,
+                                    user_reminders_id=current_user.id,
+                                    measurements_reminders_id=measurement_to_remind.id)
+        # add reminder to database
+        db.session.add(reminder_to_add_to_db)
+        db.session.commit()
+        flash(f"Successfully set up reminder for {measurement_to_remind.measurement_name}!", category="success")
+        return redirect(url_for('measurements_bp.measurements_page'))
 
     form.summary.data = measurement_to_remind.measurement_name
 
@@ -424,29 +419,21 @@ def measurement_update_reminder_page(id):
         freq_byday = ",".join([str(day) for day in form.freq_byday.data])
 
         # update reminder GG
-        try:
-            reminder_to_update_in_gg = update_reminder(reminder_to_update.event_id, summary, description,
-                                                       attendee_name, attendee_email, start_date, end_date,
-                                                       freq, freq_interval, freq_byday)
-
-            # updating reminder in database
-            reminder_to_update_in_db = Reminders(event_id=reminder_to_update['id'],
-                                        summary=summary, description=description,
-                                        attendee_name=attendee_name, attendee_email=attendee_email,
-                                        start_date=start_date, end_date=end_date,
-                                        freq=freq, freq_interval=freq_interval, freq_byday=freq_byday,
-                                        user_reminders_id=current_user.id,
-                                        measurements_reminders_id=reminder_to_update.id)
-
-            db.session.add(reminder_to_update_in_db)
-            db.session.commit()
-
-            flash(f"{reminder_to_update.summary} successfully updated :)", category="success")
-            return redirect(url_for('measurements_bp.measurement_page'))
-
-        except:
-            flash("Whoops, some unexpected error has occurred... Please try again :(", category="danger")
-            return redirect(url_for('measurements_bp.measurements_page'))
+        reminder_to_update_in_gg = update_reminder(reminder_to_update.event_id, summary, description,
+                                                   attendee_name, attendee_email, start_date, end_date,
+                                                   freq, freq_interval, freq_byday)
+        # updating reminder in database
+        reminder_to_update_in_db = Reminders(event_id=reminder_to_update['id'],
+                                    summary=summary, description=description,
+                                    attendee_name=attendee_name, attendee_email=attendee_email,
+                                    start_date=start_date, end_date=end_date,
+                                    freq=freq, freq_interval=freq_interval, freq_byday=freq_byday,
+                                    user_reminders_id=current_user.id,
+                                    measurements_reminders_id=reminder_to_update.id)
+        db.session.add(reminder_to_update_in_db)
+        db.session.commit()
+        flash(f"{reminder_to_update.summary} successfully updated :)", category="success")
+        return redirect(url_for('measurements_bp.measurement_page'))
 
     if current_user.id == reminder_to_update.user_reminders_id:
         form.summary.data = reminder_to_update.summary
