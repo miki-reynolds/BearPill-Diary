@@ -3,8 +3,7 @@ import json
 import os
 
 
-CLIENT_STR = '''
-{"web":{
+CREDENTIALS_JSON = {"web":{
   "client_id":"665751074662-5gieh3ii6km8p2pqli7m8e7tpimvl1e1.apps.googleusercontent.com",
   "project_id":"bearpill-diary",
   "auth_uri":"https://accounts.google.com/o/oauth2/auth",
@@ -13,12 +12,12 @@ CLIENT_STR = '''
   "client_secret":"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",
   "redirect_uris":["https://adorable-semifreddo-f5be04.netlify.app/"]
 }}
-'''
 
 # CLIENT_STR_VAR = os.environ.get('CLIENT_STR_VAR')
 
-# CLIENT_SECRET_FILE = 'google-credentials.json'
-CLIENT_SECRET_FILE = json.loads(CLIENT_STR)
+with open('google-credentials.json', 'w') as f:
+    CLIENT_SECRET_FILE = json.dump(CREDENTIALS_JSON, f, indent=2)
+
 API_NAME = 'calendar'
 API_VERSION = 'v3'
 SCOPES = ['https://www.googleapis.com/auth/calendar']
