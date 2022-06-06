@@ -178,22 +178,23 @@ def med_add_reminder_page(id):
         freq_byday = ",".join([str(day) for day in form.freq_byday.data])
 
         # create reminder
-        # reminder_to_create = create_reminder(summary, description, attendee_name, attendee_email,
-        #                                      start_date, end_date, freq, freq_interval, freq_byday)
+        reminder_to_create = create_reminder(summary, description, attendee_name, attendee_email,
+                                             start_date, end_date, freq, freq_interval, freq_byday)
 
         # adding reminder to database
-        # reminder_to_add_to_db = Reminders(event_id=reminder_to_create['id'],
-        #                             summary=summary, description=description,
-        #                             attendee_name=attendee_name, attendee_email=attendee_email,
-        #                             start_date=start_date, end_date=end_date,
-        #                             freq=freq, freq_interval=freq_interval, freq_byday=freq_byday,
-        #                             user_reminders_id=current_user.id, meds_reminders_id=med_to_remind.id)
-        reminder_to_add_to_db = Reminders(event_id='12nh',
+        reminder_to_add_to_db = Reminders(event_id=reminder_to_create['id'],
                                     summary=summary, description=description,
                                     attendee_name=attendee_name, attendee_email=attendee_email,
                                     start_date=start_date, end_date=end_date,
                                     freq=freq, freq_interval=freq_interval, freq_byday=freq_byday,
                                     user_reminders_id=current_user.id, meds_reminders_id=med_to_remind.id)
+
+        # reminder_to_add_to_db = Reminders(event_id='12nh',
+        #                             summary=summary, description=description,
+        #                             attendee_name=attendee_name, attendee_email=attendee_email,
+        #                             start_date=start_date, end_date=end_date,
+        #                             freq=freq, freq_interval=freq_interval, freq_byday=freq_byday,
+        #                             user_reminders_id=current_user.id, meds_reminders_id=med_to_remind.id)
         # add reminder to database
         db.session.add(reminder_to_add_to_db)
         db.session.commit()

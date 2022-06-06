@@ -5,7 +5,7 @@ CLIENT_SECRET_FILE = 'google-credentials.json'
 API_NAME = 'calendar'
 API_VERSION = 'v3'
 SCOPES = ['https://www.googleapis.com/auth/calendar']
-# service = Create_Service(CLIENT_SECRET_FILE, API_NAME, API_VERSION, SCOPES)
+service = Create_Service(CLIENT_SECRET_FILE, API_NAME, API_VERSION, SCOPES)
 
 
 def reminder_template(summary, description, attendee_name, attendee_email, start_date, end_date, freq, freq_interval, freq_byday):
@@ -48,9 +48,9 @@ def reminder_template(summary, description, attendee_name, attendee_email, start
 # create reminder for meds/measurements
 def create_reminder(summary, description, attendee_name, attendee_email, start_date, end_date, freq, freq_interval, freq_byday):
     template = reminder_template(summary, description, attendee_name, attendee_email, start_date, end_date, freq, freq_interval, freq_byday)
-    # reminder = service.events().insert(calendarId='primary', body=template).execute()
-    # return reminder
-    pass
+    reminder = service.events().insert(calendarId='primary', body=template).execute()
+    return reminder
+    # pass
 
 
 # update reminder
