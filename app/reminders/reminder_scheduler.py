@@ -3,8 +3,7 @@ import json
 import os
 
 
-CREDENTIALS_JSON = {"web":{"client_id":"990448112960-u8rculh5m9mqvk809qnp5oh7bqkfggfg.apps.googleusercontent.com","project_id":"the-bearpill-diary","auth_uri":"https://accounts.google.com/o/oauth2/auth","token_uri":"https://oauth2.googleapis.com/token","auth_provider_x509_cert_url":"https://www.googleapis.com/oauth2/v1/certs","client_secret":"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","redirect_uris":["https://auth0.com/login/callback"],"javascript_origins":["https://auth0.com"]}}
-
+CREDENTIALS_JSON = {"web":{"client_id":"245558123463-j16jo5s0cj5dmfq31h4acjmln7thdb8q.apps.googleusercontent.com","project_id":"bearpill-diary-352505","auth_uri":"https://accounts.google.com/o/oauth2/auth","token_uri":"https://oauth2.googleapis.com/token","auth_provider_x509_cert_url":"https://www.googleapis.com/oauth2/v1/certs","client_secret":"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","redirect_uris":["https://shiny-silence-4637.us.auth0.com/login/callback"],"javascript_origins":["https://shiny-silence-4637.us.auth0.com"]}}
 
 # CLIENT_STR_VAR = os.environ.get('CLIENT_STR_VAR')
 with open("google-credentials.json", "w") as ggc:
