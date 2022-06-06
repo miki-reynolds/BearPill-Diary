@@ -8,9 +8,9 @@ from googleapiclient.discovery import build
 from googleapiclient.http import MediaFileUpload, MediaIoBaseDownload
 from google.auth.transport.requests import Request
 
-
-import google.oauth2.credentials
-import google_auth_oauthlib.flow
+#
+# import google.oauth2.credentials
+# import google_auth_oauthlib.flow
 
 # # Use the client_secret.json file to identify the application requesting
 # # authorization. The client ID (from that file) and access scopes are required.
