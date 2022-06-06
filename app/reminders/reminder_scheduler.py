@@ -3,12 +3,12 @@ import json
 import os
 
 
-CREDENTIALS_JSON = {"web":{"client_id":"500516854011-un2jl0jtai1pbjktkagc7agsb6ma0vdf.apps.googleusercontent.com","project_id":"thebearpilldiary","auth_uri":"https://accounts.google.com/o/oauth2/auth","token_uri":"https://oauth2.googleapis.com/token","auth_provider_x509_cert_url":"https://www.googleapis.com/oauth2/v1/certs","client_secret":"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","redirect_uris":["https://shiny-silence-4637.us.auth0.com/login/callback"],"javascript_origins":["https://shiny-silence-4637.us.auth0.com"]}}
+# CREDENTIALS_JSON = {"web":{"client_id":"500516854011-un2jl0jtai1pbjktkagc7agsb6ma0vdf.apps.googleusercontent.com","project_id":"thebearpilldiary","auth_uri":"https://accounts.google.com/o/oauth2/auth","token_uri":"https://oauth2.googleapis.com/token","auth_provider_x509_cert_url":"https://www.googleapis.com/oauth2/v1/certs","client_secret":"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","redirect_uris":["https://shiny-silence-4637.us.auth0.com/login/callback"],"javascript_origins":["https://shiny-silence-4637.us.auth0.com"]}}
 
 
-# CLIENT_STR_VAR = os.environ.get('CLIENT_STR_VAR')
-with open("google-credentials.json", "w") as ggc:
-    json.dump(CREDENTIALS_JSON, ggc, indent=2)
+# # CLIENT_STR_VAR = os.environ.get('CLIENT_STR_VAR')
+# with open("google-credentials.json", "w") as ggc:
+#     json.dump(CREDENTIALS_JSON, ggc, indent=2)
 
 CLIENT_SECRET_FILE = "google-credentials.json"
 
