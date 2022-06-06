@@ -52,30 +52,24 @@ def reminder_template(summary, description, attendee_name, attendee_email, start
 
 # create reminder for meds/measurements
 def create_reminder(summary, description, attendee_name, attendee_email, start_date, end_date, freq, freq_interval, freq_byday):
-    try:
-        service = create_service(CLIENT_SECRET_FILE, API_NAME, API_VERSION, SCOPES)
-        template = reminder_template(summary, description, attendee_name, attendee_email, start_date, end_date, freq, freq_interval, freq_byday)
-        reminder = service.events().insert(calendarId='primary', body=template).execute()
-        return reminder
-    except:
-        return
+    service = create_service(CLIENT_SECRET_FILE, API_NAME, API_VERSION, SCOPES)
+    template = reminder_template(summary, description, attendee_name, attendee_email, start_date, end_date, freq, freq_interval, freq_byday)
+    reminder = service.events().insert(calendarId='primary', body=template).execute()
+    return reminder
 
 
 # update reminder
 def update_reminder(event_id, summary, description, attendee_name, attendee_email, start_date, end_date, freq, freq_interval, freq_byday):
-    try:
-        service = create_service(CLIENT_SECRET_FILE, API_NAME, API_VERSION, SCOPES)
-        new_template = reminder_template(summary, description, attendee_name, attendee_email, start_date, end_date, freq, freq_interval, freq_byday)
-        reminder_to_update = service.events().update(calendarId='primary', eventId=event_id, body=new_template).execute()
-        return reminder_to_update
-    except:
-        return
+    service = create_service(CLIENT_SECRET_FILE, API_NAME, API_VERSION, SCOPES)
+    new_template = reminder_template(summary, description, attendee_name, attendee_email, start_date, end_date, freq, freq_interval, freq_byday)
+    reminder_to_update = service.events().update(calendarId='primary', eventId=event_id, body=new_template).execute()
+    return reminder_to_update
+
 
 # delete reminder
 def delete_reminder(event_id):
-    try:
-        service = create_service(CLIENT_SECRET_FILE, API_NAME, API_VERSION, SCOPES)
-        service.events().delete(calendarId='primary', eventId=event_id).execute()
-    except:
-        return
+    service = create_service(CLIENT_SECRET_FILE, API_NAME, API_VERSION, SCOPES)
+    service.events().delete(calendarId='primary', eventId=event_id).execute()
+
+
 
