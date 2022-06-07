@@ -34,34 +34,35 @@
   <p style="font-size: 0.7rem;">
     <em>Last updated on {{ data_label['last_updated_label'] }}.</em>
   </p>
+
     {% with warnings = data_label['warnings'] %}
     {% with boxed_warnings = data_label['boxed_warnings'] %}
-      {% if warnings and not boxed_warnings %}
+    {% if warnings and not boxed_warnings %}
+      {{ med_insights_warnings(warnings) }}
+
+    {% elif boxed_warnings and not warnings %}
+      {{ med_insights_warnings(boxed_warnings) }}
+
+    {% elif warnings and boxed_warnings %}
+      {% if warnings | length < boxed_warnings | length %}
         {{ med_insights_warnings(warnings) }}
-
-      {% elif boxed_warnings and not warnings %}
-        {{ med_insights_warnings(boxed_warnings) }}
-
-      {% elif warnings and boxed_warnings %}
-        {% if warnings | length < boxed_warnings | length %}
-          {{ med_insights_warnings(warnings) }}
-        {% else %}
-          {{ med_insights_boxed_warnings(boxed_warnings) }}
-        {% endif %}
+      {% else %}
+        {{ med_insights_boxed_warnings(boxed_warnings) }}
+    {% endif %}
     {% endif %}
     {% endwith %}
     {% endwith %}
 
     {% with reactions = data_label['reactions'] %}
-      {{ med_insights_reactions(reactions) }}
-    {% endwith %}
+        {{ med_insights_reactions(reactions) }}
+      {% endwith %}
   {% endif %}
 
   {% if data_event %}
   <p class="pt-4" style="font-size: 0.7rem;">
     <em>Last updated on {{ data_label['last_updated_label'] }}.</em>
   </p>
-    {% with events = data_event['events'] %}
+  {% with events = data_event['events'] %}
       {{ med_insights_events(events) }}
     {% endwith %}
   {% endif %}

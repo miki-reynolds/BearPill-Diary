@@ -143,18 +143,23 @@ def med_insights_page(id):
 
     data_label = med_verify_link(drug_label)
     data_event = med_verify_link(drug_event)
-    if data_label:
-        return render_template('med_insights.html', title='Medication Insights', med=med,  id=med.id,
-                           data_label=med_label(data_label))
-    elif data_event:
-        return render_template('med_insights.html', title='Medication Insights', med=med, id=med.id,
-                           data_event=med_event(data_event))
 
-    elif data_label and data_event:
-        return render_template('med_insights.html', title='Medication Insights', med=med, id=med.id,
+    return render_template('med_insights.html', title='Medication Insights', med=med, id=med.id,
                            data_label=med_label(data_label), data_event=med_event(data_event))
-    else:
-        return redirect(url_for('meds_bp.med_page', id=med.id))
+
+    # if data_label and data_event:
+    #     return render_template('med_insights.html', title='Medication Insights', med=med, id=med.id,
+    #                        data_label=med_label(data_label), data_event=med_event(data_event))
+    #
+    # elif data_event:
+    #     return render_template('med_insights.html', title='Medication Insights', med=med, id=med.id,
+    #                        data_event=med_event(data_event))
+    # if data_label:
+    #     return render_template('med_insights.html', title='Medication Insights', med=med,  id=med.id,
+    #                        data_label=med_label(data_label))
+    #
+    # else:
+    #     return redirect(url_for('meds_bp.med_page', id=med.id))
 
 
 # Create reminder
