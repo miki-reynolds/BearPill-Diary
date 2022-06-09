@@ -29,7 +29,6 @@
 </table>	
 
 <br />
-
 ### 📔 A quick look at our features with inllustration pictures.
 
 <br />
@@ -52,18 +51,18 @@
   </tr>
   
   <tr align="center">
-    <td><img src="https://github.com/miki-reynolds/BearPill-Diary/blob/64ba823d7b626d7e59c3097b8b76f5140192594c/readme_img/ins1.jpg" width="100%" alt="Insight1"/>
+    <td>
+	<img src="https://github.com/miki-reynolds/BearPill-Diary/blob/64ba823d7b626d7e59c3097b8b76f5140192594c/readme_img/ins1.jpg" width="100%" alt="Insights"/>
+	<img src="https://github.com/miki-reynolds/BearPill-Diary/blob/64ba823d7b626d7e59c3097b8b76f5140192594c/readme_img/ins2.jpg" width="100%" alt="Insights"/>
     </td>
-    <td><img src="https://github.com/miki-reynolds/BearPill-Diary/blob/64ba823d7b626d7e59c3097b8b76f5140192594c/readme_img/mea.jpg" width="100%" alt="Insight1"/>
-    </td>
-  </tr>
-  <tr>
-    <td><img src="https://github.com/miki-reynolds/BearPill-Diary/blob/64ba823d7b626d7e59c3097b8b76f5140192594c/readme_img/ins2.jpg" width="100%" alt="Insight1"/>
-    </td>
-    <td><img src="https://github.com/miki-reynolds/BearPill-Diary/blob/64ba823d7b626d7e59c3097b8b76f5140192594c/readme_img/da.jpg" width="100%" alt="Insight1"/>
+    <td>
+	<img src="https://github.com/miki-reynolds/BearPill-Diary/blob/64ba823d7b626d7e59c3097b8b76f5140192594c/readme_img/mea.jpg" width="100%" alt="Data Analysis"/>
+	<img src="https://github.com/miki-reynolds/BearPill-Diary/blob/64ba823d7b626d7e59c3097b8b76f5140192594c/readme_img/da.jpg" width="100%" alt="Data Analysis"/>
     </td>
   </tr>
 </table>
+
+<br />
 
 ### ≧❀‿❀≦ Inspiration & Design:
 _A brief summary_
