@@ -5,12 +5,11 @@
 </p>
 
 #### Ever forgotten your medication names & measurement numbers at home when heading to the Doc? Or where you put them in the house? What about forgetting when to take what? BearPill ʕ•́ᴥ•̀ʔ the pain of memorizing what and remembering when with you among other features!
+#### A CRUD web application that allows users to manage health-related information and gain insights from their data.
+####
 
 <table align="center">
   <tr>
-    <td width="50%" valign="top">
-      <h4 align="center">A CRUD web application that allows users to manage health-related information and gain insights from their data.</h4>
-        <br />
       <a target="_blank" href="https://bearpilldiary.herokuapp.com/">
             <img src="https://github.com/miki-reynolds/miki-reynolds/blob/688823c5c22a05b4bdf5b40252ba7d511ae598ac/img/bearpillgif.gif" width="100%" alt="BearPill Diary"/>
       </a>
