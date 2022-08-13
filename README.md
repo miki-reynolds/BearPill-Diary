@@ -74,7 +74,7 @@ As a specialized interpreter, I have interpreted for many patients, regardless o
 More importantly, as a daughter to aging parents, I have noticed that my parents have a propensity to miss dosages of their medications. My parents are not as tech-savvy and would tune out any instructions on how to set up a system to remember when to take what as soon as they hear any technology-like word.
   
 <br /> <br />
-Too frustrating of a situation together with a hope that my parents would utilize the application developed by their own daughter, has inspired me to develop the BearPill Diary application to facilitate individuals in their health-record-management journey.
+Too frustrating of a situation together with a hope that my parents would utilize the application developed by their own daughter, has inspired me, along with my co-founders, to develop the BearPill Diary application to facilitate individuals in their health-record-management journey.
 <br />
 The application, however, is much more than just a journal. BearPill Diary can provide users with many useful functionalities, e.g. setting reminders and generating insights about their data. As an illustration, the application can provide users information about their medications, entailing warnings and other patients' experiencing while taking the drugs from openFDA - an Elasticsearch-based API that serves public FDA data about nouns like drugs, devices, and foods.
   
