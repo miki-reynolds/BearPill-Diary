@@ -7,7 +7,7 @@
 <!--hidden_tag generating a hidden field that includes a token used to protect the form against CSRF-->
 
 <div class="container-fluid px-4">
-    <div class="my-4 text-center text-muted">
+    <div class="my-4 text-center">
         <h3>Your Information</h3>
     </div>
 
@@ -16,7 +16,7 @@
             <form action="" method="post">
                 {{ form.hidden_tag() }}
 
-                {{ form.username.label(class="text-muted") }}
+                {{ form.username.label() }}
                 <div class="mb-3 input-group">
                     <span class="input-group-text">
                         <i class="bi bi-person-plus-fill"></i>
@@ -27,7 +27,7 @@
                     {% endfor %}
                 </div>
 
-                {{ form.email_address.label(class="text-muted") }}
+                {{ form.email_address.label() }}
                 <div class="mb-3 input-group">
                     <span class="input-group-text">
                         <i class="bi bi-envelope-fill"></i>

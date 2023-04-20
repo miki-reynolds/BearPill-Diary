@@ -6,7 +6,7 @@
             <form action="" method="post">
                 {{ form.hidden_tag() }}
 
-                {{ form.number.label(class="text-muted") }}
+                {{ form.number.label(class="") }}
                 <div class="mb-3 input-group">
                     <span class="input-group-text">
                         <i class="bi bi-123"></i>
@@ -17,7 +17,7 @@
                     {% endfor %}
                 </div>
 
-                {{ form.timestamp.label(class="text-muted") }}
+                {{ form.timestamp.label(class="") }}
                 <div class="mb-3 input-group">
                     <span class="input-group-text">
                         <i class="bi bi-calendar3"></i>
@@ -43,7 +43,7 @@
             <form action="" method="post">
                 {{ form.hidden_tag() }}
 
-                {{ form.upper_number.label(class="text-muted") }}
+                {{ form.upper_number.label(class="") }}
                 <div class="mb-3 input-group">
                     <span class="input-group-text">
                         <i class="bi bi-123"></i>
@@ -54,7 +54,7 @@
                     {% endfor %}
                 </div>
 
-                {{ form.lower_number.label(class="text-muted") }}
+                {{ form.lower_number.label(class="") }}
                 <div class="mb-3 input-group">
                     <span class="input-group-text">
                         <i class="bi bi-123"></i>
@@ -65,7 +65,7 @@
                     {% endfor %}
                 </div>
 
-                {{ form.timestamp.label(class="text-muted") }}
+                {{ form.timestamp.label(class="") }}
                 <div class="mb-3 input-group">
                     <span class="input-group-text">
                         <i class="bi bi-calendar3"></i>
@@ -92,7 +92,7 @@
             <form action="" method="post">
                 {{ form.hidden_tag() }}
 
-                {{ form.first_number.label(class="text-muted") }}
+                {{ form.first_number.label(class="") }}
                 <div class="mb-3 input-group">
                     <span class="input-group-text">
                         <i class="bi bi-123"></i>
@@ -103,7 +103,7 @@
                     {% endfor %}
                 </div>
 
-                {{ form.second_number.label(class="text-muted") }}
+                {{ form.second_number.label(class="") }}
                 <div class="mb-3 input-group">
                     <span class="input-group-text">
                         <i class="bi bi-123"></i>
@@ -114,7 +114,7 @@
                     {% endfor %}
                 </div>
 
-                {{ form.third_number.label(class="text-muted") }}
+                {{ form.third_number.label(class="") }}
                 <div class="mb-3 input-group">
                     <span class="input-group-text">
                         <i class="bi bi-123"></i>
@@ -125,7 +125,7 @@
                     {% endfor %}
                 </div>
 
-                {{ form.timestamp.label(class="text-muted") }}
+                {{ form.timestamp.label(class="") }}
                 <div class="mb-3 input-group">
                     <span class="input-group-text">
                         <i class="bi bi-calendar3"></i>
@@ -162,7 +162,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-          <p class="text-muted">
+          <p class="">
             <a class="text-secondary"
                href="{{url_for('measurements_bp.measurement_add_reminder_page', id=measurement.id) }}">
                 Create
@@ -358,7 +358,7 @@
     {% endif %}
   </script>
   {% else %}
-  <h6 class="text-muted text-center pb-4">Not enough data to generate a chart!</h6>
+  <h6 class=" text-center pb-4">Not enough data to generate a chart!</h6>
   {% endif %}
 </div>
 

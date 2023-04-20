@@ -4,17 +4,23 @@
 {% block content %}
 
 <div class="container-fluid pb-4">
-  <h3 class="py-4 text-center text-muted">Your BearPill Diary At A Glance</h3>
+  <h3 class="mb-4 py-4 text-center font-weight-bold" style="
+          color: #5a4452;
+          border-color: #fff7e8;
+          border-style: dashed;">
+    Your BearPill Diary At A Glance
+  </h3>
 
   <div class="accordion" id="chapters">
     <div class="accordion-item" style="background-color: #F5F5F5">
       <h2 class="accordion-header" id="chap1">
-        <button class="accordion-button text-muted" type="button" data-bs-toggle="collapse" data-bs-target="#chap1-flush" aria-expanded="true" aria-controls="chap1-flush">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#chap1-flush" aria-expanded="true" aria-controls="chap1-flush" style="
+          color: #5a4452;">
           <b>Chapter I: Medications</b>
         </button>
       </h2>
       <div id="chap1-flush" class="accordion-collapse collapse show" aria-labelledby="chap1">
-        <div class="accordion-body">
+        <div class="accordion-body" style="color: #5a4452;">
           <h6>There are currently {{ meds | length }} medication(s) in your diary.</h6>
           <p>
             {% if meds %}
@@ -61,14 +67,14 @@
       </div>
     </div>
 
-    <div class="accordion-item" style="background-color: #F5F5F5">
-      <h2 class="accordion-header" id="chap3">
-        <button class="accordion-button collapsed text-muted" type="button" data-bs-toggle="collapse" data-bs-target="#chap3-stayopen-collapse" aria-expanded="false" aria-controls="chap3-stayopen-collapse">
+    <div class="accordion-item" style="background-color: #F5F5F5; ">
+      <h2 class="accordion-header" id="chap2">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#chap2-stayopen-collapse" aria-expanded="false" aria-controls="chap2-stayopen-collapse" style="color: #5a4452;">
           <b>Chapter II: Measurements</b>
         </button>
       </h2>
-      <div id="chap3-stayopen-collapse" class="accordion-collapse collapse" aria-labelledby="chap3">
-        <div class="accordion-body">
+      <div id="chap2-stayopen-collapse" class="accordion-collapse collapse" aria-labelledby="chap2">
+        <div class="accordion-body" style="color: #5a4452;">
           <h6>There are currently {{ measurements | length }} measurement(s) in your diary.</h6>
           <p>
             {% if measurements %}
@@ -116,13 +122,13 @@
     </div>
 
     <div class="accordion-item" style="background-color: #F5F5F5">
-      <h2 class="accordion-header" id="chap2">
-        <button class="accordion-button collapsed text-muted" type="button" data-bs-toggle="collapse" data-bs-target="#chap2-stayopen-collapse" aria-expanded="false" aria-controls="chap2-stayopen-collapse">
+      <h2 class="accordion-header" id="chap3">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#chap3-stayopen-collapse" aria-expanded="false" aria-controls="chap3-stayopen-collapse" style="color: #5a4452;">
           <b>Chapter III: Allergies</b>
         </button>
       </h2>
-      <div id="chap2-stayopen-collapse" class="accordion-collapse collapse" aria-labelledby="chap2">
-        <div class="accordion-body">
+      <div id="chap3-stayopen-collapse" class="accordion-collapse collapse" aria-labelledby="chap2">
+        <div class="accordion-body" style="color: #5a4452;">
           <h6>There are currently {{ allergies | length }} allergy/allergies in your diary.</h6>
           <p>
             {% if allergies %}
@@ -150,14 +156,13 @@
 
     <div class="accordion-item mb-2" style="background-color: #F5F5F5">
       <h2 class="accordion-header" id="chap4">
-        <button class="accordion-button collapsed text-muted" type="button" data-bs-toggle="collapse" data-bs-target="#chap4-stayopen-collapse" aria-expanded="false" aria-controls="chap3-stayopen-collapse">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#chap4-stayopen-collapse" aria-expanded="false" aria-controls="chap4-stayopen-collapse" style="color: #5a4452;">
           <b>Chapter IV: Habit Trends</b>
         </button>
       </h2>
       <div id="chap4-stayopen-collapse" class="accordion-collapse collapse" aria-labelledby="chap4">
-        <div class="accordion-body">
+        <div class="accordion-body" style="color: #5a4452;">
           <h6>This section will show users' trends on the frequency of taking medications and measurements.
-          This feature is under development.
           </h6>
         </div>
       </div>

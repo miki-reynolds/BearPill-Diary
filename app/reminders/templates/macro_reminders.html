@@ -4,7 +4,7 @@
             <form action="" method="post">
                 {{ form.hidden_tag() }}
 
-                {{ form.summary.label(class="text-muted") }}
+                {{ form.summary.label(class="") }}
                 <div class="mb-3 input-group">
                     <span class="input-group-text">
                         <i class="bi bi-brush"></i>
@@ -15,7 +15,7 @@
                     {% endfor %}
                 </div>
 
-                {{ form.description.label(class="text-muted") }}
+                {{ form.description.label(class="") }}
                 <div class="mb-3 input-group">
                     <span class="input-group-text">
                         <i class="bi bi-chat-square-text"></i>
@@ -26,7 +26,7 @@
                     {% endfor %}
                 </div>
 
-                {{ form.attendee_name.label(class="text-muted") }}
+                {{ form.attendee_name.label(class="") }}
                 <div class="mb-3 input-group">
                     <span class="input-group-text">
                         <i class="bi bi-person-plus-fill"></i>
@@ -37,7 +37,7 @@
                     {% endfor %}
                 </div>
 
-                {{ form.attendee_email.label(class="text-muted") }}
+                {{ form.attendee_email.label(class="") }}
                 <div class="mb-3 input-group">
                     <span class="input-group-text">
                         <i class="bi bi-envelope-fill"></i>
@@ -48,7 +48,7 @@
                     {% endfor %}
                 </div>
 
-                {{ form.start_date.label(class="text-muted") }}
+                {{ form.start_date.label(class="") }}
                 <div class="mb-3 input-group">
                     <span class="input-group-text">
                         <i class="bi bi-calendar3"></i>
@@ -59,7 +59,7 @@
                     {% endfor %}
                 </div>
 
-                {{ form.end_date.label(class="text-muted") }}
+                {{ form.end_date.label(class="") }}
                 <div class="mb-3 input-group">
                     <span class="input-group-text">
                         <i class="bi bi-calendar3"></i>
@@ -70,15 +70,15 @@
                     {% endfor %}
                 </div>
 
-                {{ form.freq.label(class="text-muted") }} and {{ form.freq_interval.label(class="text-muted") }}:
+                {{ form.freq.label(class="") }} and {{ form.freq_interval.label(class="") }}:
                 <div class="input-group mb-3">
-                    <span class="input-group-text">{{ form.freq.label(class="text-muted") }}</span>
+                    <span class="input-group-text">{{ form.freq.label(class="") }}</span>
                     {{ form.freq(class="form-control") }}
                     {% for error in form.freq.errors %}
                     <div class="container-fluid text-red">[{{ error }}]</div>
                     {% endfor %}
 
-                    <span class="input-group-text">{{ form.freq_interval.label(class="text-muted") }}</span>
+                    <span class="input-group-text">{{ form.freq_interval.label(class="") }}</span>
                     {{ form.freq_interval(class="form-control") }}
 
                     {% for error in form.freq_interval.errors %}
@@ -86,7 +86,7 @@
                     {% endfor %}
                 </div>
 
-                {{ form.freq_byday.label(class="text-muted") }}
+                {{ form.freq_byday.label(class="") }}
                 <div class="mb-3 input-group">
                     <span class="input-group-text">
                         <i class="bi bi-calendar2-day-fill"></i>

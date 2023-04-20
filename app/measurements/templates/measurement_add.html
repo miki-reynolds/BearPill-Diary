@@ -7,16 +7,16 @@
 <!--hidden_tag generating a hidden field that includes a token used to protect the form against CSRF-->
 
 <div class="container-fluid">
-    <div class="text-center text-muted mt-5">
+    <div class="text-center  mt-5">
         <h3>Add Measurement</h3>
     </div>
-    <p class="p-4 text-center text-muted">You'll be able to add the details of the measurement after the measurement name and category are correctly filled out :)</p>
+    <p class="p-4 text-center ">You'll be able to add the details of the measurement after the measurement name and category are correctly filled out :)</p>
     <div class="row justify-content-center mt-3">
         <div class="col-lg-6">
             <form action="" method="post">
                 {{ form.hidden_tag() }}
 
-                {{ form.measurement_name.label(class="text-muted") }}
+                {{ form.measurement_name.label(class="") }}
                 <div class="mb-3 input-group">
                     <span class="input-group-text">
                         <i class="bi bi-clipboard2-pulse"></i>
@@ -27,7 +27,7 @@
                     {% endfor %}
                 </div>
 
-                {{ form.category.label(class="text-muted") }}
+                {{ form.category.label(class="") }}
                 <div class="mb-3 input-group">
                     <span class="input-group-text">
                         <i class="bi bi-bookmark-heart"></i>

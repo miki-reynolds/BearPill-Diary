@@ -48,9 +48,9 @@
     </div>
   </div>
 
-  <h6 class="pb-4 text-center text-muted">Measurement Number(s) for your {{ measurement.measurement_name }}</h6>
+  <h6 class="pb-4 text-center ">Measurement Number(s) for your {{ measurement.measurement_name }}</h6>
 
-  <table class="table table-hover table-striped table-success text-dark">
+  <table class="table table-hover table-striped table-danger text-dark">
     <thead>
       <tr class="text-center">
         <th scope="col" >#</th>
@@ -90,7 +90,7 @@
   </table>
 
   {% else %}
-  <h6 class="text-muted text-center pb-4">Just kidding! :) Nothing to be seen here...</h6>
+  <h6 class=" text-center pb-4">Just kidding! :) Nothing to be seen here...</h6>
   {% endif %}
 </div>
 
@@ -234,7 +234,7 @@
 
   </script>
   {% else %}
-  <h6 class="text-muted text-center pb-4">Not enough data to generate a chart!</h6>
+  <h6 class=" text-center pb-4">Not enough data to generate a chart!</h6>
   {% endif %}
 </div>
 

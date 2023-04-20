@@ -36,7 +36,7 @@
             </div>
   </div>
 
-  <h6 class="text-muted text-center pb-4">There are currently {{ total_meds }} medications in your diary.</h6>
+  <h6 class="text-center pb-4">There are currently {{ total_meds }} medications in your diary.</h6>
 
   <!--Individual MED-->
   {% if meds %}
@@ -56,10 +56,10 @@
 
     <div class="container-fluid px-4 mb-4 d-flex gap-2 justify-content-center">
         {% if prev_url %}
-        <a class="text-muted" href="{{ prev_url }}"><b>Previous</b></a>
+        <a class="" href="{{ prev_url }}"><b>Previous</b></a>
         {% endif %}
         {% if next_url %}
-        <a class="text-muted" href="{{ next_url }}"><b>Next</b></a>
+        <a class="" href="{{ next_url }}"><b>Next</b></a>
         {% endif %}
       </div>
     </div>
@@ -67,7 +67,7 @@
 
   <!--Message when there are no med-->
   {% else %}
-  <h6 class="text-muted text-center pb-4">Yay, the less, the merrier, right? ;)</h6>
+  <h6 class="text-center pb-4">Yay, the less, the merrier, right? ;)</h6>
   {% endif %}
 </div>
 {% endblock %}

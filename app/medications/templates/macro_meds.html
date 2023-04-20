@@ -1,12 +1,12 @@
 <!--------------------------------------MEDICATIONS-------------------------------------->
 
 {% macro med_form(form) %}
-<div class="row justify-content-center text-muted mt-3">
+<div class="row justify-content-center mt-3">
         <div class="col-lg-6">
             <form action="" method="post">
                 {{ form.hidden_tag() }}
 
-                {{ form.medname.label(class="text-muted") }}
+                {{ form.medname.label(class="") }}
                 <div class="mb-3 input-group">
                     <span class="input-group-text">
                         <i class="bi bi-bandaid-fill"></i>
@@ -17,7 +17,7 @@
                     {% endfor %}
                 </div>
 
-                {{ form.dose.label(class="text-muted") }}
+                {{ form.dose.label(class="") }}
                 <div class="mb-3 input-group">
                     <span class="input-group-text">
                         <i class="bi bi-patch-exclamation-fill"></i>
@@ -28,7 +28,7 @@
                     {% endfor %}
                 </div>
 
-                {{ form.directions.label(class="text-muted") }}
+                {{ form.directions.label(class="") }}
                 <div class="mb-3 input-group">
                     <span class="input-group-text">
                         <i class="bi bi-alarm-fill"></i>
@@ -39,7 +39,7 @@
                     {% endfor %}
                 </div>
 
-                {{ form.purpose.label(class="text-muted") }}
+                {{ form.purpose.label(class="") }}
                 <div class="mb-3 input-group">
                     <span class="input-group-text">
                         <i class="bi bi-patch-question-fill"></i>
@@ -50,7 +50,7 @@
                     {% endfor %}
                 </div>
 
-                {{ form.timestamp.label(class="text-muted") }}
+                {{ form.timestamp.label(class="") }}
                 <div class="mb-3 input-group">
                     <span class="input-group-text">
                         <i class="bi bi-calendar3"></i>
@@ -61,7 +61,7 @@
                     {% endfor %}
                 </div>
 
-                {{ form.notes.label(class="text-muted") }}
+                {{ form.notes.label(class="") }}
                 <div class="mb-3 input-group">
                     <span class="input-group-text">
                         <i class="bi bi-stickies-fill"></i>
@@ -72,7 +72,7 @@
                     {% endfor %}
                 </div>
 
-                {{ form.category.label(class="text-muted") }}
+                {{ form.category.label(class="") }}
                 <div class="mb-3 input-group">
                     <span class="input-group-text">
                         <i class="bi bi-bookmark-heart"></i>
@@ -107,15 +107,15 @@
 
 {% macro med_info(med) %}
     <!--Info for each MED-->
-    <h5 class="card-header text-center py-3 text-muted bg-muted"><b>{{ med.medname | upper }}</b> ({{ med.category }})</h5>
+    <h5 class="card-header text-center py-3 text-white bg-dark"><b>{{ med.medname | upper }}</b> ({{ med.category }})</h5>
 
-    <ul class="list-group list-group-flush">
-        <li class="list-group-item text-muted">
+    <ul class="list-group list-group-flush" style="color: #5a4452;">
+        <li class="list-group-item" style="color: #5a4452;">
             <b>Dosage:</b> {{ med.dose }} | <b>Directions:</b> {{ med.directions | capitalize }}</li>
-        <li class="list-group-item text-muted">
+        <li class="list-group-item" style="color: #5a4452;">
             <b>Purpose:</b> {{ med.purpose }}
         </li>
-        <li class="list-group-item text-muted"><b>Reminder(s):</b> <i class="bi bi-alarm"></i>
+        <li class="list-group-item" style="color: #5a4452;"><b>Reminder(s):</b> <i class="bi bi-alarm"></i>
             <a class="text-secondary" href="{{url_for('meds_bp.med_add_reminder_page', id=med.id) }}">Create</a>
 
             {% with reminders = med.meds_reminders.all() %}
@@ -125,7 +125,7 @@
             {% endif %}
             {% endwith %}
         </li>
-        <li class="list-group-item text-muted">
+        <li class="list-group-item" style="color: #5a4452;">
             <b>Notes:</b> {{ med.notes }}
         </li>
     </ul>
@@ -146,7 +146,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-          <p class="text-muted">
+          <p class="">
               You have {{ reminders | length }} reminder(s).<br>
               {% for reminder in reminders %}
                     <a class="text-secondary" href="{{url_for('meds_bp.med_update_reminder_page', id=reminder.id) }}">Update</a>
@@ -243,15 +243,15 @@
 
 {% macro med_insights_warnings(warnings) %}
     {% if warnings %}
-    <table id="warnings" class="table table-hover table-striped table-success">
+    <table id="warnings" class="table table-hover table-striped table-danger">
       <thead>
-        <tr class="text-center text-muted">
+        <tr class="text-center">
           <th scope="col">WARNINGS</th>
         </tr>
       </thead>
       <tbody>
         {% for info in warnings %}
-        <tr class="text-muted">
+        <tr class="">
           <td scope="row">{{ info }}</td>
         </tr>
         {% endfor %}
@@ -263,15 +263,15 @@
 
 {% macro med_insights_boxed_warnings(boxed_warnings) %}
     {% if boxed_warnings %}
-    <table id="boxed_warnings" class="table table-hover table-striped table-success text-muted">
+    <table id="boxed_warnings" class="table table-hover table-striped table-danger ">
       <thead>
-        <tr class="text-center text-muted">
+        <tr class="text-center">
           <th scope="col" >BOXED WARNINGS</th>
         </tr>
       </thead>
       <tbody>
         {% for info in boxed_warnings %}
-        <tr class="text-muted">
+        <tr class="">
           <td scope="row">{{ info }}</td>
         </tr>
         {% endfor %}
@@ -283,15 +283,15 @@
 
 {% macro med_insights_reactions(reactions) %}
     {% if reactions %}
-    <table id="reactions" class="table table-hover table-striped table-success text-muted">
+    <table id="reactions" class="table table-hover table-striped table-danger ">
       <thead>
-        <tr class="text-center text-muted">
+        <tr class="text-center">
           <th scope="col" >ADVERSE REACTIONS</th>
         </tr>
       </thead>
       <tbody>
         {% for info in reactions %}
-        <tr class="text-muted">
+        <tr class="">
           <td scope="row">{{ info }}</td>
         </tr>
         {% endfor %}
@@ -303,9 +303,9 @@
 
 {% macro med_insights_events(events) %}
     {% if events %}
-    <table id="events" class="table table-hover table-striped table-success text-muted">
+    <table id="events" class="table table-hover table-striped table-danger ">
         <thead>
-          <tr class="text-center text-muted">
+          <tr class="text-center ">
             <th scope="col" >
               Reactions below were reported while patients were taking the drug. Please note that these reports are per
               incident and often reference multiple drugs, meaning the drug you're looking for may not be causally
@@ -315,7 +315,7 @@
         </thead>
         <tbody>
           {% for event in events %}
-          <tr class="text-muted">
+          <tr class="">
             <td scope="row">{{ event["term"] }} has been reported {{ event["count"] }} times.</td>
           </tr>
           {% endfor %}

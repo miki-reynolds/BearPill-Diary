@@ -6,15 +6,15 @@
             <img src="{{url_for('home_bp.static',filename = 'images/contact.png')}}" alt="contact" class="img-fluid">
         </div>
         <div class="col-lg-6">
-            <h3 class="text-center pt-3 fw-bolder text-muted">Let's Chat!</h3>
-            <p class="text-center pb-2 text-muted">
+            <h3 class="text-center pt-3 fw-bolder">Let's Chat!</h3>
+            <p class="text-center pb-2">
                 We're open for any feedback, inquiries, cute pet memes and more!
             </p>
 
             <form action="" method="post">
                 {{ form.hidden_tag() }}
 
-                {{ form.email_address.label(class="text-muted") }}
+                {{ form.email_address.label() }}
                 <div class="mb-2 input-group">
                     <span class="input-group-text">
                         <i class="bi bi-envelope-fill"></i>
@@ -25,7 +25,7 @@
                     {% endfor %}
                 </div>
 
-                {{ form.subject.label(class="text-muted") }}
+                {{ form.subject.label() }}
                 <div class="mb-2 input-group">
                     <span class="input-group-text">
                         <i class="bi bi-patch-question-fill"></i>

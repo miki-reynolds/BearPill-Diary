@@ -34,29 +34,29 @@
     </div>
   </div>
 
-  <h6 class="text-muted text-center pb-4">There are currently {{ measurements | length }} measurement names in your diary.</h6>
+  <h6 class=" text-center pb-4">There are currently {{ measurements | length }} measurement names in your diary.</h6>
 
   <!--Individual MEASUREMENT-->
   {% if measurements %}
   {% for measurement in measurements %}
-  <div class="row justify-content-center gy-3 text-muted">
+  <div class="row justify-content-center gy-3 ">
     <!--Info for each MEASUREMENT-->
     <div class="col-12 mb-4">
       <div class="card">
-        <h5 class="card-header text-center bg-muted py-3">
+        <h5 class="card-header text-center text-white bg-dark py-3">
             <b>{{ measurement.measurement_name | upper }}</b>
         </h5>
           <!--Info for each MED-->
           {% if measurement.category == '1' %}
           {% with numbers = measurement.measurement_nums1.all() %}
           <ul class="list-group list-group-flush">
-                <li class="list-group-item text-muted">
+                <li class="list-group-item " style="color: #5a4452;">
                     The average was {{ (numbers | category1)['mean'] }}.
                 </li>
-                <li class="list-group-item text-muted">
+                <li class="list-group-item " style="color: #5a4452;">
                     The highest {{ (numbers | category1)['max'] }} taken on {{ (numbers | category1)['max_time'] }}.
                 </li>
-                <li class="list-group-item text-muted">
+                <li class="list-group-item " style="color: #5a4452;">
                     The lowest {{ (numbers | category1)['min'] }} taken on {{ (numbers | category1)['min_time'] }}.
                 </li>
             </ul>
@@ -66,19 +66,19 @@
             {% if measurement.category == '2' %}
             {% with numbers = measurement.measurement_nums2.all() %}
           <ul class="list-group list-group-flush">
-                <li class="list-group-item text-muted">
+                <li class="list-group-item " style="color: #5a4452;">
                     The average was {{ (numbers | category2)['mean'] }}.
                 </li>
-                <li class="list-group-item text-muted">
+                <li class="list-group-item " style="color: #5a4452;">
                     The highest upper number was {{ (numbers | category2)['max_upper'] }} taken on {{ (numbers | category2)['max_upper_time'] }}
                 </li>
-                <li class="list-group-item text-muted">
+                <li class="list-group-item " style="color: #5a4452;">
                     The highest lower number was {{ (numbers | category2)['max_lower'] }} taken on {{ (numbers | category2)['max_lower_time'] }}
                 </li>
-                <li class="list-group-item text-muted">
+                <li class="list-group-item " style="color: #5a4452;">
                     The lowest upper number was {{ (numbers | category2)['min_upper'] }} taken on {{ (numbers | category2)['min_upper_time'] }}
                 </li>
-                <li class="list-group-item text-muted">
+                <li class="list-group-item " style="color: #5a4452;">
                     The lowest lower number was {{ (numbers | category2)['min_lower'] }} taken on {{ (numbers | category2)['min_lower_time'] }}
                 </li>
             </ul>
@@ -88,25 +88,25 @@
           {% if measurement.category == '3' %}
           {% with numbers = measurement.measurement_nums3.all() %}
           <ul class="list-group list-group-flush">
-                <li class="list-group-item text-muted">
+                <li class="list-group-item " style="color: #5a4452;">
                     The average was {{ (numbers | category3)['mean'] }}.
                 </li>
-                <li class="list-group-item text-muted">
+                <li class="list-group-item " style="color: #5a4452;">
                     The highest first number was {{ (numbers | category3)['max_first'] }} taken on {{ (numbers | category3)['max_first_time'] }}
                 </li>
-                <li class="list-group-item text-muted">
+                <li class="list-group-item " style="color: #5a4452;">
                     The highest second number was {{ (numbers | category3)['max_second'] }} taken on {{ (numbers | category3)['max_second_time'] }}
                 </li>
-                <li class="list-group-item text-muted">
+                <li class="list-group-item " style="color: #5a4452;">
                     The highest third number was {{ (numbers | category3)['max_third'] }} taken on {{ (numbers | category3)['max_third_time'] }}
                 </li>
-                <li class="list-group-item text-muted">
+                <li class="list-group-item " style="color: #5a4452;">
                     The lowest first number was {{ (numbers | category3)['min_first'] }} taken on {{ (numbers | category3)['min_first_time'] }}
                 </li>
-                <li class="list-group-item text-muted">
+                <li class="list-group-item " style="color: #5a4452;">
                     The lowest second number was {{ (numbers | category3)['min_second'] }} taken on {{ (numbers | category3)['min_second_time'] }}
                 </li>
-                <li class="list-group-item text-muted">
+                <li class="list-group-item " style="color: #5a4452;">
                     The lowest third number was {{ (numbers | category3)['min_third'] }} taken on {{ (numbers | category3)['min_third_time'] }}
                 </li>
             </ul>
@@ -144,16 +144,16 @@
   <!--Pagination-->
   <div class="container-fluid px-4 mb-4 d-flex gap-2 justify-content-center">
         {% if prev_url %}
-        <a class="text-muted" href="{{ prev_url }}"><b>Previous</b></a>
+        <a class="" href="{{ prev_url }}"><b>Previous</b></a>
         {% endif %}
         {% if next_url %}
-        <a class="text-muted" href="{{ next_url }}"><b>Next</b></a>
+        <a class="" href="{{ next_url }}"><b>Next</b></a>
         {% endif %}
   </div>
 
   <!--Message when there are no MEASUREMENT-->
   {% else %}
-  <h6 class="text-muted text-center pb-4">Interested in adding some here because there is nothing to be show right now... :)</h6>
+  <h6 class=" text-center pb-4">Interested in adding some here because there is nothing to be show right now... :)</h6>
 </div>
 
   {% endif %}

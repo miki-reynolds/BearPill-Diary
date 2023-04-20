@@ -1,0 +1,278 @@
+/*  ===== MOBILE styles (reside at the top and are inherited by all devices) ===== */
+/*  ===== See tablet, desktop, and print @media queries at the bottom. */
+
+
+/*   ----- Imports  -----  */
+  /* Add fonts from the app's server
+    @font-face {
+      font-family: 'FontName';
+      src: url('FontName.woff2') format('woff2');
+    }
+    ...or hosted services like Google Fonts
+    @import url(//fonts.googleapis.com/css?family=Font+Name);
+  */
+
+  /* @import 'node_modules/modern-normalize/modern-normalize.css'; */
+        /* npm install modern-normalize
+          Resets elements for browser consistency.
+          https://www.npmjs.com/package/modern-normalize
+        */
+
+  /* Component-specific stylesheets, if any.
+    @import "component1.css";
+  */
+
+@import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@700&family=Chivo+Mono&display=swap');
+
+/* ----- Variables  -----  */
+:root {
+    --pastel-purple-light: #d9c3d4;
+    --pastel-purple-med: #96748e;
+    --pastel-purple-dark: #5a4452;
+    --pastel-purple-darker: #462941;
+    --pastel-purple-transparent: rgba(215, 190, 213, 0.5);
+    --beige: #fff7e8;
+    --beige-transparent: rgb(254, 238, 216);
+}
+
+/*  ----- Viewport ----- elements inherited by all remaining elements ----- */
+body {       /* Can alternatively define in html {} or :root {} */
+    background-image: url("images/airballon-bg-dark.png");
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    color: var(--pastel-purple-darker);
+    font-family: 'Chivo Mono', monospace;
+    margin:0 auto; /* center the whole page */
+    padding: 3%;
+    max-width: 1200px;
+}
+
+
+/*  ----- Page layout blocks -----  */
+header {
+    font-family: 'Chakra Petch', sans-serif;
+    text-align: center;
+    font-size: 1.5rem;
+    color: var(--pastel-purple-dark);
+}
+
+main {
+  background-color: var(--pastel-purple-transparent);
+  padding: 25px;
+}
+
+footer {
+    text-align: center;
+    margin-top: 50px;
+    color: var(--beige-transparent);
+}
+
+/* ----- Anchors ----- Text links */
+a {}
+a:link {}
+a:hover {}
+a:active {}
+a:visited {}
+
+/*  ----- Navigation ----- Override text links for navigation only.  */
+nav {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+nav a {
+    text-decoration: none;
+}
+
+.nav-bar a {
+    color: var(--pastel-purple-med);
+    background-color: var(--beige);
+    margin: 5px 5px;
+    padding: 0.5em 2.5em ;
+    text-decoration: none;
+}
+
+.nav-bar a:hover {
+    color: var(--beige);
+    background-color: var(--pastel-purple-med);
+}
+
+.nav-concepts {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+}
+
+.nav-concepts a {
+    color: var(--beige);
+    background-color: var(--pastel-purple-med);
+    margin: 5px 5px;
+    padding: 5px ;
+
+}
+
+.nav-concepts a:hover {
+    color: var(--pastel-purple-med);
+    background-color: var(--beige);
+}
+
+
+/*  -----  Typography  ----- */
+p {}
+br {}
+ol, ul, dl {}
+li {}
+
+dt, dd {
+    margin-bottom: 5px;
+}
+
+h2 {
+    font-family: 'Chakra Petch', sans-serif;
+    color: var(--pastel-purple-dark);
+    border-color: var(--beige);
+    border-style: dashed;
+    padding: 5px 10px;
+}
+
+h3 {
+  color: var(--beige);
+  border-bottom: solid;
+}
+
+h4, h5, h6 {
+    font-family: 'Chakra Petch', sans-serif;
+    color: var(--beige-transparent);
+    text-decoration: underline;
+}
+
+abbr {}
+acronym {}
+address {}
+blockquote {}
+  q {}
+  cite {}
+em {}
+hr {}
+mark {}
+s {}
+span {}
+strong {}
+sub {}
+sup {}
+time {}
+
+/*  ----- Coding or instructional typography ----- */
+pre {}
+code {}
+kbd {}
+samp {}
+var {}
+del {}
+ins {}
+
+/*  ----- Table ----- */
+table {}
+caption {}
+thead {}
+tbody {}
+tfoot {}
+tr {}
+  tr:nth-child(even) {}
+th {}
+td {}
+  td:nth-child(1) {}
+colgroup {}
+data {}
+datalist {}
+
+
+/*  ----- Form ----- */
+form {}
+fieldset {}
+  legend {}
+label {}
+  button {}
+  input {}
+  output {}
+  meter {}
+  progress {}
+  select {}
+    optgroup {}
+    option {}
+  textarea {}
+
+/* ----- Media ----- */
+.gallery {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+}
+
+.gallery figure {
+    width: 450px;
+    height: 450px;
+    /* overflow: hidden; */
+    margin: 10px;
+    border: 2px solid var(--pastel-purple-light);
+}
+
+.gallery figcaption {
+    color: var(--pastel-purple-darker);
+    padding: 5px;
+    text-align: center;
+    line-height: 1;
+}
+
+.gallery figure img {
+    width: 100%; /* Make the image fill the figure width */
+    height: 90%; /* Make the image fill the figure height */
+    object-fit: cover; /* Resize the image while preserving its aspect ratio */
+}
+
+svg {}
+picture {}
+  source {}
+iframe {}
+video {}
+audio {}
+embed {}
+object {}
+
+/*  ----- Classes for alignment, positioning, widths, grids, embellishments, and animation -----  */
+.gallery {}
+
+.floatright {}
+.floatleft {}
+.center-middle {}
+
+.ten {}
+.twenty {}
+.thirty {}
+.forty {}
+.fifty {}
+.sixty {}
+.seventy {}
+.eighty {}
+
+.radius {}
+.circle {}
+.boxshadow {}
+.tshadow {}
+.gradient {}
+.shape {}
+
+@keyframes App-logo {}
+
+/*   ===== TABLET  media query overrides mobile styles ===== */
+@media all and (min-width: 600px) {}
+
+/*   ===== DESKTOP  media query overrides mobile and tablet styles ===== */
+@media all and (min-width: 1080px) {}
+
+/*   ===== PRINT  media query overrides previous styles =====  */
+@media print {}
