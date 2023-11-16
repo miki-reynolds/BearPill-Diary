@@ -37,7 +37,7 @@
 
 /*  ----- Viewport ----- elements inherited by all remaining elements ----- */
 body {       /* Can alternatively define in html {} or :root {} */
-    background-image: url("images/airballon-bg-dark.png");
+    /*background-image: url("images/airballon-bg-dark.png");*/
     background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;
